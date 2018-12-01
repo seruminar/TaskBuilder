@@ -1,0 +1,15 @@
+<grid>
+	<actions>
+		<action name="edit" caption="$general.edit$" fonticonclass="icon-edit" fonticonstyle="allow" />
+		<action name="#delete" caption="$general.delete$" fonticonclass="icon-bin" fonticonstyle="critical" confirmation="$general.confirmdelete$" />
+	</actions>
+	<columns>
+		<column source="ActionDisplayName" caption="$general.displayname$" wrap="false" />
+		<column source="ActionComplexity" caption="$taskbuilder.action.complexity$" wrap="false" />
+		<column source="ActionLastModified" caption="$general.modified$" wrap="false" />
+		<column cssclass="filling-column" />
+	</columns>
+	<options>
+		<key name="DisplayFilter" value="true" />
+	</options>
+</grid>

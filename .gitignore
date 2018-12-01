@@ -328,3 +328,41 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+# Kentico folder masks
+/*
+!.gitignore
+!TaskBuilder/
+!CMS/
+
+# Ignore everything in the "CMS" directory 
+CMS/*
+
+# Except NPM files
+!CMS/.babelrc
+!CMS/package*json
+!CMS/webpack*
+
+# Except "App_Data/CMSModules/TaskBuilder"
+!CMS/App_Data/
+
+CMS/App_Data/*
+!CMS/App_Data/CMSModules/
+
+CMS/App_Data/CMSModules/*
+!CMS/App_Data/CMSModules/TaskBuilder/
+
+# Except "CMSModules/TaskBuilder"
+!CMS/CMSModules/
+
+CMS/CMSModules/*
+!CMS/CMSModules/TaskBuilder/
+
+# Except "CMSScripts/CMSModules/TaskBuilder"
+!CMS/CMSScripts/
+
+CMS/CMSScripts/*
+!CMS/CMSScripts/CMSModules/
+
+CMS/CMSScripts/CMSModules/*
+!CMS/CMSScripts/CMSModules/TaskBuilder/
