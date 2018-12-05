@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.permission>
+  <PermissionDisplayInMatrix>False</PermissionDisplayInMatrix>
+  <PermissionDisplayName>Read configuration</PermissionDisplayName>
+  <PermissionEditableByGlobalAdmin>False</PermissionEditableByGlobalAdmin>
+  <PermissionGUID>fe033d24-91c3-4804-ab66-a7494e4e066f</PermissionGUID>
+  <PermissionName>ReadConfiguration</PermissionName>
+  <PermissionOrder>4</PermissionOrder>
+  <ResourceID>
+    <CodeName>TaskBuilder</CodeName>
+    <GUID>4169ad8c-ab98-489e-ab44-f0cb720ddb4f</GUID>
+    <ObjectType>cms.resource</ObjectType>
+  </ResourceID>
+</cms.permission>

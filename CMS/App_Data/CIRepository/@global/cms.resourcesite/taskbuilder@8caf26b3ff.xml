@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.resourcesite>
+  <Parent>
+    <CodeName>TaskBuilder</CodeName>
+    <GUID>4169ad8c-ab98-489e-ab44-f0cb720ddb4f</GUID>
+    <ObjectType>cms.resource</ObjectType>
+  </Parent>
+  <Bindings>
+    <Binding id="DancingGoat">
+      <SiteID>
+        <CodeName>DancingGoat</CodeName>
+        <GUID>7d067af9-2844-4f19-9cfb-a1c148f68af3</GUID>
+        <ObjectType>cms.site</ObjectType>
+      </SiteID>
+    </Binding>
+  </Bindings>
+</cms.resourcesite>

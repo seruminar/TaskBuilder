@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.uielement>
+  <ElementAccessCondition>
+    <![CDATA[{%Rule("(CurrentUser.IsAuthorizedPerResource(\"TaskBuilder\",\"ReadConfiguration\"))", "<rules><r pos=\"0\" par=\"\" op=\"and\" n=\"Permission\" ><p n=\"module\"><t>TaskBuilder</t><v>TaskBuilder</v><r>0</r><d>select module</d><vt>text</vt><tv>1</tv></p><p n=\"permission\"><t>ReadConfiguration</t><v>ReadConfiguration</v><r>0</r><d>select permission</d><vt>text</vt><tv>1</tv></p></r></rules>")|(identity)GlobalAdministrator|(hash)47575e0a2a064b429cf806b98a78cd19c36feee4530b0dd08049b07efa076957%}]]>
+  </ElementAccessCondition>
+  <ElementCheckModuleReadPermission>False</ElementCheckModuleReadPermission>
+  <ElementDisplayName>Configuration</ElementDisplayName>
+  <ElementGUID>43a8743b-a912-4bfb-b7bf-1848119bb3b9</ElementGUID>
+  <ElementIconClass />
+  <ElementIsCustom>True</ElementIsCustom>
+  <ElementIsGlobalApplication>False</ElementIsGlobalApplication>
+  <ElementIsMenu>False</ElementIsMenu>
+  <ElementName>Configuration</ElementName>
+  <ElementOrder>2</ElementOrder>
+  <ElementPageTemplateID>
+    <CodeName>VerticalTabs</CodeName>
+    <GUID>8136b750-a785-438f-a412-32212cd4dde6</GUID>
+    <ObjectType>cms.pagetemplate</ObjectType>
+  </ElementPageTemplateID>
+  <ElementParentID>
+    <CodeName>Tasks</CodeName>
+    <GUID>e80a292c-dca8-4d26-b0f2-c3777e281841</GUID>
+    <ObjectType>cms.uielement</ObjectType>
+    <Parent>
+      <CodeName>TaskBuilder</CodeName>
+      <GUID>4169ad8c-ab98-489e-ab44-f0cb720ddb4f</GUID>
+      <ObjectType>cms.resource</ObjectType>
+    </Parent>
+  </ElementParentID>
+  <ElementProperties>
+    <Data>
+      <AllowSubTabs>true</AllowSubTabs>
+      <DisplayBreadcrumbs>False</DisplayBreadcrumbs>
+      <DisplayTitleInTabs>false</DisplayTitleInTabs>
+    </Data>
+  </ElementProperties>
+  <ElementRequiresGlobalAdminPriviligeLevel>False</ElementRequiresGlobalAdminPriviligeLevel>
+  <ElementResourceID>
+    <CodeName>TaskBuilder</CodeName>
+    <GUID>4169ad8c-ab98-489e-ab44-f0cb720ddb4f</GUID>
+    <ObjectType>cms.resource</ObjectType>
+  </ElementResourceID>
+  <ElementSize>0</ElementSize>
+  <ElementType>PageTemplate</ElementType>
+</cms.uielement>

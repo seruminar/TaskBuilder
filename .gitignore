@@ -343,26 +343,53 @@ CMS/*
 !CMS/package*json
 !CMS/webpack*
 
-# Except "App_Data/CMSModules/TaskBuilder"
+# Except "App_Data/CIRepository/*taskbuilder*"
 !CMS/App_Data/
-
 CMS/App_Data/*
-!CMS/App_Data/CMSModules/
 
+!CMS/App_Data/CIRepository/
+CMS/App_Data/CIRepository/*
+!CMS/App_Data/CIRepository/@global/
+CMS/App_Data/CIRepository/@global/*
+
+!CMS/App_Data/CIRepository/@global/cms.uielement/
+CMS/App_Data/CIRepository/@global/cms.uielement/*
+!CMS/App_Data/CIRepository/@global/cms.uielement/taskbuilder*
+
+!CMS/App_Data/CIRepository/@global/cms.permission/
+CMS/App_Data/CIRepository/@global/cms.permission/*
+!CMS/App_Data/CIRepository/@global/cms.permission/taskbuilder*
+
+!CMS/App_Data/CIRepository/@global/cms.resourcesite/
+CMS/App_Data/CIRepository/@global/cms.resourcesite/*
+!CMS/App_Data/CIRepository/@global/cms.resourcesite/taskbuilder*
+
+!CMS/App_Data/CIRepository/@global/cms.resource/
+CMS/App_Data/CIRepository/@global/cms.resource/*
+!CMS/App_Data/CIRepository/@global/cms.resource/taskbuilder*
+
+!CMS/App_Data/CIRepository/@global/cms.class/
+CMS/App_Data/CIRepository/@global/cms.class/*
+!CMS/App_Data/CIRepository/@global/cms.class/taskbuilder*
+
+# Except "App_Data/CMSModules/TaskBuilder"
+!CMS/App_Data/CMSModules/
 CMS/App_Data/CMSModules/*
+
 !CMS/App_Data/CMSModules/TaskBuilder/
 
 # Except "CMSModules/TaskBuilder"
 !CMS/CMSModules/
-
 CMS/CMSModules/*
+
 !CMS/CMSModules/TaskBuilder/
 
 # Except "CMSScripts/CMSModules/TaskBuilder"
 !CMS/CMSScripts/
-
 CMS/CMSScripts/*
-!CMS/CMSScripts/CMSModules/
 
+!CMS/CMSScripts/CMSModules/
 CMS/CMSScripts/CMSModules/*
+
 !CMS/CMSScripts/CMSModules/TaskBuilder/
+

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.resource>
+  <ResourceAuthor>Yuriy Sountsov</ResourceAuthor>
+  <ResourceDisplayName>Task builder</ResourceDisplayName>
+  <ResourceGUID>4169ad8c-ab98-489e-ab44-f0cb720ddb4f</ResourceGUID>
+  <ResourceHasFiles>False</ResourceHasFiles>
+  <ResourceIsInDevelopment>True</ResourceIsInDevelopment>
+  <ResourceName>TaskBuilder</ResourceName>
+  <ResourceVersion>1.11.0</ResourceVersion>
+  <ShowInDevelopment>False</ShowInDevelopment>
+</cms.resource>

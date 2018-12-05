@@ -114,8 +114,10 @@
     <Compile Include="Actions\ActionInfo.cs" />
     <Compile Include="Actions\ActionInfoProvider.cs" />
     <Compile Include="Actions\EventLogAction.cs" />
-    <Compile Include="Attributes\InPortAttribute.cs" />
-    <Compile Include="Attributes\OutPortAttribute.cs" />
+    <Compile Include="Attributes\InReceiverAttribute.cs" />
+    <Compile Include="Attributes\InParameterAttribute.cs" />
+    <Compile Include="Attributes\OutParameterAttribute.cs" />
+    <Compile Include="Attributes\OutSenderAttribute.cs" />
     <Compile Include="Actions\StartAction.cs" />
     <Compile Include="Attributes\Port.cs" />
     <Compile Include="Models\DiagramModel.cs" />

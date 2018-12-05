@@ -75,7 +75,7 @@
     {
     }
 
-    internal class Point
+    public class Point
     {
         [JsonProperty("id")]
         public Guid Id { get; set; }
@@ -111,7 +111,7 @@
         public Extras Extras { get; set; }
 
         [JsonProperty("ports")]
-        internal List<Port> Ports { get; set; }
+        public List<Port> Ports { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }

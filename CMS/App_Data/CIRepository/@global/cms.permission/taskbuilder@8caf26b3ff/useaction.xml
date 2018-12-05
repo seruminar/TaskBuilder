@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.permission>
+  <PermissionDisplayInMatrix>False</PermissionDisplayInMatrix>
+  <PermissionDisplayName>Use action</PermissionDisplayName>
+  <PermissionEditableByGlobalAdmin>False</PermissionEditableByGlobalAdmin>
+  <PermissionGUID>a5e5b9b0-0ed9-4085-9add-7c2793e0c123</PermissionGUID>
+  <PermissionName>UseAction</PermissionName>
+  <PermissionOrder>3</PermissionOrder>
+  <ResourceID>
+    <CodeName>TaskBuilder</CodeName>
+    <GUID>4169ad8c-ab98-489e-ab44-f0cb720ddb4f</GUID>
+    <ObjectType>cms.resource</ObjectType>
+  </ResourceID>
+</cms.permission>

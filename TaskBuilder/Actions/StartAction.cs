@@ -9,40 +9,40 @@ namespace TaskBuilder.Actions
     {
         // Encapsulates behavior of action
         [InReceiver]        
-        public void SourceInPortReactive()
+        public void SourceInReceiver()
         {
             // Receive parameters
 
             // Set up parameters
-            SourceOutPortParameter = () => "source string";
+            SourceOutParameter = () => "source string";
 
-            // Send imperative
-            SourceOutPortImperative();
+            // Send
+            SourceOutSender();
         }
 
         // This must be linked as a imperative delegate
         [OutSender]
-        public Action SourceOutPortImperative { get; set; }
+        public Action SourceOutSender { get; set; }
 
         [OutParameter]
-        public Func<string> SourceOutPortParameter { get; set; }
+        public Func<string> SourceOutParameter { get; set; }
 
         [InReceiver]
-        public void TargetInPortReactive()
+        public void TargetInReceiver()
         {
             // Receive parameters
-            var fromSource = TargetInPortParameter();
+            var fromSource = TargetInParameter();
 
             // Set up parameters
 
-
-            // Send imperative
+             
+            // Send
 
         }
 
         // This must be linked as a reactive parameter
         [InParameter]
-        public Func<string> TargetInPortParameter { get; set; }
+        public Func<string> TargetInParameter { get; set; }
 
         public StartAction(Node node) : base(node)
         {
@@ -50,11 +50,11 @@ namespace TaskBuilder.Actions
             var target = new StartAction(new Node());
 
             // Connect links
-            source.SourceOutPortImperative = target.TargetInPortReactive;
-            target.TargetInPortParameter = source.SourceOutPortParameter;
+            source.SourceOutSender = target.TargetInReceiver;
+            target.TargetInParameter = source.SourceOutParameter;
 
             // Call start node
-            source.SourceInPortReactive();
+            source.SourceInReceiver();
         }
     }
 }
