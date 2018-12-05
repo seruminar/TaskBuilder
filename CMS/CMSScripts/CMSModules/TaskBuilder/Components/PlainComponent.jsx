@@ -17,7 +17,7 @@
     render() {
         return (
             <div>
-                <button onClick={ e => this.handleClick(e)}>
+                <button onClick={e => this.handleClick(e)}>
                     Serialize Graph!
 				</button>
                 <div ref="diagram">{this.state.diagram}</div>

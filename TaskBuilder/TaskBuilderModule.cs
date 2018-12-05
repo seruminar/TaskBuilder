@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Web.Http;
 using CMS;
 using CMS.DataEngine;
 
@@ -24,17 +25,31 @@ namespace TaskBuilder
         {
             base.OnInit();
 
-            ReactSiteConfiguration.Configuration
-                .SetReuseJavaScriptEngines(true)
-                .AddScript("~/CMSScripts/CMSModules/TaskBuilder/Components/Demo-Serialize.jsx")
-                ;
+            //InitializeReactEnvironment();
 
-            JsEngineSwitcher.Instance.EngineFactories
-                .AddMsie();
-
-            JsEngineSwitcher.Instance.DefaultEngineName = MsieJsEngine.EngineName;
+            InitializeTaskActions();
 
             GlobalConfiguration.Configuration.Routes.MapHttpRoute("taskbuilder", "taskbuilder/{controller}/{id}", new { id = RouteParameter.Optional });
+        }
+
+        private void InitializeReactEnvironment()
+        {
+            //ReactSiteConfiguration.Configuration
+            //    .SetReuseJavaScriptEngines(true)
+            //    .AddScript("~/CMSScripts/CMSModules/TaskBuilder/Components/Demo-Serialize.jsx")
+            //    ;
+
+            //JsEngineSwitcher.Instance.EngineFactories
+            //    .AddMsie();
+
+            //JsEngineSwitcher.Instance.DefaultEngineName = MsieJsEngine.EngineName;
+
+        }
+
+        private void InitializeTaskActions()
+        {
+            var initializer = new TaskActionInitializer();
+            initializer.RunAsync();
         }
     }
 }

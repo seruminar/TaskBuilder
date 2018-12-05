@@ -2,11 +2,13 @@
 
 namespace TaskBuilder.Attributes
 {
-    public class InReceiverAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Method,
+               AllowMultiple = false,
+               Inherited = true)]
+    public class InReceiverAttribute : BaseTaskActionAttribute
     {
         public InReceiverAttribute()
         {
-
         }
     }
 }

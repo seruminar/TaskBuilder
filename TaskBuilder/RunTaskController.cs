@@ -3,7 +3,7 @@ using System.Linq;
 using System.Web.Http;
 
 using TaskBuilder.Actions;
-
+using TaskBuilder.Models;
 using TaskAction = TaskBuilder.Actions.TaskAction;
 
 namespace TaskBuilder
@@ -12,46 +12,58 @@ namespace TaskBuilder
     {
         public void Post([FromBody] DiagramModel diagram)
         {
-            var listOfNodes = new List<TaskAction>();
+            // Testing (basic approach)
+            var source = new StartAction(new Node());
+            var target = new StartAction(new Node());
 
-            foreach (var node in diagram.Nodes)
-            {
-                TaskAction createdNode = null;
-                switch (node.Type)
-                {
-                    case "startNode":
-                        createdNode = new StartAction(node);
-                        break;
+            // Connect links
+            source.SourceOutSender = target.TargetInReceiver;
+            target.TargetInParameter = source.SourceOutParameter;
 
-                    case "eventLogNode":
-                        createdNode = new EventLogAction(node);
-                        break;
+            // Call start node
+            source.SourceInReceiver();
 
-                    default:
-                        break;
-                }
+            // POC approach
+            //var listOfNodes = new List<TaskAction>();
 
-                listOfNodes.Add(createdNode);
-            }
+            //foreach (var node in diagram.Nodes)
+            //{
+            //    TaskAction createdNode = null;
+            //    switch (node.Type)
+            //    {
+            //        case "startNode":
+            //            createdNode = new StartAction(node);
+            //            break;
 
-            foreach (var node in listOfNodes)
-            {
-                var link = diagram.Links.FirstOrDefault(l => l.Source == node.Guid);
+            //        case "eventLogNode":
+            //            createdNode = new EventLogAction(node);
+            //            break;
 
-                if (link != null)
-                {
-                    var targetNode = listOfNodes.FirstOrDefault(n => n.Guid == link.Target);
+            //        default:
+            //            break;
+            //    }
 
-                    if (targetNode != null)
-                    {
-                        node.Targets.Add(targetNode);
-                    }
-                }
-            }
+            //    listOfNodes.Add(createdNode);
+            //}
 
-            var startNode = listOfNodes.FirstOrDefault(n => n is StartAction);
+            //foreach (var node in listOfNodes)
+            //{
+            //    var link = diagram.Links.FirstOrDefault(l => l.Source == node.Guid);
 
-            startNode?.Execute(null);
+            //    if (link != null)
+            //    {
+            //        var targetNode = listOfNodes.FirstOrDefault(n => n.Guid == link.Target);
+
+            //        if (targetNode != null)
+            //        {
+            //            node.Targets.Add(targetNode);
+            //        }
+            //    }
+            //}
+
+            //var startNode = listOfNodes.FirstOrDefault(n => n is StartAction);
+
+            //startNode?.Execute(null);
         }
     }
 }

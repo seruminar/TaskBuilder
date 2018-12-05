@@ -1,7 +1,6 @@
 ﻿using System;
 using TaskBuilder.Attributes;
 using TaskBuilder.Models;
-using Port = TaskBuilder.Attributes.Port;
 
 namespace TaskBuilder.Actions
 {
@@ -46,15 +45,6 @@ namespace TaskBuilder.Actions
 
         public StartAction(Node node) : base(node)
         {
-            var source = new StartAction(new Node());
-            var target = new StartAction(new Node());
-
-            // Connect links
-            source.SourceOutSender = target.TargetInReceiver;
-            target.TargetInParameter = source.SourceOutParameter;
-
-            // Call start node
-            source.SourceInReceiver();
         }
     }
 }

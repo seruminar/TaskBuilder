@@ -193,7 +193,7 @@ class DemoSerialize extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="task-builder-diagram-wrapper">
                 <button onClick={e => this.SerializeGraph(e)}>
                     Serialize Graph!
 				</button>
@@ -201,7 +201,7 @@ class DemoSerialize extends React.Component {
                     Run Graph!
 				</button>
                 <span>{this.state.serialized}</span>
-                <SRD.DiagramWidget className="srd-demo-canvas" diagramEngine={this.engine} />
+                <SRD.DiagramWidget className="task-builder-diagram" diagramEngine={this.engine} />
                 <div ref="diagram">{this.state.diagram}</div>
             </div>
         );

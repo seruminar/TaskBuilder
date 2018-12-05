@@ -2,7 +2,7 @@
 
 namespace TaskBuilder
 {
-    public static class NetworkFactory
+    public static class DiagramFactory
     {
         // Alternatively there is AssemblyRegistration.Container.Resolve<IReactEnvironment>()
         public static IReactEnvironment Environment => ReactEnvironment.GetCurrentOrThrow;

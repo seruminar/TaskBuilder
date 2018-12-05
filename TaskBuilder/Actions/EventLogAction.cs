@@ -1,4 +1,5 @@
 ﻿using CMS.EventLog;
+using TaskBuilder.Models;
 
 namespace TaskBuilder.Actions
 {
@@ -6,12 +7,6 @@ namespace TaskBuilder.Actions
     {
         public EventLogAction(Node node) : base(node)
         {
-        }
-
-        protected override void ActOnData(object data)
-        {
-            EventLogProvider.LogInformation("Task builder", "NODELOGINFO", "sample information");
-            base.ActOnData(data);
         }
     }
 }
