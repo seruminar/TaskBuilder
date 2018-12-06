@@ -7,6 +7,7 @@ using JavaScriptEngineSwitcher.Core;
 using JavaScriptEngineSwitcher.Msie;
 
 using React;
+using TaskBuilder.Actions;
 
 [assembly: RegisterModule(typeof(TaskBuilder.TaskBuilderModule))]
 

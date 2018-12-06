@@ -6,6 +6,8 @@ namespace TaskBuilder.Actions
 {
     public class StartAction : TaskAction
     {
+        private string _sourceOutParameter;
+
         // Encapsulates behavior of action
         [InReceiver]        
         public void SourceInReceiver()
@@ -13,7 +15,7 @@ namespace TaskBuilder.Actions
             // Receive parameters
 
             // Set up parameters
-            SourceOutParameter = () => "source string";
+            _sourceOutParameter = "source string";
 
             // Send
             SourceOutSender();
@@ -24,24 +26,10 @@ namespace TaskBuilder.Actions
         public Action SourceOutSender { get; set; }
 
         [OutParameter]
-        public Func<string> SourceOutParameter { get; set; }
-
-        [InReceiver]
-        public void TargetInReceiver()
+        public string SourceOutParameter()
         {
-            // Receive parameters
-            var fromSource = TargetInParameter();
-
-            // Set up parameters
-
-             
-            // Send
-
+            return _sourceOutParameter;
         }
-
-        // This must be linked as a reactive parameter
-        [InParameter]
-        public Func<string> TargetInParameter { get; set; }
 
         public StartAction(Node node) : base(node)
         {

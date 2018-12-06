@@ -45,7 +45,7 @@
         </properties>
         <settings>
           <AssembliesFilter>TaskBuilder</AssembliesFilter>
-          <BaseClassName>TaskBuilder.Actions.Action, TaskBuilder</BaseClassName>
+          <BaseClassName>TaskBuilder.Actions.TaskAction, TaskBuilder</BaseClassName>
           <CheckAutoCreation>False</CheckAutoCreation>
           <ClassNameColumnName>ActionBehaviorClass</ClassNameColumnName>
           <controlname>AssemblyClassSelector</controlname>

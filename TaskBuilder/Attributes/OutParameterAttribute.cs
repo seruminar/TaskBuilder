@@ -2,7 +2,7 @@
 
 namespace TaskBuilder.Attributes
 {
-    [AttributeUsage(AttributeTargets.Property,
+    [AttributeUsage(AttributeTargets.Method,
               AllowMultiple = false,
               Inherited = true)]
     public class OutParameterAttribute : BaseTaskActionAttribute

@@ -14,16 +14,37 @@ namespace TaskBuilder
     {
         public override void Run()
         {
-            var actionInfos = ActionInfoProvider.GetActions();
+            // Get loaded assemblies
+            var discoveredAssemblies = AssemblyDiscoveryHelper.GetAssemblies(false);
 
-            foreach (var actionInfo in actionInfos)
+            var actionList = new List<Type>();
+
+            foreach (var assembly in discoveredAssemblies)
             {
-                var action = ClassHelper.GetAssembly(actionInfo.ActionBehaviorAssembly).GetType(actionInfo.ActionBehaviorClass);
-
-                if (action != null)
+                // Get list of classes from selected assembly
+                Type[] assemblyClassTypes;
+                try
                 {
-                    RegisterAction(action);
+                    assemblyClassTypes = assembly.GetTypes();
                 }
+                catch (ReflectionTypeLoadException exception)
+                {
+                    assemblyClassTypes = exception.Types;
+                }
+
+                actionList.AddRange(assemblyClassTypes.Where(t => t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(TaskAction)))
+                                                           //.Select(t => (TaskAction)Activator.CreateInstance(t))
+                                                           );
+            }
+
+            if (!actionList.Any())
+            {
+                EventLogProvider.LogInformation(nameof(TaskActionInitializer), "NOACTIONS", "TaskActionInitializer could not find any actions.");
+            }
+
+            foreach (var action in actionList)
+            {
+                RegisterAction(action);
             }
         }
 
