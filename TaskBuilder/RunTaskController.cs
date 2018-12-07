@@ -70,37 +70,45 @@ namespace TaskBuilder
 
             sw1.Start();
 
-            // Testing (basic approach)
-            var source1 = new StartAction(new Node());
-            var target1 = new EventLogAction(new Node());
+            //// Testing (basic approach)
+            //var source1 = new StartAction(new Node());
+            //var target1 = new EventLogAction(new Node());
 
             // Connect links
-            source1.SourceOutSender = target1.TargetInReceiver;
-            target1.TargetInParameter = source1.SourceOutParameter;
+            //source1.SourceOutSender = target1.TargetInReceiver;
+            //target1.TargetInParameter = source1.SourceOutParameter;
 
-            // Call start node
-            source1.SourceInReceiver();
+            //// Call start node
+            //source1.SourceInReceiver();
 
             sw1.Stop();
 
             sw2.Start();
-            var source2 = Formatter("TaskBuilder", "TaskBuilder.Actions.StartAction");
-            var target2 = Formatter("TaskBuilder", "TaskBuilder.Actions.EventLogAction");
 
-            source2.GetType().GetProperty("SourceOutSender").SetValue(
+            Type sourceType2 = ClassHelper.GetClassType("TaskBuilder", "TaskBuilder.Actions.StartAction");
+            Type targetType2 = ClassHelper.GetClassType("TaskBuilder", "TaskBuilder.Actions.EventLogAction");
+
+            var source2 = FormatterServices.GetUninitializedObject(sourceType2);
+            var target2 = FormatterServices.GetUninitializedObject(targetType2);
+
+            sourceType2.GetProperty("SourceOutSender").SetValue(
                 source2,
-                target2.GetType().GetMethod("TargetInReceiver").CreateDelegate(
-                    source2.GetType().GetProperty("SourceOutSender").PropertyType,
+                targetType2.GetMethod("TargetInReceiver").CreateDelegate(
+                    sourceType2.GetProperty("SourceOutSender").PropertyType,
                     target2));
-            target2.GetType().GetProperty("TargetInParameter").SetValue(
+            targetType2.GetProperty("TargetInParameter").SetValue(
                 target2,
-                source2.GetType().GetMethod("SourceOutParameter").CreateDelegate(
-                    target2.GetType().GetProperty("TargetInParameter").PropertyType,
+                
+                sourceType2.GetProperty("SourceOutParameter").GetMethod.CreateDelegate(
+                    targetType2.GetProperty("TargetInParameter").PropertyType,
                     source2));
 
-            source2.GetType().GetMethod("SourceInReceiver").Invoke(source2, null);
+            sourceType2.GetMethod("SourceInReceiver").Invoke(source2, null);
 
             sw2.Stop();
+
+
+
 
             EventLogProvider.LogInformation(nameof(RunTaskController), "TESTBENCHMARK",
                 $@"Direct instantiation: {(double)sw1.ElapsedTicks / Stopwatch.Frequency * 1000L}ms{Environment.NewLine}
@@ -110,12 +118,12 @@ namespace TaskBuilder
 
         private static object Formatter(string assemblyName, string className)
         {
-            Type t = ClassHelper.GetClassType(assemblyName, className);
 
             //if (HasDefaultConstructor(t))
             //    return Expression.Lambda<Func<object>>(Expression.New(t)).Compile().Invoke();
 
-            return FormatterServices.GetUninitializedObject(t);
+            //return FormatterServices.GetUninitializedObject(t);
+            return new object();
         }
 
         private static bool HasDefaultConstructor(Type t)

@@ -1,4 +1,5 @@
 ﻿using System;
+
 using TaskBuilder.Attributes;
 using TaskBuilder.Models;
 
@@ -9,15 +10,15 @@ namespace TaskBuilder.Actions
         private string _sourceOutParameter;
 
         // Encapsulates behavior of action
-        [InReceiver]        
+        [InReceiver]
         public void SourceInReceiver()
         {
             // Receive parameters
 
             // Set up parameters
-            _sourceOutParameter = "source string";
+            SourceOutParameter = "source string";
 
-            // Send
+            // Send / Execute
             SourceOutSender();
         }
 
@@ -26,10 +27,7 @@ namespace TaskBuilder.Actions
         public Action SourceOutSender { get; set; }
 
         [OutParameter]
-        public string SourceOutParameter()
-        {
-            return _sourceOutParameter;
-        }
+        public string SourceOutParameter { get; set; }
 
         public StartAction(Node node) : base(node)
         {

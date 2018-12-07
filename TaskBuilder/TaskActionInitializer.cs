@@ -17,7 +17,7 @@ namespace TaskBuilder
             // Get loaded assemblies
             var discoveredAssemblies = AssemblyDiscoveryHelper.GetAssemblies(false);
 
-            var actionList = new List<Type>();
+            var actionTypes = new List<Type>();
 
             foreach (var assembly in discoveredAssemblies)
             {
@@ -32,23 +32,23 @@ namespace TaskBuilder
                     assemblyClassTypes = exception.Types;
                 }
 
-                actionList.AddRange(assemblyClassTypes.Where(t => t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(TaskAction)))
+                actionTypes.AddRange(assemblyClassTypes.Where(t => t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(TaskAction)))
                                                            //.Select(t => (TaskAction)Activator.CreateInstance(t))
                                                            );
             }
 
-            if (!actionList.Any())
+            if (!actionTypes.Any())
             {
                 EventLogProvider.LogInformation(nameof(TaskActionInitializer), "NOACTIONS", "TaskActionInitializer could not find any actions.");
             }
 
-            foreach (var action in actionList)
+            foreach (var actionType in actionTypes)
             {
-                RegisterAction(action);
+                RegisterActionType(actionType);
             }
         }
 
-        private void RegisterAction(Type action)
+        private void RegisterActionType(Type action)
         {
             // Find all of the port methods and create an object in memory (or DB?) that represents its structure
             // When a task builder is opened, the React app pulls in the structures for deserialization 
@@ -56,7 +56,7 @@ namespace TaskBuilder
 
             foreach (var method in action.GetMethods())
             {
-                //method.GetCustomAttributes
+                method.GetCustomAttributes(typeof(InReceiverAttribute));
             }
             //action.GetMethods()
             //    .Where(m => m.GetCustomAttributes<InReceiverAttribute>(false).Any())
