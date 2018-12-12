@@ -11,7 +11,7 @@
   <ElementIsGlobalApplication>False</ElementIsGlobalApplication>
   <ElementIsMenu>False</ElementIsMenu>
   <ElementName>Configuration</ElementName>
-  <ElementOrder>3</ElementOrder>
+  <ElementOrder>4</ElementOrder>
   <ElementPageTemplateID>
     <CodeName>VerticalTabs</CodeName>
     <GUID>8136b750-a785-438f-a412-32212cd4dde6</GUID>

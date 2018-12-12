@@ -2,7 +2,7 @@
 
 namespace TaskBuilder.Attributes
 {
-    public class BaseTaskActionAttribute : Attribute
+    public class BaseFunctionAttribute : Attribute
     {
     }
 }

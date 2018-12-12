@@ -3,13 +3,12 @@
 using CMS.EventLog;
 
 using TaskBuilder.Attributes;
-using TaskBuilder.Models;
 
-namespace TaskBuilder.Actions
+namespace TaskBuilder.Functions
 {
-    public class EventLogAction : TaskAction
+    public class EventLogFunction : Function
     {
-        [InReceiver]
+        [Enter]
         public void TargetInReceiver()
         {
             // Receive parameters
@@ -18,15 +17,11 @@ namespace TaskBuilder.Actions
             // Set up parameters
 
             // Send / Execute
-            EventLogProvider.LogInformation(nameof(EventLogAction), "TESTLOG", fromSource);
+            EventLogProvider.LogInformation(nameof(EventLogFunction), "TESTLOG", fromSource);
         }
 
         // This must be linked as a reactive parameter
-        [InParameter]
+        [Input]
         public Func<string> TargetInParameter { get; set; }
-
-        public EventLogAction(Node node) : base(node)
-        {
-        }
     }
 }

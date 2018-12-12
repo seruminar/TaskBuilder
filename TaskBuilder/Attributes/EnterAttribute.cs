@@ -5,9 +5,9 @@ namespace TaskBuilder.Attributes
     [AttributeUsage(AttributeTargets.Method,
                AllowMultiple = false,
                Inherited = true)]
-    public class InReceiverAttribute : BaseTaskActionAttribute
+    public class EnterAttribute : BaseFunctionAttribute
     {
-        public InReceiverAttribute()
+        public EnterAttribute()
         {
         }
     }

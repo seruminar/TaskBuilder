@@ -7,7 +7,7 @@ using CMS.Base;
 using CMS.Core;
 using CMS.EventLog;
 
-using TaskBuilder.Actions;
+using TaskBuilder.Functions;
 using TaskBuilder.Models;
 
 namespace TaskBuilder
@@ -74,7 +74,7 @@ namespace TaskBuilder
             //var source1 = new StartAction(new Node());
             //var target1 = new EventLogAction(new Node());
 
-            // Connect links
+            //Connect links
             //source1.SourceOutSender = target1.TargetInReceiver;
             //target1.TargetInParameter = source1.SourceOutParameter;
 
@@ -85,8 +85,8 @@ namespace TaskBuilder
 
             sw2.Start();
 
-            Type sourceType2 = ClassHelper.GetClassType("TaskBuilder", "TaskBuilder.Actions.StartAction");
-            Type targetType2 = ClassHelper.GetClassType("TaskBuilder", "TaskBuilder.Actions.EventLogAction");
+            Type sourceType2 = ClassHelper.GetClassType("TaskBuilder", "TaskBuilder.Functions.StartFunction");
+            Type targetType2 = ClassHelper.GetClassType("TaskBuilder", "TaskBuilder.Functions.EventLogFunction");
 
             var source2 = FormatterServices.GetUninitializedObject(sourceType2);
             var target2 = FormatterServices.GetUninitializedObject(targetType2);
@@ -106,9 +106,6 @@ namespace TaskBuilder
             sourceType2.GetMethod("SourceInReceiver").Invoke(source2, null);
 
             sw2.Stop();
-
-
-
 
             EventLogProvider.LogInformation(nameof(RunTaskController), "TESTBENCHMARK",
                 $@"Direct instantiation: {(double)sw1.ElapsedTicks / Stopwatch.Frequency * 1000L}ms{Environment.NewLine}

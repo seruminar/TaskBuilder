@@ -1,16 +1,13 @@
 ﻿using System;
 
 using TaskBuilder.Attributes;
-using TaskBuilder.Models;
 
-namespace TaskBuilder.Actions
+namespace TaskBuilder.Functions
 {
-    public class StartAction : TaskAction
+    public class StartFunction : Function
     {
-        private string _sourceOutParameter;
-
-        // Encapsulates behavior of action
-        [InReceiver]
+        // Encapsulates behavior of Function
+        [Enter]
         public void SourceInReceiver()
         {
             // Receive parameters
@@ -23,14 +20,10 @@ namespace TaskBuilder.Actions
         }
 
         // This must be linked as a imperative delegate
-        [OutSender]
+        [Leave]
         public Action SourceOutSender { get; set; }
 
-        [OutParameter]
+        [Output]
         public string SourceOutParameter { get; set; }
-
-        public StartAction(Node node) : base(node)
-        {
-        }
     }
 }

@@ -1,22 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <cms.uielement>
-  <ElementCheckModuleReadPermission>False</ElementCheckModuleReadPermission>
-  <ElementDisplayName>New action</ElementDisplayName>
-  <ElementGUID>3220d3db-eb2e-4ab6-a1e3-2d2c3e0765ea</ElementGUID>
+  <ElementCheckModuleReadPermission>True</ElementCheckModuleReadPermission>
+  <ElementDisplayName>{$taskbuilder.ui.newtask$}</ElementDisplayName>
+  <ElementGUID>f506753c-e135-4b39-b001-ad100188f464</ElementGUID>
   <ElementIconClass />
   <ElementIsCustom>True</ElementIsCustom>
   <ElementIsGlobalApplication>False</ElementIsGlobalApplication>
   <ElementIsMenu>False</ElementIsMenu>
-  <ElementName>NewAction</ElementName>
-  <ElementOrder>1</ElementOrder>
+  <ElementName>NewTask</ElementName>
+  <ElementOrder>2</ElementOrder>
   <ElementPageTemplateID>
     <CodeName>Editing</CodeName>
     <GUID>bc86a286-996d-4445-ac8a-68ed45d115b3</GUID>
     <ObjectType>cms.pagetemplate</ObjectType>
   </ElementPageTemplateID>
   <ElementParentID>
-    <CodeName>Functions</CodeName>
-    <GUID>2c2c7262-a6b2-4688-9692-54e7cc3e895d</GUID>
+    <CodeName>TasksList</CodeName>
+    <GUID>dc867934-8968-4051-a878-0c13914b921e</GUID>
     <ObjectType>cms.uielement</ObjectType>
     <Parent>
       <CodeName>TaskBuilder</CodeName>

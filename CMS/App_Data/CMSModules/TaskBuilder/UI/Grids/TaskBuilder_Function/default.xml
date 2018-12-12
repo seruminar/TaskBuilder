@@ -1,0 +1,14 @@
+<grid>
+	<actions>
+		<action name="edit" caption="$general.edit$" fonticonclass="icon-edit" fonticonstyle="allow" />
+		<action name="#delete" caption="$general.delete$" fonticonclass="icon-bin" fonticonstyle="critical" confirmation="$taskbuilder.confirmdelete$" />
+	</actions>
+	<columns>
+		<column source="FunctionDisplayName" caption="$general.displayname$" wrap="false" />
+		<column source="FunctionLastModified" caption="$general.modified$" wrap="false" />
+		<column cssclass="filling-column" />
+	</columns>
+	<options>
+		<key name="DisplayFilter" value="true" />
+	</options>
+</grid>

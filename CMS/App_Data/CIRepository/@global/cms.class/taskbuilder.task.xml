@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.class>
+  <ClassCodeGenerationSettings>
+    <Data>
+      <CodeNameColumn>TaskName</CodeNameColumn>
+      <DisplayNameColumn>TaskDisplayName</DisplayNameColumn>
+      <GUIDColumn>TaskGuid</GUIDColumn>
+      <LastModifiedColumn>TaskLastModified</LastModifiedColumn>
+      <NameSpace>TaskBuilder</NameSpace>
+      <ObjectType>taskbuilder.task</ObjectType>
+      <UseGuidHashtable>False</UseGuidHashtable>
+      <UseIdHashtable>False</UseIdHashtable>
+      <UseNameHashtable>False</UseNameHashtable>
+    </Data>
+  </ClassCodeGenerationSettings>
+  <ClassDisplayName>Task</ClassDisplayName>
+  <ClassFormDefinition>
+    <form version="2">
+      <field column="TaskID" columntype="integer" guid="55b4ad0d-b6b7-4e4a-8db4-aaa28da92b4e" isPK="true" publicfield="false">
+        <properties>
+          <fieldcaption>TaskID</fieldcaption>
+        </properties>
+        <settings>
+          <controlname>labelcontrol</controlname>
+        </settings>
+      </field>
+      <field column="TaskDisplayName" columnsize="200" columntype="text" guid="3808a0df-f8ad-4d4f-8b9a-3bc4a79ba192" publicfield="false" system="true" visible="true">
+        <properties>
+          <fieldcaption>{$general.displayname$}</fieldcaption>
+        </properties>
+        <settings>
+          <AutoCompleteEnableCaching>False</AutoCompleteEnableCaching>
+          <AutoCompleteFirstRowSelected>False</AutoCompleteFirstRowSelected>
+          <AutoCompleteShowOnlyCurrentWordInCompletionListItem>False</AutoCompleteShowOnlyCurrentWordInCompletionListItem>
+          <controlname>TextBoxControl</controlname>
+          <FilterMode>False</FilterMode>
+          <Trim>False</Trim>
+        </settings>
+      </field>
+      <field column="TaskName" columnsize="200" columntype="text" guid="b45cf3d4-e84b-496a-91fd-4524013de787" isunique="true" publicfield="false" system="true" visible="true">
+        <properties>
+          <fieldcaption>{$general.name$}</fieldcaption>
+        </properties>
+        <settings>
+          <controlname>CodeName</controlname>
+          <RequireIdentifier>False</RequireIdentifier>
+        </settings>
+      </field>
+      <field allowempty="true" column="TaskGraph" columntype="longtext" guid="b5e6c0e8-c185-4dd7-9453-62d3b238568c" publicfield="false" system="true" />
+      <field column="TaskGuid" columntype="guid" guid="d86589db-e4a5-4185-a948-0a11b37d2b39" publicfield="false" system="true">
+        <properties>
+          <fieldcaption>GUID</fieldcaption>
+        </properties>
+        <settings>
+          <controlname>labelcontrol</controlname>
+        </settings>
+      </field>
+      <field column="TaskLastModified" columnprecision="7" columntype="datetime" guid="1b94aa2b-8713-4db1-9b17-0454711556b8" publicfield="false" system="true">
+        <properties>
+          <fieldcaption>Last modified</fieldcaption>
+        </properties>
+        <settings>
+          <controlname>labelcontrol</controlname>
+        </settings>
+      </field>
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>7bbcd2b1-4bfe-46d4-a7f5-37560c4d0766</ClassGUID>
+  <ClassIsContentOnly>False</ClassIsContentOnly>
+  <ClassIsCoupledClass>True</ClassIsCoupledClass>
+  <ClassIsCustomTable>False</ClassIsCustomTable>
+  <ClassIsDocumentType>False</ClassIsDocumentType>
+  <ClassIsForm>False</ClassIsForm>
+  <ClassIsMenuItemType>False</ClassIsMenuItemType>
+  <ClassIsProduct>False</ClassIsProduct>
+  <ClassName>TaskBuilder.Task</ClassName>
+  <ClassNodeNameSource />
+  <ClassResourceID>
+    <CodeName>TaskBuilder</CodeName>
+    <GUID>4169ad8c-ab98-489e-ab44-f0cb720ddb4f</GUID>
+    <ObjectType>cms.resource</ObjectType>
+  </ClassResourceID>
+  <ClassSearchSettings>
+    <search />
+  </ClassSearchSettings>
+  <ClassShowAsSystemTable>False</ClassShowAsSystemTable>
+  <ClassShowTemplateSelection>False</ClassShowTemplateSelection>
+  <ClassTableName>TaskBuilder_Task</ClassTableName>
+  <ClassUsePublishFromTo>False</ClassUsePublishFromTo>
+  <ClassUsesVersioning>False</ClassUsesVersioning>
+</cms.class>

@@ -5,9 +5,9 @@ namespace TaskBuilder.Attributes
     [AttributeUsage(AttributeTargets.Property,
               AllowMultiple = false,
               Inherited = true)]
-    public class OutParameterAttribute : BaseTaskActionAttribute
+    public class LeaveAttribute : BaseFunctionAttribute
     {
-        public OutParameterAttribute()
+        public LeaveAttribute()
         {
         }
     }

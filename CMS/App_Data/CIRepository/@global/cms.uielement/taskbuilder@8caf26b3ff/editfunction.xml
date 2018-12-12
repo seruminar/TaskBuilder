@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <cms.uielement>
-  <ElementCheckModuleReadPermission>False</ElementCheckModuleReadPermission>
-  <ElementDisplayName>New action</ElementDisplayName>
-  <ElementGUID>3220d3db-eb2e-4ab6-a1e3-2d2c3e0765ea</ElementGUID>
+  <ElementCheckModuleReadPermission>True</ElementCheckModuleReadPermission>
+  <ElementDisplayName>{$taskbuilder.ui.editfunction$}</ElementDisplayName>
+  <ElementGUID>b7c5a86d-7e9f-44e4-b858-13055c51ecfb</ElementGUID>
   <ElementIconClass />
   <ElementIsCustom>True</ElementIsCustom>
   <ElementIsGlobalApplication>False</ElementIsGlobalApplication>
   <ElementIsMenu>False</ElementIsMenu>
-  <ElementName>NewAction</ElementName>
-  <ElementOrder>1</ElementOrder>
+  <ElementName>EditFunction</ElementName>
+  <ElementOrder>2</ElementOrder>
   <ElementPageTemplateID>
     <CodeName>Editing</CodeName>
     <GUID>bc86a286-996d-4445-ac8a-68ed45d115b3</GUID>

@@ -6,6 +6,6 @@
   <ResourceHasFiles>False</ResourceHasFiles>
   <ResourceIsInDevelopment>True</ResourceIsInDevelopment>
   <ResourceName>TaskBuilder</ResourceName>
-  <ResourceVersion>1.11.0</ResourceVersion>
+  <ResourceVersion>11.0.0</ResourceVersion>
   <ShowInDevelopment>False</ShowInDevelopment>
 </cms.resource>

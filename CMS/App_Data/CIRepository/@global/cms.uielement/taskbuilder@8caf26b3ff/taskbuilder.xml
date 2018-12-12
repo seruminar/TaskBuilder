@@ -1,22 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <cms.uielement>
-  <ElementCheckModuleReadPermission>False</ElementCheckModuleReadPermission>
-  <ElementDisplayName>Actions</ElementDisplayName>
-  <ElementGUID>2c2c7262-a6b2-4688-9692-54e7cc3e895d</ElementGUID>
+  <ElementCheckModuleReadPermission>True</ElementCheckModuleReadPermission>
+  <ElementDisplayName>{$taskbuilder.ui.taskbuilder$}</ElementDisplayName>
+  <ElementGUID>cbaecd16-7cd1-4184-adc2-8d52372ab11c</ElementGUID>
   <ElementIconClass />
   <ElementIsCustom>True</ElementIsCustom>
   <ElementIsGlobalApplication>False</ElementIsGlobalApplication>
   <ElementIsMenu>False</ElementIsMenu>
-  <ElementName>Actions</ElementName>
+  <ElementName>TaskBuilder</ElementName>
   <ElementOrder>1</ElementOrder>
-  <ElementPageTemplateID>
-    <CodeName>Listing</CodeName>
-    <GUID>226b13a3-97c2-4895-99e4-39ea6247a399</GUID>
-    <ObjectType>cms.pagetemplate</ObjectType>
-  </ElementPageTemplateID>
   <ElementParentID>
-    <CodeName>Configuration</CodeName>
-    <GUID>43a8743b-a912-4bfb-b7bf-1848119bb3b9</GUID>
+    <CodeName>EditTask</CodeName>
+    <GUID>020a634f-db2e-4858-9016-daff150a895e</GUID>
     <ObjectType>cms.uielement</ObjectType>
     <Parent>
       <CodeName>TaskBuilder</CodeName>
@@ -26,11 +21,8 @@
   </ElementParentID>
   <ElementProperties>
     <Data>
-      <category_name_Breadcrumbs>True</category_name_Breadcrumbs>
-      <DisplayBreadcrumbs>False</DisplayBreadcrumbs>
-      <EditInDialog>False</EditInDialog>
-      <ObjectType>taskbuilder.action</ObjectType>
-      <OpenInDialog>False</OpenInDialog>
+      <category_name_Breadcrumbs>False</category_name_Breadcrumbs>
+      <DisplayBreadcrumbs>True</DisplayBreadcrumbs>
     </Data>
   </ElementProperties>
   <ElementRequiresGlobalAdminPriviligeLevel>False</ElementRequiresGlobalAdminPriviligeLevel>
@@ -40,5 +32,6 @@
     <ObjectType>cms.resource</ObjectType>
   </ElementResourceID>
   <ElementSize>0</ElementSize>
-  <ElementType>PageTemplate</ElementType>
+  <ElementTargetURL>~/CMSModules/TaskBuilder/TaskBuilder_EditTask.aspx</ElementTargetURL>
+  <ElementType>Url</ElementType>
 </cms.uielement>

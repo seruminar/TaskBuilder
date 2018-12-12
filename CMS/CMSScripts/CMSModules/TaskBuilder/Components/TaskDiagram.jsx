@@ -8,14 +8,20 @@ class TaskDiagram extends React.Component {
             serialized: null
         };
 
-        //1) setup the diagram engine
         engine = new SRD.DiagramEngine();
+
         // Temporarily needed for default links and ports
         engine.installDefaultFactories();
 
         // Register factories from initialization code
+        // Foreach function
         engine.registerNodeFactory(new BaseNodeFactory("startNode"));
         engine.registerNodeFactory(new BaseNodeFactory("eventlogNode"));
+
+        // Deserialize from database
+        //var model2 = new DiagramModel();
+        //model2.deSerializeDiagram(JSON.parse(str), engine);
+        //engine.setDiagramModel(model2);
 
         // TEST ------------- Create a new model for testing
 
@@ -38,13 +44,13 @@ class TaskDiagram extends React.Component {
 
         //5) load model into engine
         engine.setDiagramModel(model);
+
         // TEST ------------- Create a new model for testing
 
 
-        // Deserialize from database
-        //var model2 = new DiagramModel();
-        //model2.deSerializeDiagram(JSON.parse(str), engine);
-        //engine.setDiagramModel(model2);
+
+
+
 
         this.engine = engine;
     }

@@ -1,24 +1,18 @@
-﻿using System;
-using System.Web.Http;
+﻿using System.Web.Http;
+
 using CMS;
+using CMS.Core;
 using CMS.DataEngine;
 
-using JavaScriptEngineSwitcher.Core;
-using JavaScriptEngineSwitcher.Msie;
+using TaskBuilder.Services;
 
-using React;
-using TaskBuilder.Actions;
-
-[assembly: RegisterModule(typeof(TaskBuilder.TaskBuilderModule))]
+[assembly: RegisterModule(typeof(TaskBuilder.TaskBuilder))]
 
 namespace TaskBuilder
 {
-    internal class TaskBuilderModule : Module
+    internal class TaskBuilder : Module
     {
-        public const string NAME = "Task builder";
-
-        public TaskBuilderModule()
-            : base(NAME)
+        public TaskBuilder() : base(nameof(TaskBuilder))
         {
         }
 
@@ -28,7 +22,7 @@ namespace TaskBuilder
 
             //InitializeReactEnvironment();
 
-            InitializeTaskActions();
+            InitializeFunctions();
 
             GlobalConfiguration.Configuration.Routes.MapHttpRoute("taskbuilder", "taskbuilder/{controller}/{id}", new { id = RouteParameter.Optional });
         }
@@ -44,12 +38,11 @@ namespace TaskBuilder
             //    .AddMsie();
 
             //JsEngineSwitcher.Instance.DefaultEngineName = MsieJsEngine.EngineName;
-
         }
 
-        private void InitializeTaskActions()
+        private void InitializeFunctions()
         {
-            var initializer = new TaskActionInitializer();
+            var initializer = new FunctionInitializer(Service.Resolve<IFunctionModelService>());
             initializer.RunAsync();
         }
     }
