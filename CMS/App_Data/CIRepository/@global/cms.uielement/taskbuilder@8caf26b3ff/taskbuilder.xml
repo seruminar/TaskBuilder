@@ -32,6 +32,8 @@
     <ObjectType>cms.resource</ObjectType>
   </ElementResourceID>
   <ElementSize>0</ElementSize>
-  <ElementTargetURL>~/CMSModules/TaskBuilder/TaskBuilder_EditTask.aspx</ElementTargetURL>
+  <ElementTargetURL>
+    <![CDATA[~/CMSModules/TaskBuilder/TaskBuilder_TaskBuilder.aspx]]>
+  </ElementTargetURL>
   <ElementType>Url</ElementType>
 </cms.uielement>

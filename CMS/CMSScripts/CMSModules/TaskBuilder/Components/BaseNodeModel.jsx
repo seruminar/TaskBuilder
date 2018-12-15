@@ -1,8 +1,11 @@
 ﻿var SRD = window["storm-react-diagrams"];
 
 class BaseNodeModel extends SRD.NodeModel {
-    constructor(type, inReceiver, outSender, parameters) {
-        super(type);
+    name;
+
+    constructor(name) {
+        super(name);
+        this.name = name;
     }
 
     addInPort(label) {

@@ -20,7 +20,7 @@ namespace TaskBuilder
 
         public FunctionModel(Type function)
         {
-            Name = function.Name;
+            Name = function.FullName;
             Inputs = new List<string>();
             Outputs = new List<string>();
 

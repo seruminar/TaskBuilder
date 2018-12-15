@@ -8,16 +8,9 @@
   "author": "Yuriy Sountsov",
   "dependencies": {},
   "devDependencies": {
-    "@babel/core": "^7.1.6",
-    "@babel/plugin-proposal-export-default-from": "^7.0.0",
-    "@babel/preset-env": "7.1.6",
-    "@babel/preset-react": "7.0.0",
-    "babel-loader": "^8.0.4",
-    "expose-loader": "0.7.5",
+    "lodash": "4.17.11",
     "react": "16.6.3",
     "react-dom": "16.6.3",
-    "storm-react-diagrams": "^5.2.1",
-    "webpack": "^4.26.0",
-    "webpack-cli": "^3.1.2"
+    "storm-react-diagrams": "^5.2.1"
   }
 }

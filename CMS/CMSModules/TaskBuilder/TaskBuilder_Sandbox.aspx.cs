@@ -16,7 +16,7 @@ public partial class TaskBuilder_Sandbox : MessagePage
         ScriptHelper.RegisterScriptFile(this, "CMSModules/TaskBuilder/Vendor/react-dom.development.js", false);
         ScriptHelper.RegisterScriptFile(this, "CMSModules/TaskBuilder/Vendor/main.js", false);
 
-        ScriptHelper.RegisterClientScriptBlock(this, typeof(string), "TaskBuilder", DiagramFactory.Environment.Babel.TransformFile("~/CMSScripts/CMSModules/TaskBuilder/Components/Demo-Serialize.jsx"), true);
+        ScriptHelper.RegisterClientScriptBlock(this, typeof(string), "TaskBuilder", DiagramFactory.Environment.Babel.TransformFile("~/CMSScripts/CMSModules/TaskBuilder/Components/Sandbox.jsx"), true);
 
         CssRegistration.RegisterCssLink(this, "~/CMSModules/TaskBuilder/Stylesheets/style.min.css");
         CssRegistration.RegisterCssLink(this, "~/CMSModules/TaskBuilder/Stylesheets/TaskBuilder.css");

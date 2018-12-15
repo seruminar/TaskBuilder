@@ -42,6 +42,32 @@
           <Trim>False</Trim>
         </settings>
       </field>
+      <field column="FunctionAssembly" columnsize="200" columntype="text" guid="98a58f74-e434-4c16-add5-009b8879b541" publicfield="false" system="true" visible="true">
+        <properties>
+          <defaultvalue>TaskBuilder</defaultvalue>
+          <fieldcaption>$taskbuilder.function.assembly$</fieldcaption>
+        </properties>
+        <settings>
+          <BaseClassName>TaskBuilder.Functions.Function, TaskBuilder</BaseClassName>
+          <CheckAutoCreation>False</CheckAutoCreation>
+          <ClassNameColumnName>FunctionClass</ClassNameColumnName>
+          <controlname>AssemblyClassSelector</controlname>
+          <ShowClasses>True</ShowClasses>
+          <ShowEnumerations>False</ShowEnumerations>
+          <ShowInterfaces>False</ShowInterfaces>
+          <ValidateAssembly>True</ValidateAssembly>
+        </settings>
+      </field>
+      <field allowempty="true" column="FunctionClass" columnsize="200" columntype="text" guid="f6606c53-28a0-4d0a-aec2-a3e34e4c1ee9" publicfield="false" system="true">
+        <settings>
+          <AutoCompleteEnableCaching>False</AutoCompleteEnableCaching>
+          <AutoCompleteFirstRowSelected>False</AutoCompleteFirstRowSelected>
+          <AutoCompleteShowOnlyCurrentWordInCompletionListItem>False</AutoCompleteShowOnlyCurrentWordInCompletionListItem>
+          <controlname>TextBoxControl</controlname>
+          <FilterMode>False</FilterMode>
+          <Trim>False</Trim>
+        </settings>
+      </field>
       <field column="FunctionGuid" columntype="guid" guid="3113c74f-c6e7-43a8-8419-54162ddb741f" publicfield="false" system="true">
         <properties>
           <fieldcaption>GUID</fieldcaption>

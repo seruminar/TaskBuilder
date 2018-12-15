@@ -11,7 +11,7 @@ using TaskBuilder.Services;
 [Title("taskbuilder.ui.edittask")]
 [UIElement("TaskBuilder", "TaskBuilder")]
 [EditedObject(TaskInfo.OBJECT_TYPE, "objectid")]
-public partial class TaskBuilder_EditTask : CMSPage
+public partial class TaskBuilder_TaskBuilder : CMSPage
 {
     private readonly IFunctionModelService _functionModelService = Service.Resolve<IFunctionModelService>();
 
@@ -26,6 +26,7 @@ public partial class TaskBuilder_EditTask : CMSPage
             DiagramFactory.Environment.Babel.TransformFile("~/CMSScripts/CMSModules/TaskBuilder/Components/TaskDiagramArea.jsx") +
             DiagramFactory.Environment.Babel.TransformFile("~/CMSScripts/CMSModules/TaskBuilder/Components/TaskDiagram.jsx") +
             DiagramFactory.Environment.Babel.TransformFile("~/CMSScripts/CMSModules/TaskBuilder/Components/BaseNodeFactory.jsx") +
+            DiagramFactory.Environment.Babel.TransformFile("~/CMSScripts/CMSModules/TaskBuilder/Components/BaseLinkFactory.jsx") +
             DiagramFactory.Environment.Babel.TransformFile("~/CMSScripts/CMSModules/TaskBuilder/Components/BaseNodeModel.jsx"), true);
 
         CssRegistration.RegisterCssLink(this, "~/CMSModules/TaskBuilder/Stylesheets/style.min.css");
@@ -35,11 +36,15 @@ public partial class TaskBuilder_EditTask : CMSPage
     protected void Page_Load(object sender, EventArgs e)
     {
         // Get props from IFunctionModelService for all available functions
-        // Get task diagram from database (via EditedObject)
-        // Pass both as props (functions array, diagram string)
+        var functionModels = _functionModelService.FunctionModels;
 
-        var reactComponent = DiagramFactory.GetReactComponent("TaskDiagramArea");
-        network.Text = reactComponent.RenderHtml(true);
+        // Get task diagram from database (via EditedObject)
+        var task = EditedObject as TaskInfo;
+        var taskGraph = task.TaskGraph;
+
+        // Pass both as props (functions array, diagram string)
+        var graphComponent = DiagramFactory.GetReactComponent("TaskDiagramArea", new { functions = functionModels, graph = taskGraph });
+        graph.Text = graphComponent.RenderHtml(true);
 
         initScript.Text = ScriptHelper.GetScript(DiagramFactory.Environment.GetInitJavaScript());
 

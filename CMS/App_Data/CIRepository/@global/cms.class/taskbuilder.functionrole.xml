@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.class>
+  <ClassCodeGenerationSettings>
+    <Data>
+      <NameSpace>TaskBuilder</NameSpace>
+    </Data>
+  </ClassCodeGenerationSettings>
+  <ClassDisplayName>FunctionRole</ClassDisplayName>
+  <ClassFormDefinition>
+    <form version="2">
+      <field column="FunctionRoleID" columntype="integer" guid="2cd2ca63-fbc1-46f3-aa87-16f19decf71e" isPK="true" publicfield="false">
+        <properties>
+          <fieldcaption>FunctionRoleID</fieldcaption>
+        </properties>
+        <settings>
+          <controlname>labelcontrol</controlname>
+        </settings>
+      </field>
+      <field column="FunctionID" columntype="integer" guid="271f74db-e8f0-410c-9e5d-ec1784bea531" publicfield="false" refobjtype="taskbuilder.function" reftype="Binding" system="true" />
+      <field column="RoleID" columntype="integer" guid="185c3bbb-bd7b-46af-9a62-c3496a8b37ec" publicfield="false" refobjtype="cms.role" reftype="Binding" system="true" />
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>95864bfb-aeba-430e-80b4-0a3e855386b6</ClassGUID>
+  <ClassIsContentOnly>False</ClassIsContentOnly>
+  <ClassIsCoupledClass>True</ClassIsCoupledClass>
+  <ClassIsCustomTable>False</ClassIsCustomTable>
+  <ClassIsDocumentType>False</ClassIsDocumentType>
+  <ClassIsForm>False</ClassIsForm>
+  <ClassIsMenuItemType>False</ClassIsMenuItemType>
+  <ClassIsProduct>False</ClassIsProduct>
+  <ClassName>TaskBuilder.FunctionRole</ClassName>
+  <ClassNodeNameSource />
+  <ClassResourceID>
+    <CodeName>TaskBuilder</CodeName>
+    <GUID>4169ad8c-ab98-489e-ab44-f0cb720ddb4f</GUID>
+    <ObjectType>cms.resource</ObjectType>
+  </ClassResourceID>
+  <ClassSearchSettings>
+    <search />
+  </ClassSearchSettings>
+  <ClassShowAsSystemTable>False</ClassShowAsSystemTable>
+  <ClassShowTemplateSelection>False</ClassShowTemplateSelection>
+  <ClassTableName>TaskBuilder_FunctionRole</ClassTableName>
+  <ClassUsePublishFromTo>False</ClassUsePublishFromTo>
+  <ClassUsesVersioning>False</ClassUsesVersioning>
+</cms.class>

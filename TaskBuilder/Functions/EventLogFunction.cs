@@ -6,7 +6,8 @@ using TaskBuilder.Attributes;
 
 namespace TaskBuilder.Functions
 {
-    public class EventLogFunction : Function
+    [Function]
+    public class EventLogFunction
     {
         [Enter]
         public void TargetInReceiver()

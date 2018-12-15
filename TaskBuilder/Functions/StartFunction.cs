@@ -4,7 +4,8 @@ using TaskBuilder.Attributes;
 
 namespace TaskBuilder.Functions
 {
-    public class StartFunction : Function
+    [Function]
+    public class StartFunction
     {
         // Encapsulates behavior of Function
         [Enter]

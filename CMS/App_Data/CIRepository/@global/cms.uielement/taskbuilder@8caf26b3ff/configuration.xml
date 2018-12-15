@@ -4,7 +4,7 @@
     <![CDATA[{%Rule("(CurrentUser.IsAuthorizedPerResource(\"TaskBuilder\",\"ReadConfiguration\"))", "<rules><r pos=\"0\" par=\"\" op=\"and\" n=\"Permission\" ><p n=\"module\"><t>TaskBuilder</t><v>TaskBuilder</v><r>0</r><d>select module</d><vt>text</vt><tv>1</tv></p><p n=\"permission\"><t>ReadConfiguration</t><v>ReadConfiguration</v><r>0</r><d>select permission</d><vt>text</vt><tv>1</tv></p></r></rules>")|(identity)GlobalAdministrator|(hash)47575e0a2a064b429cf806b98a78cd19c36feee4530b0dd08049b07efa076957%}]]>
   </ElementAccessCondition>
   <ElementCheckModuleReadPermission>False</ElementCheckModuleReadPermission>
-  <ElementDisplayName>Configuration</ElementDisplayName>
+  <ElementDisplayName>{$general.configuration$}</ElementDisplayName>
   <ElementGUID>43a8743b-a912-4bfb-b7bf-1848119bb3b9</ElementGUID>
   <ElementIconClass />
   <ElementIsCustom>True</ElementIsCustom>

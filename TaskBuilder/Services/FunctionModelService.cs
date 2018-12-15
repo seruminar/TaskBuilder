@@ -5,7 +5,7 @@ using System.Reflection;
 
 using CMS.Core;
 using CMS.Helpers;
-
+using TaskBuilder.Attributes;
 using TaskBuilder.Functions;
 
 namespace TaskBuilder.Services
@@ -17,9 +17,25 @@ namespace TaskBuilder.Services
         public FunctionModel GetFunctionModel(string functionName) => FunctionModels.FirstOrDefault(m => m.Name == functionName);
 
         /// <summary>
+        /// Finds all of the function types, gets their ports and creates a model in the cache.
+        /// When a task builder is opened, the React app pulls in the models for deserialization and creating new ones in the side drawer.
+        /// </summary>
+        public HashSet<FunctionModel> RegisterFunctionModels()
+        {
+            var functionTypes = DiscoverFunctionTypes();
+
+            if (!functionTypes.Any())
+            {
+                throw new Exception($"{nameof(FunctionInitializer)} could not find any functions.");
+            }
+
+            return new HashSet<FunctionModel>(functionTypes.Select(t => new FunctionModel(t)));
+        }
+
+        /// <summary>
         /// Finds all of the function types that extend <see cref="Function"/>.
         /// </summary>
-        public List<Type> DiscoverFunctionTypes()
+        private List<Type> DiscoverFunctionTypes()
         {
             // Get loaded assemblies
             var discoveredAssemblies = AssemblyDiscoveryHelper.GetAssemblies(false);
@@ -41,38 +57,15 @@ namespace TaskBuilder.Services
                         assemblyClassTypes = exception.Types;
                     }
 
-                    functionTypes.AddRange(assemblyClassTypes.Where(t => t.IsClass &&
-                                                                      !t.IsAbstract &&
-                                                                       t.IsSubclassOf(typeof(Function))
-                                                                 ));
+                    foreach (Type type in assemblyClassTypes)
+                    {
+                        if (Attribute.IsDefined(type, typeof(FunctionAttribute)))
+                            functionTypes.Add(type);
+                    }
                 }
             }
 
             return functionTypes;
-        }
-
-        /// <summary>
-        /// Finds all of the function types, gets their ports and creates a model in the cache.
-        /// When a task builder is opened, the React app pulls in the models for deserialization and creating new ones in the side drawer.
-        /// </summary>
-        public HashSet<FunctionModel> RegisterFunctionModels()
-        {
-            var functionModels = new HashSet<FunctionModel>();
-
-            var functionTypes = DiscoverFunctionTypes();
-
-            if (!functionTypes.Any())
-            {
-                throw new Exception($"{nameof(FunctionInitializer)} could not find any functions.");
-            }
-
-            foreach (var functionType in functionTypes)
-            {
-                var functionModel = new FunctionModel(functionType);
-                functionModels.Add(functionModel);
-            }
-
-            return functionModels;
         }
     }
 }

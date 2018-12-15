@@ -21,19 +21,22 @@
     render() {
         if (this.state.hasError) {
             return (
-                <div>
+                <div style={{ padding: '10px 15px'}}>
                     <h2>Something went wrong.</h2>
                     <div style={{ whiteSpace: 'pre-wrap' }}>
                         {this.state.error && this.state.error.toString()}
-                        <br />
+                        <br/>
                         {this.state.errorInfo.componentStack}
                     </div>
+                    <br/>
+                    <h4>Props:</h4>
+                    <pre>{JSON.stringify(this.props, null, 4)}</pre>
                 </div>
             );
-        }
+        }   
 
         return (
-            <TaskDiagram/>
+            <TaskDiagram functions={this.props.functions} graph={this.props.graph}/>
         );
     }
 }

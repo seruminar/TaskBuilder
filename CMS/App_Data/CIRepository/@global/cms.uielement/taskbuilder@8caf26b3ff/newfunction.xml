@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <cms.uielement>
   <ElementCheckModuleReadPermission>False</ElementCheckModuleReadPermission>
-  <ElementDisplayName>New action</ElementDisplayName>
+  <ElementDisplayName>{$taskbuilder.ui.newfunction$}</ElementDisplayName>
   <ElementGUID>3220d3db-eb2e-4ab6-a1e3-2d2c3e0765ea</ElementGUID>
   <ElementIconClass />
   <ElementIsCustom>True</ElementIsCustom>
   <ElementIsGlobalApplication>False</ElementIsGlobalApplication>
   <ElementIsMenu>False</ElementIsMenu>
-  <ElementName>NewAction</ElementName>
+  <ElementName>NewFunction</ElementName>
   <ElementOrder>1</ElementOrder>
   <ElementPageTemplateID>
     <CodeName>Editing</CodeName>

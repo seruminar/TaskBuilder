@@ -110,6 +110,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\FunctionAttribute.cs" />
+    <Compile Include="Functions\FunctionRoleInfo.cs" />
+    <Compile Include="Functions\FunctionRoleInfoProvider.cs" />
     <Compile Include="Models\FunctionModel.cs" />
     <Compile Include="Functions\Function.cs" />
     <Compile Include="Functions\FunctionInfo.cs" />

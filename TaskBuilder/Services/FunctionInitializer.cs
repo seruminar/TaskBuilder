@@ -27,25 +27,6 @@ namespace TaskBuilder
                     Cache.NoAbsoluteExpiration,
                     TimeSpan.FromMinutes(TaskBuilderHelper.CACHE_MINUTES)
                 );
-
-            foreach (var type in _functionModelService.DiscoverFunctionTypes())
-            {
-                var name = type.Name;
-
-                // Remove trailing "Function" for readability
-                if (name.EndsWith("Function"))
-                {
-                    name = name.Substring(0, name.Length - 8);
-                }
-
-                var function = new FunctionInfo()
-                {
-                    FunctionDisplayName = Regex.Replace(name, "(\\B[A-Z])", " $1"),
-                    FunctionName = name
-                };
-
-                FunctionInfoProvider.SetFunctionInfo(function);
-            }
         }
     }
 }

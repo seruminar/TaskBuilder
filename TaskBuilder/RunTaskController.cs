@@ -1,87 +1,96 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Web.Http;
 
 using CMS.Base;
-using CMS.Core;
 using CMS.EventLog;
 
-using TaskBuilder.Functions;
 using TaskBuilder.Models;
 
 namespace TaskBuilder
 {
     public class RunTaskController : ApiController
     {
-        public object EventlogProvider { get; private set; }
-
         public void Post([FromBody] DiagramModel diagram)
         {
-            TestBenchmark();
+            var sw1 = new Stopwatch();
 
-            // POC approach
-            //var listOfNodes = new List<TaskAction>();
+            sw1.Start();
 
-            //foreach (var node in diagram.Nodes)
-            //{
-            //    TaskAction createdNode = null;
-            //    switch (node.Type)
-            //    {
-            //        case "startNode":
-            //            createdNode = new StartAction(node);
-            //            break;
+            RunTask(diagram);
 
-            //        case "eventLogNode":
-            //            createdNode = new EventLogAction(node);
-            //            break;
+            sw1.Stop();
 
-            //        default:
-            //            break;
-            //    }
+            EventLogProvider.LogInformation(nameof(RunTaskController), "TESTBENCHMARK",
+                $"Log event to Event log: {(double)sw1.ElapsedTicks / Stopwatch.Frequency * 1000L}ms"
+                );
+        }
 
-            //    listOfNodes.Add(createdNode);
-            //}
+        private void RunTask(DiagramModel diagram)
+        {
+            var typeObjects = new Dictionary<Guid, Tuple<Type, object>>();
+            var ports = new Dictionary<Guid, Port>();
+            var objects = new Dictionary<Guid, Port>();
 
-            //foreach (var node in listOfNodes)
-            //{
-            //    var link = diagram.Links.FirstOrDefault(l => l.Source == node.Guid);
+            Tuple<Type, object> startTypeObject = null;
 
-            //    if (link != null)
-            //    {
-            //        var targetNode = listOfNodes.FirstOrDefault(n => n.Guid == link.Target);
+            foreach (var node in diagram.Nodes)
+            {
+                var nodeType = ClassHelper.GetAssembly(node.Type.Substring(0, node.Type.IndexOf('.'))).GetType(node.Type);
+                var typeObject = FormatterServices.GetUninitializedObject(nodeType);
 
-            //        if (targetNode != null)
-            //        {
-            //            node.Targets.Add(targetNode);
-            //        }
-            //    }
-            //}
+                typeObjects.Add(node.Id, Tuple.Create(nodeType, typeObject));
 
-            //var startNode = listOfNodes.FirstOrDefault(n => n is StartAction);
+                foreach (var port in node.Ports)
+                {
+                    ports.Add(port.Id, port);
+                }
 
-            //startNode?.Execute(null);
+                // Find the start function and save it
+                if (node.Type == "TaskBuilder.Functions.StartFunction")
+                {
+                    startTypeObject = Tuple.Create(nodeType, typeObject);
+                }
+            }
+
+            foreach (var link in diagram.Links)
+            {
+                typeObjects.TryGetValue(link.Source, out Tuple<Type, object> source);
+                typeObjects.TryGetValue(link.Target, out Tuple<Type, object> target);
+                ports.TryGetValue(link.SourcePort, out Port sourcePort);
+                ports.TryGetValue(link.TargetPort, out Port targetPort);
+
+                switch (link.Type)
+                {
+                    case "caller":
+                        source.Item1.GetProperty(sourcePort.Label).SetValue(
+                            source.Item2,
+                            target.Item1.GetMethod(targetPort.Label).CreateDelegate(
+                                source.Item1.GetProperty(sourcePort.Label).PropertyType,
+                                target.Item2)
+                        );
+                        break;
+
+                    case "default":
+                        target.Item1.GetProperty(targetPort.Label).SetValue(
+                            target.Item2,
+                            source.Item1.GetProperty(sourcePort.Label).GetMethod.CreateDelegate(
+                                target.Item1.GetProperty(targetPort.Label).PropertyType,
+                                source.Item2)
+                        );
+                        break;
+                }
+            }
+
+            // Call the start function
+            startTypeObject?.Item1.GetMethod("SourceInReceiver").Invoke(startTypeObject.Item2, null);
         }
 
         private void TestBenchmark()
         {
-            var sw1 = new Stopwatch();
             var sw2 = new Stopwatch();
-
-            sw1.Start();
-
-            //// Testing (basic approach)
-            //var source1 = new StartAction(new Node());
-            //var target1 = new EventLogAction(new Node());
-
-            //Connect links
-            //source1.SourceOutSender = target1.TargetInReceiver;
-            //target1.TargetInParameter = source1.SourceOutParameter;
-
-            //// Call start node
-            //source1.SourceInReceiver();
-
-            sw1.Stop();
 
             sw2.Start();
 
@@ -98,7 +107,7 @@ namespace TaskBuilder
                     target2));
             targetType2.GetProperty("TargetInParameter").SetValue(
                 target2,
-                
+
                 sourceType2.GetProperty("SourceOutParameter").GetMethod.CreateDelegate(
                     targetType2.GetProperty("TargetInParameter").PropertyType,
                     source2));
@@ -108,24 +117,8 @@ namespace TaskBuilder
             sw2.Stop();
 
             EventLogProvider.LogInformation(nameof(RunTaskController), "TESTBENCHMARK",
-                $@"Direct instantiation: {(double)sw1.ElapsedTicks / Stopwatch.Frequency * 1000L}ms{Environment.NewLine}
-                FormatterServices: {(double)sw2.ElapsedTicks / Stopwatch.Frequency * 1000L}ms{Environment.NewLine}"
+                $"Elapsed: {(double)sw2.ElapsedTicks / Stopwatch.Frequency * 1000L}ms{Environment.NewLine}"
                 );
-        }
-
-        private static object Formatter(string assemblyName, string className)
-        {
-
-            //if (HasDefaultConstructor(t))
-            //    return Expression.Lambda<Func<object>>(Expression.New(t)).Compile().Invoke();
-
-            //return FormatterServices.GetUninitializedObject(t);
-            return new object();
-        }
-
-        private static bool HasDefaultConstructor(Type t)
-        {
-            return t.IsValueType || t.GetConstructor(Type.EmptyTypes) != null;
         }
     }
 }

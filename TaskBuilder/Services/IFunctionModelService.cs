@@ -15,8 +15,6 @@ namespace TaskBuilder.Services
 
         FunctionModel GetFunctionModel(string functionName);
 
-        List<Type> DiscoverFunctionTypes();
-
         HashSet<FunctionModel> RegisterFunctionModels();
     }
 }

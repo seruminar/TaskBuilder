@@ -1,6 +1,8 @@
 ﻿var SRD = window["storm-react-diagrams"];
 
 class TaskDiagram extends React.Component {
+    engine;
+
     constructor(props) {
         super(props);
 
@@ -8,49 +10,23 @@ class TaskDiagram extends React.Component {
             serialized: null
         };
 
-        engine = new SRD.DiagramEngine();
+        let engine = new SRD.DiagramEngine();
 
-        // Temporarily needed for default links and ports
-        engine.installDefaultFactories();
+        // Register default port factory
+        engine.registerPortFactory(new SRD.DefaultPortFactory());
+
+        // Register two link types (for now, only default links can be made)
+        engine.registerLinkFactory(new BaseLinkFactory("caller"));
+        engine.registerLinkFactory(new BaseLinkFactory("default"));
 
         // Register factories from initialization code
-        // Foreach function
-        engine.registerNodeFactory(new BaseNodeFactory("startNode"));
-        engine.registerNodeFactory(new BaseNodeFactory("eventlogNode"));
+        this.props.functions.map((f) => engine.registerNodeFactory(new BaseNodeFactory(f)));
 
         // Deserialize from database
-        //var model2 = new DiagramModel();
-        //model2.deSerializeDiagram(JSON.parse(str), engine);
-        //engine.setDiagramModel(model2);
+        var graphModel = new SRD.DiagramModel();
+        graphModel.deSerializeDiagram(JSON.parse(this.props.graph), engine);
 
-        // TEST ------------- Create a new model for testing
-
-        // Create a start node
-        var node1 = new BaseNodeModel("startNode");
-        var port1 = node1.addOutPort("Out");
-        node1.setPosition(100, 100);
-
-        // Create another node
-        var node2 = new BaseNodeModel("eventlogNode");
-        var port2 = node2.addInPort("In");
-        node2.setPosition(400, 100);
-
-        // Link the 2 nodes together
-        var link1 = port1.link(port2);
-
-        // Add to diagram model
-        var model = new SRD.DiagramModel();
-        model.addAll(node1, node2, link1);
-
-        //5) load model into engine
-        engine.setDiagramModel(model);
-
-        // TEST ------------- Create a new model for testing
-
-
-
-
-
+        engine.setDiagramModel(graphModel);
 
         this.engine = engine;
     }
