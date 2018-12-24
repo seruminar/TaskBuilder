@@ -23,11 +23,8 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
         ScriptHelper.RegisterScriptFile(this, "CMSModules/TaskBuilder/Vendor/main.js", false);
 
         ScriptHelper.RegisterClientScriptBlock(this, typeof(string), "TaskBuilder",
-            DiagramFactory.Environment.Babel.TransformFile("~/CMSScripts/CMSModules/TaskBuilder/Components/TaskDiagramArea.jsx") +
-            DiagramFactory.Environment.Babel.TransformFile("~/CMSScripts/CMSModules/TaskBuilder/Components/TaskDiagram.jsx") +
-            DiagramFactory.Environment.Babel.TransformFile("~/CMSScripts/CMSModules/TaskBuilder/Components/BaseNodeFactory.jsx") +
-            DiagramFactory.Environment.Babel.TransformFile("~/CMSScripts/CMSModules/TaskBuilder/Components/BaseLinkFactory.jsx") +
-            DiagramFactory.Environment.Babel.TransformFile("~/CMSScripts/CMSModules/TaskBuilder/Components/BaseNodeModel.jsx"), true);
+            string.Join(string.Empty,
+                ReactHelper.GetTransformedComponents("~/CMSScripts/CMSModules/TaskBuilder/Components/", RegexHelper.GetRegex("sandbox", true))), true);
 
         CssRegistration.RegisterCssLink(this, "~/CMSModules/TaskBuilder/Stylesheets/style.min.css");
         CssRegistration.RegisterCssLink(this, "~/CMSModules/TaskBuilder/Stylesheets/TaskBuilder.css");
@@ -38,15 +35,19 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
         // Get props from IFunctionModelService for all available functions
         var functionModels = _functionModelService.FunctionModels;
 
-        // Get task diagram from database (via EditedObject)
+        // Get task diagram from database
         var task = EditedObject as TaskInfo;
         var taskGraph = task.TaskGraph;
 
-        // Pass both as props (functions array, diagram string)
-        var graphComponent = DiagramFactory.GetReactComponent("TaskDiagramArea", new { functions = functionModels, graph = taskGraph });
-        graph.Text = graphComponent.RenderHtml(true);
+        // Pass both as props
+        var diagramAreaProps = new { functions = functionModels, graph = taskGraph };
 
-        initScript.Text = ScriptHelper.GetScript(DiagramFactory.Environment.GetInitJavaScript());
+        // Render graph area component
+        var diagramAreaComponent = ReactHelper.Environment.CreateComponent("TaskDiagramArea", diagramAreaProps, "task-builder", true);
+        diagramArea.Text = diagramAreaComponent.RenderHtml(true);
+
+        // Initialize React event bindings and startup
+        initScript.Text = ScriptHelper.GetScript(ReactHelper.Environment.GetInitJavaScript());
 
         if (!RequestHelper.IsAsyncPostback())
         {

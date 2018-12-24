@@ -16,7 +16,7 @@ public partial class TaskBuilder_Sandbox : MessagePage
         ScriptHelper.RegisterScriptFile(this, "CMSModules/TaskBuilder/Vendor/react-dom.development.js", false);
         ScriptHelper.RegisterScriptFile(this, "CMSModules/TaskBuilder/Vendor/main.js", false);
 
-        ScriptHelper.RegisterClientScriptBlock(this, typeof(string), "TaskBuilder", DiagramFactory.Environment.Babel.TransformFile("~/CMSScripts/CMSModules/TaskBuilder/Components/Sandbox.jsx"), true);
+        ScriptHelper.RegisterClientScriptBlock(this, typeof(string), "TaskBuilder", ReactHelper.Environment.Babel.TransformFile("~/CMSScripts/CMSModules/TaskBuilder/Components/Sandbox.jsx"), true);
 
         CssRegistration.RegisterCssLink(this, "~/CMSModules/TaskBuilder/Stylesheets/style.min.css");
         CssRegistration.RegisterCssLink(this, "~/CMSModules/TaskBuilder/Stylesheets/TaskBuilder.css");
@@ -25,9 +25,9 @@ public partial class TaskBuilder_Sandbox : MessagePage
     protected void Page_Load(object sender, EventArgs e)
     {
         lblMessage.Text = "Some text";
-        var reactComponent = DiagramFactory.GetReactComponent("ErrorWrapper");
+        var reactComponent = ReactHelper.Environment.CreateComponent("ErrorWrapper", new { }, clientOnly: true);
         network.Text = reactComponent.RenderHtml(true);
 
-        initScript.Text = ScriptHelper.GetScript(DiagramFactory.Environment.GetInitJavaScript());
+        initScript.Text = ScriptHelper.GetScript(ReactHelper.Environment.GetInitJavaScript());
     }
 }

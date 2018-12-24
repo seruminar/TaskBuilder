@@ -1,21 +1,78 @@
 ﻿.task-builder-diagram {
-	flex: 1;
-	background-color: #3c3c3c !important;
-	background-image: linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0.1) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.1) 75%, rgba(255, 255, 255, 0.1) 76%, transparent 77%, transparent),
-                      linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0.1) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.1) 75%, rgba(255, 255, 255, 0.1) 76%, transparent 77%, transparent);
-	background-size: 50px 50px;
+    flex: 1;
+    background-color: #3c3c3c !important;
+    background-image: linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0.1) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.1) 75%, rgba(255, 255, 255, 0.1) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0.1) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.1) 75%, rgba(255, 255, 255, 0.1) 76%, transparent 77%, transparent);
+    background-size: 50px 50px;
 }
 
 .cms-bootstrap .PageContent {
-	padding: 0 !important;
+    padding: 0 !important;
 }
 
-#aspnetForm, .PageBody, .PageContent, #m_c_pnlBody, #m_c_pnlContent, #m_c_pnlContent > div {
-	height: 100%;
+#aspnetForm,
+.PageBody,
+.PageContent,
+#m_c_pnlBody,
+#m_c_pnlContent,
+#task-builder,
+#task-builder .task-builder-area {
+    height: 100%;
 }
 
-.task-builder-diagram-wrapper {
-	height: 100%;
-	display: flex;
-	flex-flow: column;
-}
+    #task-builder .task-builder-diagram-wrapper {
+        height: 100%;
+        display: flex;
+        flex-flow: column;
+        flex: 10;
+    }
+
+    #task-builder .task-builder-buttons {
+        position: fixed;
+        z-index: 100;
+        top: 0;
+        box-shadow: 0 0 8px #bdbbbb;
+        width: 100%;
+    }
+
+        #task-builder .task-builder-buttons button {
+            height: 4em;
+            background: #fff;
+            border: none;
+        }
+
+            #task-builder .task-builder-buttons button:hover {
+                background: #d0e8ed;
+            }
+
+    #task-builder .task-builder-row {
+        display: flex;
+        height: 100%;
+        margin-top: 4em;
+    }
+
+    #task-builder .task-builder-function-tray {
+        flex: 1;
+    }
+
+    #task-builder .task-builder-tray-item {
+        height: 1.2em;
+        padding: 1em .5em;
+        display: flex;
+        cursor: grab;
+    }
+
+        #task-builder .task-builder-tray-item:hover {
+            background-color: #d0e8ed !important;
+        }
+
+        #task-builder .task-builder-tray-item i {
+            flex: 1;
+            text-align: center;
+        }
+
+        #task-builder .task-builder-tray-item span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 8;
+            margin-top: -2px;
+        }

@@ -1,14 +1,8 @@
 ﻿var SRD = window["storm-react-diagrams"];
 
 class TaskDiagram extends React.Component {
-    engine;
-
     constructor(props) {
         super(props);
-
-        this.state = {
-            serialized: null
-        };
 
         let engine = new SRD.DiagramEngine();
 
@@ -31,37 +25,47 @@ class TaskDiagram extends React.Component {
         this.engine = engine;
     }
 
-    SerializeGraph(e) {
-        e.preventDefault();
-
-        this.setState({
-            serialized: JSON.stringify(this.engine.diagramModel.serializeDiagram())
-        });
+    SerializeGraph(diagram, e) {
+        console.log(JSON.stringify(diagram.engine.diagramModel.serializeDiagram()));
     }
 
-    RunGraph(e) {
-        e.preventDefault();
-
+    RunGraph(diagram, e) {
         fetch("/Kentico11_hf_TaskBuilder/taskbuilder/RunTask", {
             method: "POST",
             cache: "no-cache",
             headers: {
                 "Content-Type": "application/json; charset=utf-8"
             },
-            body: JSON.stringify(this.engine.diagramModel.serializeDiagram())
+            body: JSON.stringify(diagram.engine.diagramModel.serializeDiagram())
         });
+    }
+
+    DropFunction(e) {
+        var functionModel = JSON.parse(e.dataTransfer.getData("functionModel"));
+
+        var nodeFactory = this.engine.getNodeFactory(functionModel.Name);
+
+        var node = nodeFactory.getNewInstance(null, true);
+
+        var points = this.engine.getRelativeMousePoint(e);
+
+        node.x = points.x;
+        node.y = points.y;
+
+        this.engine
+            .getDiagramModel()
+            .addNode(node);
+        this.forceUpdate();
     }
 
     render() {
         return (
-            <div className="task-builder-diagram-wrapper">
-                <button onClick={e => this.SerializeGraph(e)}>
-                    Serialize Graph!
-				</button>
-                <button onClick={e => this.RunGraph(e)}>
-                    Run Graph!
-				</button>
-                <span>{this.state.serialized}</span>
+            <div className="task-builder-diagram-wrapper"
+
+                onDrop={e => this.DropFunction(e)}
+
+                onDragOver={e => { e.preventDefault(); }}
+            >
                 <SRD.DiagramWidget className="task-builder-diagram" diagramEngine={this.engine} />
             </div>
         );
