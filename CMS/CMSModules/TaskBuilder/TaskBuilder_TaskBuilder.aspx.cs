@@ -4,8 +4,9 @@ using CMS.Base.Web.UI;
 using CMS.Core;
 using CMS.Helpers;
 using CMS.UIControls;
-
+using Newtonsoft.Json;
 using TaskBuilder;
+using TaskBuilder.Models;
 using TaskBuilder.Services;
 
 [Title("taskbuilder.ui.edittask")]
@@ -14,6 +15,8 @@ using TaskBuilder.Services;
 public partial class TaskBuilder_TaskBuilder : CMSPage
 {
     private readonly IFunctionModelService _functionModelService = Service.Resolve<IFunctionModelService>();
+
+    public string SecureToken => TaskBuilderHelper.GetSecureToken();
 
     protected void Page_Init()
     {
@@ -24,7 +27,7 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
 
         ScriptHelper.RegisterClientScriptBlock(this, typeof(string), "TaskBuilder",
             string.Join(string.Empty,
-                ReactHelper.GetTransformedComponents("~/CMSScripts/CMSModules/TaskBuilder/Components/", RegexHelper.GetRegex("sandbox", true))), true);
+                TaskBuilderHelper.GetTransformedComponents("~/CMSScripts/CMSModules/TaskBuilder/Components/", RegexHelper.GetRegex("sandbox", true))), true);
 
         CssRegistration.RegisterCssLink(this, "~/CMSModules/TaskBuilder/Stylesheets/style.min.css");
         CssRegistration.RegisterCssLink(this, "~/CMSModules/TaskBuilder/Stylesheets/TaskBuilder.css");
@@ -32,22 +35,32 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        // Get props from IFunctionModelService for all available functions
-        var functionModels = _functionModelService.FunctionModels;
+        // Get all available functions from IFunctionModelService
+        var functions = _functionModelService.FunctionModels;
 
-        // Get task diagram from database
+        // Get task diagram from database or start with empty one
         var task = EditedObject as TaskInfo;
-        var taskGraph = task.TaskGraph;
 
-        // Pass both as props
-        var diagramAreaProps = new { functions = functionModels, graph = taskGraph };
+        var graph = !string.IsNullOrEmpty(task.TaskGraph)
+            ? task.TaskGraph
+            : JsonConvert.SerializeObject(new DiagramModel(task.TaskGuid));
+
+        // Generate secure token in session
+        var secureToken = SecureToken;
+
+        var diagramAreaProps = new
+        {
+            functions,
+            graph,
+            secureToken
+        };
 
         // Render graph area component
-        var diagramAreaComponent = ReactHelper.Environment.CreateComponent("TaskDiagramArea", diagramAreaProps, "task-builder", true);
+        var diagramAreaComponent = TaskBuilderHelper.Environment.CreateComponent("TaskBuilder", diagramAreaProps, "task-builder", true);
         diagramArea.Text = diagramAreaComponent.RenderHtml(true);
 
         // Initialize React event bindings and startup
-        initScript.Text = ScriptHelper.GetScript(ReactHelper.Environment.GetInitJavaScript());
+        initScript.Text = ScriptHelper.GetScript(TaskBuilderHelper.Environment.GetInitJavaScript());
 
         if (!RequestHelper.IsAsyncPostback())
         {

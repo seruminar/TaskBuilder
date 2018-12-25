@@ -11,24 +11,38 @@ using TaskBuilder.Models;
 
 namespace TaskBuilder
 {
-    public class RunTaskController : ApiController
+    public class TasksController : ApiController
     {
-        public void Post([FromBody] DiagramModel diagram)
+        [HttpPost]
+        [TaskBuilderSecuredActionFilter]
+        public IHttpActionResult SaveTask([FromBody] DiagramModel diagram)
+        {
+            TaskInfoProvider.SetTaskInfo(diagram);
+
+            return Json(new
+            {
+                result = "savesuccess"
+            });
+        }
+
+        [HttpPost]
+        [TaskBuilderSecuredActionFilter]
+        public void RunTask([FromBody] DiagramModel diagram)
         {
             var sw1 = new Stopwatch();
 
             sw1.Start();
 
-            RunTask(diagram);
+            Run(diagram);
 
             sw1.Stop();
 
-            EventLogProvider.LogInformation(nameof(RunTaskController), "TESTBENCHMARK",
+            EventLogProvider.LogInformation(nameof(TasksController), "TESTBENCHMARK",
                 $"Log event to Event log: {(double)sw1.ElapsedTicks / Stopwatch.Frequency * 1000L}ms"
                 );
         }
 
-        private void RunTask(DiagramModel diagram)
+        private void Run(DiagramModel diagram)
         {
             var typeObjects = new Dictionary<Guid, Tuple<Type, object>>();
             var ports = new Dictionary<Guid, Port>();
@@ -90,6 +104,15 @@ namespace TaskBuilder
 
         private void TestBenchmark()
         {
+            var source1 = new Functions.StartFunction();
+            var target1 = new Functions.EventLogFunction();
+
+            //Connect links
+            source1.SourceOutSender = target1.TargetInReceiver;
+
+            // Call start node
+            source1.SourceInReceiver();
+
             var sw2 = new Stopwatch();
 
             sw2.Start();
@@ -116,7 +139,7 @@ namespace TaskBuilder
 
             sw2.Stop();
 
-            EventLogProvider.LogInformation(nameof(RunTaskController), "TESTBENCHMARK",
+            EventLogProvider.LogInformation(nameof(TasksController), "TESTBENCHMARK",
                 $"Elapsed: {(double)sw2.ElapsedTicks / Stopwatch.Frequency * 1000L}ms{Environment.NewLine}"
                 );
         }

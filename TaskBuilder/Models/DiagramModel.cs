@@ -7,6 +7,12 @@
 
     public class DiagramModel
     {
+        public DiagramModel(Guid taskGuid)
+        {
+            Id = taskGuid;
+            Zoom = 100;
+        }
+
         [JsonProperty("id")]
         public Guid Id { get; set; }
 

@@ -1,12 +1,10 @@
 using System;
-using System.Data;
-
-using CMS.Base;
 using CMS.DataEngine;
-using CMS.Helpers;
+using Newtonsoft.Json;
+using TaskBuilder.Models;
 
 namespace TaskBuilder
-{    
+{
     /// <summary>
     /// Class providing <see cref="TaskInfo"/> management.
     /// </summary>
@@ -20,7 +18,6 @@ namespace TaskBuilder
         {
         }
 
-
         /// <summary>
         /// Returns a query for all the <see cref="TaskInfo"/> objects.
         /// </summary>
@@ -28,7 +25,6 @@ namespace TaskBuilder
         {
             return ProviderObject.GetObjectQuery();
         }
-
 
         /// <summary>
         /// Returns <see cref="TaskInfo"/> with specified ID.
@@ -39,6 +35,14 @@ namespace TaskBuilder
             return ProviderObject.GetInfoById(id);
         }
 
+        /// <summary>
+        /// Returns <see cref="TaskInfo"/> with specified GUID.
+        /// </summary>
+        /// <param name="guid"><see cref="TaskInfo"/> GUID.</param>
+        public static TaskInfo GetTaskInfo(Guid guid)
+        {
+            return ProviderObject.GetInfoByGuid(guid);
+        }
 
         /// <summary>
         /// Returns <see cref="TaskInfo"/> with specified name.
@@ -49,7 +53,6 @@ namespace TaskBuilder
             return ProviderObject.GetInfoByCodeName(name);
         }
 
-
         /// <summary>
         /// Sets (updates or inserts) specified <see cref="TaskInfo"/>.
         /// </summary>
@@ -59,6 +62,18 @@ namespace TaskBuilder
             ProviderObject.SetInfo(infoObj);
         }
 
+        /// <summary>
+        /// Sets (updates or inserts) a <see cref="TaskInfo"/> based on the provided <see cref="DiagramModel"/>.
+        /// </summary>
+        /// <param name="diagram"><see cref="DiagramModel"/> to be set.</param>
+        public static void SetTaskInfo(DiagramModel diagram)
+        {
+            TaskInfo infoObj = GetTaskInfo(diagram.Id) ?? new TaskInfo();
+
+            infoObj.TaskGraph = JsonConvert.SerializeObject(diagram);
+
+            SetTaskInfo(infoObj);
+        }
 
         /// <summary>
         /// Deletes specified <see cref="TaskInfo"/>.
@@ -68,7 +83,6 @@ namespace TaskBuilder
         {
             ProviderObject.DeleteInfo(infoObj);
         }
-
 
         /// <summary>
         /// Deletes <see cref="TaskInfo"/> with specified ID.

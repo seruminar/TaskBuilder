@@ -5,6 +5,7 @@
       <NameSpace>TaskBuilder</NameSpace>
     </Data>
   </ClassCodeGenerationSettings>
+  <ClassConnectionString>CMSConnectionString</ClassConnectionString>
   <ClassDisplayName>Function</ClassDisplayName>
   <ClassFormDefinition>
     <form version="2">

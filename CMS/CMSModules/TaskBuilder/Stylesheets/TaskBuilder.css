@@ -47,7 +47,8 @@
     #task-builder .task-builder-row {
         display: flex;
         height: 100%;
-        margin-top: 4em;
+        box-sizing: border-box;
+        padding-top: 4em;
     }
 
     #task-builder .task-builder-function-tray {
@@ -76,3 +77,8 @@
             flex: 8;
             margin-top: -2px;
         }
+
+    #task-builder .task-builder-toast {
+        margin-left: 1em;
+        margin-top: 1em;
+    }

@@ -1,4 +1,4 @@
-﻿var SRD = window["storm-react-diagrams"];
+﻿const SRD = window["storm-react-diagrams"];
 
 class BaseNodeModel extends SRD.NodeModel {
     name;
