@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -114,7 +115,6 @@
     <Compile Include="Functions\FunctionRoleInfo.cs" />
     <Compile Include="Functions\FunctionRoleInfoProvider.cs" />
     <Compile Include="Models\FunctionModel.cs" />
-    <Compile Include="Functions\Function.cs" />
     <Compile Include="Functions\FunctionInfo.cs" />
     <Compile Include="Functions\FunctionInfoProvider.cs" />
     <Compile Include="Functions\EventLogFunction.cs" />

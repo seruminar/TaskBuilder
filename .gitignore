@@ -372,6 +372,11 @@ CMS/App_Data/CIRepository/@global/cms.resource/*
 CMS/App_Data/CIRepository/@global/cms.class/*
 !CMS/App_Data/CIRepository/@global/cms.class/taskbuilder*
 
+# Except for AssemblyClassByAttributeSelector form control
+!CMS/App_Data/CIRepository/@global/cms.formusercontrol/
+CMS/App_Data/CIRepository/@global/cms.formusercontrol/*
+!CMS/App_Data/CIRepository/@global/cms.formusercontrol/assemblyclassby*
+
 # Except "App_Data/CMSModules/TaskBuilder"
 !CMS/App_Data/CMSModules/
 CMS/App_Data/CMSModules/*

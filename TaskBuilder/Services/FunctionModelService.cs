@@ -6,7 +6,6 @@ using System.Reflection;
 using CMS.Core;
 using CMS.Helpers;
 using TaskBuilder.Attributes;
-using TaskBuilder.Functions;
 
 namespace TaskBuilder.Services
 {
@@ -33,7 +32,7 @@ namespace TaskBuilder.Services
         }
 
         /// <summary>
-        /// Finds all of the function types that extend <see cref="Function"/>.
+        /// Finds all of the function types that use <see cref="FunctionAttribute"/>.
         /// </summary>
         private List<Type> DiscoverFunctionTypes()
         {
@@ -57,7 +56,7 @@ namespace TaskBuilder.Services
                         assemblyClassTypes = exception.Types;
                     }
 
-                    foreach (Type type in assemblyClassTypes)
+                    foreach (Type type in assemblyClassTypes.Where(x => x != null))
                     {
                         if (Attribute.IsDefined(type, typeof(FunctionAttribute)))
                             functionTypes.Add(type);

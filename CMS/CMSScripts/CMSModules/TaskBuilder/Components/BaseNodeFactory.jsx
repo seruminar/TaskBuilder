@@ -4,7 +4,7 @@ class BaseNodeFactory extends SRD.AbstractNodeFactory {
     functionModel;
 
     constructor(functionModel) {
-        super(functionModel.Name);
+        super(functionModel.name);
 
         this.functionModel = functionModel;
     }
@@ -14,23 +14,23 @@ class BaseNodeFactory extends SRD.AbstractNodeFactory {
     }
 
     getNewInstance(node, forcePorts) {
-        let nodeModel = new BaseNodeModel(this.functionModel.Name);
+        let nodeModel = new BaseNodeModel(this.functionModel.name);
 
         if (forcePorts) {
-            if (this.functionModel.Enter !== null) {
-                nodeModel.addInPort(this.functionModel.Enter);
+            if (this.functionModel.enter !== null) {
+                nodeModel.addInPort(this.functionModel.enter);
             }
 
-            if (this.functionModel.Inputs.length) {
-                this.functionModel.Inputs.map((p) => nodeModel.addInPort(p));
+            if (this.functionModel.inputs.length) {
+                this.functionModel.inputs.map((p) => nodeModel.addInPort(p));
             }
 
-            if (this.functionModel.Leave !== null) {
-                nodeModel.addOutPort(this.functionModel.Leave);
+            if (this.functionModel.leave !== null) {
+                nodeModel.addOutPort(this.functionModel.leave);
             }
 
-            if (this.functionModel.Outputs.length) {
-                this.functionModel.Outputs.map((p) => nodeModel.addOutPort(p));
+            if (this.functionModel.outputs.length) {
+                this.functionModel.outputs.map((p) => nodeModel.addOutPort(p));
             }
         }
 

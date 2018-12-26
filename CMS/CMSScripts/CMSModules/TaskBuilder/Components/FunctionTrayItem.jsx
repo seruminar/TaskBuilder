@@ -9,7 +9,7 @@
 
             >
                 <i className="icon-w-products-data-source" />
-                <span>{this.props.functionModel.Name}</span>
+                <span>{this.props.functionModel.name}</span>
             </div>
         );
     }

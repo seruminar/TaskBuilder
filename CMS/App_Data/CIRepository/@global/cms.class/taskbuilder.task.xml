@@ -39,14 +39,33 @@
       </field>
       <field column="TaskName" columnsize="200" columntype="text" guid="b45cf3d4-e84b-496a-91fd-4524013de787" isunique="true" publicfield="false" system="true" visible="true">
         <properties>
-          <fieldcaption>{$general.name$}</fieldcaption>
+          <fieldcaption>{$general.codename$}</fieldcaption>
         </properties>
         <settings>
           <controlname>CodeName</controlname>
           <RequireIdentifier>False</RequireIdentifier>
         </settings>
       </field>
-      <field allowempty="true" column="TaskGraph" columntype="longtext" guid="b5e6c0e8-c185-4dd7-9453-62d3b238568c" publicfield="false" system="true" />
+      <field allowempty="true" column="TaskImport" columntype="boolean" dummy="mainform" guid="22fe32ac-bb77-4035-bd0e-7378e40ce651" hasdependingfields="true" publicfield="false" system="true" visible="true">
+        <properties>
+          <defaultvalue>false</defaultvalue>
+          <fieldcaption>{$taskbuilder.task.import.caption$}</fieldcaption>
+        </properties>
+        <settings>
+          <controlname>CheckBoxControl</controlname>
+        </settings>
+      </field>
+      <field allowempty="true" column="TaskGraph" columntype="longtext" dependsonanotherfield="true" guid="b5e6c0e8-c185-4dd7-9453-62d3b238568c" publicfield="false" system="true" visible="true">
+        <properties>
+          <fieldcaption>{$taskbuilder.task.graph.caption$}</fieldcaption>
+          <visiblemacro ismacro="true">
+            <![CDATA[{%TaskImport.Value|(identity)GlobalAdministrator|(hash)7eb090a6a661fc66ee473d03ae876b405520a458393a36321d89766ad51a9272%}]]>
+          </visiblemacro>
+        </properties>
+        <settings>
+          <controlname>LargeTextArea</controlname>
+        </settings>
+      </field>
       <field column="TaskGuid" columntype="guid" guid="d86589db-e4a5-4185-a948-0a11b37d2b39" publicfield="false" system="true">
         <properties>
           <fieldcaption>GUID</fieldcaption>

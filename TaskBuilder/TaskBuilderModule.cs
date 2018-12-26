@@ -6,7 +6,8 @@ using System.Web.SessionState;
 using CMS;
 using CMS.Core;
 using CMS.DataEngine;
-
+using Newtonsoft.Json;
+using TaskBuilder.Models;
 using TaskBuilder.Services;
 
 [assembly: RegisterModule(typeof(TaskBuilder.TaskBuilder))]
@@ -25,8 +26,21 @@ namespace TaskBuilder
 
             InitializeFunctions();
 
+            TaskInfo.TYPEINFO.Events.Insert.Before += HandleImportTask;
+
             // Map route directly to RouteTable to enable session access
             RouteTable.Routes.MapHttpRoute("taskbuilder", "taskbuilder/{controller}/{action}").RouteHandler = new SessionRouteHandler();
+        }
+
+        private void HandleImportTask(object sender, ObjectEventArgs e)
+        {
+            if (e.Object is TaskInfo task && !string.IsNullOrEmpty(task.TaskGraph))
+            {
+                var taskGraph = JsonConvert.DeserializeObject<DiagramModel>(task.TaskGraph);
+
+                taskGraph.Id = task.TaskGuid;
+                task.TaskGraph = JsonConvert.SerializeObject(taskGraph);
+            }
         }
 
         private void InitializeFunctions()

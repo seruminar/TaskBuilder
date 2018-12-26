@@ -46,13 +46,15 @@
       <field column="FunctionAssembly" columnsize="200" columntype="text" guid="98a58f74-e434-4c16-add5-009b8879b541" publicfield="false" system="true" visible="true">
         <properties>
           <defaultvalue>TaskBuilder</defaultvalue>
-          <fieldcaption>$taskbuilder.function.assembly$</fieldcaption>
+          <fieldcaption>{$taskbuilder.function.assembly$}</fieldcaption>
         </properties>
         <settings>
-          <BaseClassName>TaskBuilder.Functions.Function, TaskBuilder</BaseClassName>
+          <BaseClassAttribute>
+            <![CDATA[TaskBuilder.Attributes.FunctionAttribute, TaskBuilder]]>
+          </BaseClassAttribute>
           <CheckAutoCreation>False</CheckAutoCreation>
           <ClassNameColumnName>FunctionClass</ClassNameColumnName>
-          <controlname>AssemblyClassSelector</controlname>
+          <controlname>AssemblyClassByAttributeSelector</controlname>
           <ShowClasses>True</ShowClasses>
           <ShowEnumerations>False</ShowEnumerations>
           <ShowInterfaces>False</ShowInterfaces>

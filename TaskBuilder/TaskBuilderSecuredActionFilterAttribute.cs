@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
+using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
@@ -22,8 +22,7 @@ namespace TaskBuilder
                     return;
                 }
             }
-
-            actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
+            throw new HttpResponseException(HttpStatusCode.Forbidden);
         }
     }
 }

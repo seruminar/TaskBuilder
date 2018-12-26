@@ -79,7 +79,7 @@ class TaskDiagram extends React.Component {
     DropFunction(e) {
         const functionModel = JSON.parse(e.dataTransfer.getData("functionModel"));
 
-        const nodeFactory = this.engine.getNodeFactory(functionModel.Name);
+        const nodeFactory = this.engine.getNodeFactory(functionModel.name);
 
         const node = nodeFactory.getNewInstance(null, true);
 
