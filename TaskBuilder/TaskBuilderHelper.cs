@@ -19,7 +19,7 @@ namespace TaskBuilder
 
         internal static readonly int CACHE_MINUTES = SettingsKeyInfoProvider.GetIntValue(CACHE_INTERVAL_SETTINGS_KEY, CACHE_INTERVAL_SETTINGS_KEY, 60);
 
-        internal static readonly string TASKBUILDER = nameof(TaskBuilder);
+        public static readonly string TASKBUILDER = nameof(TaskBuilder);
 
         public static readonly string TASKBUILDER_SECURE_TOKEN = "TaskBuilderToken";
         private static readonly RandomNumberGenerator RNG = RandomNumberGenerator.Create();

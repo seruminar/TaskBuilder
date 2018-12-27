@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <cms.permission>
-  <PermissionDisplayInMatrix>False</PermissionDisplayInMatrix>
+  <PermissionDisplayInMatrix>True</PermissionDisplayInMatrix>
   <PermissionDisplayName>Read</PermissionDisplayName>
   <PermissionEditableByGlobalAdmin>False</PermissionEditableByGlobalAdmin>
   <PermissionGUID>8a6ff795-4adc-4942-8356-de33c4d6f515</PermissionGUID>

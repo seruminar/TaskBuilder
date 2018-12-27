@@ -21,6 +21,7 @@ class TaskDiagram extends React.Component {
         graphModel.deSerializeDiagram(JSON.parse(this.props.graph), engine);
         graphModel.setGridSize(10);
         graphModel.setZoomLevel(100);
+        graphModel.setLocked(this.props.graphIsReadOnly);
 
         engine.setDiagramModel(graphModel);
 
@@ -107,7 +108,7 @@ class TaskDiagram extends React.Component {
                     />
                 </div>
                 <div className="task-builder-row">
-                    <FunctionTray functions={this.props.functions} />
+                    <FunctionTray functions={this.props.authorizedFunctions} />
                     <div className="task-builder-diagram-wrapper"
                         onDrop={e => this.DropFunction(e)}
                         onDragOver={e => { e.preventDefault(); }}

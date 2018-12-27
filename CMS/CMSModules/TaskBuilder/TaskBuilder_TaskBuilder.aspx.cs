@@ -1,8 +1,11 @@
 ﻿using System;
-
+using System.Collections.Generic;
+using System.Linq;
 using CMS.Base.Web.UI;
 using CMS.Core;
 using CMS.Helpers;
+using CMS.Membership;
+using CMS.SiteProvider;
 using CMS.UIControls;
 using Newtonsoft.Json;
 using TaskBuilder;
@@ -16,7 +19,7 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
 {
     private readonly IFunctionModelService _functionModelService = Service.Resolve<IFunctionModelService>();
 
-    public string SecureToken => TaskBuilderHelper.GetSecureToken();
+    public string SecureToken { get; } = TaskBuilderHelper.GetSecureToken();
 
     protected void Page_Init()
     {
@@ -35,8 +38,22 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        // Get all available functions from IFunctionModelService
+        // Get all functions from IFunctionModelService
         var functions = _functionModelService.FunctionModels;
+
+        var graphIsReadOnly = false;
+        IEnumerable<BaseFunctionModel> authorizedFunctions = new BaseFunctionModel[] { };
+
+        if (!MembershipContext.AuthenticatedUser.IsAuthorizedPerResource(TaskBuilderHelper.TASKBUILDER, "Modify"))
+        {
+            graphIsReadOnly = true;
+        }
+        else
+        {
+            authorizedFunctions = FunctionInfoProvider
+                                .GetFunctionsForUser(MembershipContext.AuthenticatedUser, SiteContext.CurrentSiteName)
+                                .Select(fi => new BaseFunctionModel(fi.FunctionClass));
+        }
 
         // Get task diagram from database or start with empty one
         var task = EditedObject as TaskInfo;
@@ -51,7 +68,9 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
         var diagramAreaProps = new
         {
             functions,
+            authorizedFunctions,
             graph,
+            graphIsReadOnly,
             secureToken
         };
 

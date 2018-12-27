@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Linq;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.WebHost;
 using System.Web.Routing;
@@ -27,9 +28,27 @@ namespace TaskBuilder
             InitializeFunctions();
 
             TaskInfo.TYPEINFO.Events.Insert.Before += HandleImportTask;
+            FunctionInfo.TYPEINFO.Events.Insert.Before += EnsureUniqueClass;
 
             // Map route directly to RouteTable to enable session access
             RouteTable.Routes.MapHttpRoute("taskbuilder", "taskbuilder/{controller}/{action}").RouteHandler = new SessionRouteHandler();
+        }
+
+        private void EnsureUniqueClass(object sender, ObjectEventArgs e)
+        {
+            if (e.Object is FunctionInfo function)
+            {
+                var existingFunction = FunctionInfoProvider
+                                        .GetFunctions()
+                                        .WhereEquals("FunctionClass", function.FunctionClass)
+                                        .TopN(1)
+                                        .FirstOrDefault();
+
+                if (existingFunction != null)
+                {
+                    throw new InfoObjectException(function, "Function class is already used by another function.");
+                }
+            }
         }
 
         private void HandleImportTask(object sender, ObjectEventArgs e)

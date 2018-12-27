@@ -54,6 +54,12 @@
     <Reference Include="CMS.Helpers">
       <HintPath>..\CMS\Bin\CMS.Helpers.dll</HintPath>
     </Reference>
+    <Reference Include="CMS.Membership">
+      <HintPath>..\CMS\Bin\CMS.Membership.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS.SiteProvider">
+      <HintPath>..\CMS\Bin\CMS.SiteProvider.dll</HintPath>
+    </Reference>
     <Reference Include="JavaScriptEngineSwitcher.ChakraCore, Version=2.4.8.0, Culture=neutral, PublicKeyToken=c608b2a8cc9e4472, processorArchitecture=MSIL">
       <HintPath>..\packages\JavaScriptEngineSwitcher.ChakraCore.2.4.8\lib\net45\JavaScriptEngineSwitcher.ChakraCore.dll</HintPath>
     </Reference>
@@ -114,6 +120,7 @@
     <Compile Include="Attributes\FunctionAttribute.cs" />
     <Compile Include="Functions\FunctionRoleInfo.cs" />
     <Compile Include="Functions\FunctionRoleInfoProvider.cs" />
+    <Compile Include="Models\BaseFunctionModel.cs" />
     <Compile Include="Models\FunctionModel.cs" />
     <Compile Include="Functions\FunctionInfo.cs" />
     <Compile Include="Functions\FunctionInfoProvider.cs" />

@@ -6,11 +6,8 @@ using TaskBuilder.Attributes;
 
 namespace TaskBuilder
 {
-    public class FunctionModel
+    public class FunctionModel : BaseFunctionModel
     {
-        [JsonProperty("name")]
-        public string Name { get; }
-
         [JsonProperty("enter")]
         public string Enter { get; }
 
@@ -23,10 +20,8 @@ namespace TaskBuilder
         [JsonProperty("outputs")]
         public ICollection<string> Outputs { get; } = new List<string>();
 
-        public FunctionModel(Type function)
+        public FunctionModel(Type function) : base(function.FullName)
         {
-            Name = function.FullName;
-
             foreach (var method in function.GetMethods())
             {
                 if (method.GetCustomAttribute<EnterAttribute>() != null)

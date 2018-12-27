@@ -35,12 +35,8 @@
           <fieldcaption>{$general.codename$}</fieldcaption>
         </properties>
         <settings>
-          <AutoCompleteEnableCaching>False</AutoCompleteEnableCaching>
-          <AutoCompleteFirstRowSelected>False</AutoCompleteFirstRowSelected>
-          <AutoCompleteShowOnlyCurrentWordInCompletionListItem>False</AutoCompleteShowOnlyCurrentWordInCompletionListItem>
-          <controlname>TextBoxControl</controlname>
-          <FilterMode>False</FilterMode>
-          <Trim>False</Trim>
+          <controlname>CodeName</controlname>
+          <RequireIdentifier>False</RequireIdentifier>
         </settings>
       </field>
       <field column="FunctionAssembly" columnsize="200" columntype="text" guid="98a58f74-e434-4c16-add5-009b8879b541" publicfield="false" system="true" visible="true">

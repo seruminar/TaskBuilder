@@ -22,17 +22,16 @@ namespace TaskBuilder
         /// </summary>
         public const string OBJECT_TYPE = "taskbuilder.function";
 
-
         /// <summary>
         /// Type information.
         /// </summary>
 #warning "You will need to configure the type info."
+
         public static readonly ObjectTypeInfo TYPEINFO = new ObjectTypeInfo(typeof(FunctionInfoProvider), OBJECT_TYPE, "TaskBuilder.Function", "FunctionID", "FunctionLastModified", "FunctionGuid", "FunctionName", "FunctionDisplayName", null, null, null, null)
         {
             ModuleName = "TaskBuilder",
             TouchCacheDependencies = true,
         };
-
 
         /// <summary>
         /// Function ID.
@@ -50,7 +49,6 @@ namespace TaskBuilder
             }
         }
 
-
         /// <summary>
         /// Function display name.
         /// </summary>
@@ -66,7 +64,6 @@ namespace TaskBuilder
                 SetValue("FunctionDisplayName", value);
             }
         }
-
 
         /// <summary>
         /// Function name.
@@ -84,6 +81,37 @@ namespace TaskBuilder
             }
         }
 
+        /// <summary>
+        /// Function assembly.
+        /// </summary>
+        [DatabaseField]
+        public virtual string FunctionAssembly
+        {
+            get
+            {
+                return ValidationHelper.GetString(GetValue("FunctionAssembly"), "TaskBuilder");
+            }
+            set
+            {
+                SetValue("FunctionAssembly", value);
+            }
+        }
+
+        /// <summary>
+        /// Function class.
+        /// </summary>
+        [DatabaseField]
+        public virtual string FunctionClass
+        {
+            get
+            {
+                return ValidationHelper.GetString(GetValue("FunctionClass"), String.Empty);
+            }
+            set
+            {
+                SetValue("FunctionClass", value, String.Empty);
+            }
+        }
 
         /// <summary>
         /// Function guid.
@@ -101,7 +129,6 @@ namespace TaskBuilder
             }
         }
 
-
         /// <summary>
         /// Function last modified.
         /// </summary>
@@ -118,7 +145,6 @@ namespace TaskBuilder
             }
         }
 
-
         /// <summary>
         /// Deletes the object using appropriate provider.
         /// </summary>
@@ -127,7 +153,6 @@ namespace TaskBuilder
             FunctionInfoProvider.DeleteFunctionInfo(this);
         }
 
-
         /// <summary>
         /// Updates the object using appropriate provider.
         /// </summary>
@@ -135,7 +160,6 @@ namespace TaskBuilder
         {
             FunctionInfoProvider.SetFunctionInfo(this);
         }
-
 
         /// <summary>
         /// Constructor for de-serialization.
@@ -147,7 +171,6 @@ namespace TaskBuilder
         {
         }
 
-
         /// <summary>
         /// Creates an empty instance of the <see cref="FunctionInfo"/> class.
         /// </summary>
@@ -155,7 +178,6 @@ namespace TaskBuilder
             : base(TYPEINFO)
         {
         }
-
 
         /// <summary>
         /// Creates a new instances of the <see cref="FunctionInfo"/> class from the given <see cref="DataRow"/>.
