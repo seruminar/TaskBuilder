@@ -26,10 +26,12 @@
   </ElementParentID>
   <ElementProperties>
     <Data>
-      <DisplayBreadcrumbs>False</DisplayBreadcrumbs>
+      <category_name_Header>False</category_name_Header>
+      <DisplayBreadcrumbs>True</DisplayBreadcrumbs>
       <EditInDialog>False</EditInDialog>
       <ObjectType>taskbuilder.function</ObjectType>
       <OpenInDialog>False</OpenInDialog>
+      <SmartTipText>{$taskbuilder.ui.functions.purpose$}</SmartTipText>
     </Data>
   </ElementProperties>
   <ElementRequiresGlobalAdminPriviligeLevel>False</ElementRequiresGlobalAdminPriviligeLevel>

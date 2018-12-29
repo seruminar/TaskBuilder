@@ -389,6 +389,12 @@ CMS/CMSModules/*
 
 !CMS/CMSModules/TaskBuilder/
 
+# Except "CMSResources/TaskBuilder"
+!CMS/CMSResources/
+CMS/CMSResources/*
+
+!CMS/CMSResources/TaskBuilder/
+
 # Except "CMSScripts/CMSModules/TaskBuilder"
 !CMS/CMSScripts/
 CMS/CMSScripts/*
