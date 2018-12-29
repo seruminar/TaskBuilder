@@ -7,7 +7,11 @@ namespace TaskBuilder.Attributes
               Inherited = true)]
     public class LeaveAttribute : BaseFunctionAttribute
     {
-        public LeaveAttribute()
+        public LeaveAttribute() : base(null)
+        {
+        }
+
+        public LeaveAttribute(string displayName) : base(displayName)
         {
         }
     }

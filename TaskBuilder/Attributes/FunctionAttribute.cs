@@ -7,7 +7,11 @@ namespace TaskBuilder.Attributes
                Inherited = true)]
     public class FunctionAttribute : BaseFunctionAttribute
     {
-        public FunctionAttribute()
+        public FunctionAttribute() : base(null)
+        {
+        }
+
+        public FunctionAttribute(string displayName) : base(displayName)
         {
         }
     }

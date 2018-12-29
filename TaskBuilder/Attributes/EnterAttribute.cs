@@ -7,7 +7,11 @@ namespace TaskBuilder.Attributes
                Inherited = true)]
     public class EnterAttribute : BaseFunctionAttribute
     {
-        public EnterAttribute()
+        public EnterAttribute() : base(null)
+        {
+        }
+
+        public EnterAttribute(string displayName) : base(displayName)
         {
         }
     }

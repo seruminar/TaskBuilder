@@ -4,7 +4,7 @@
 <asp:Content ID="cntContent" ContentPlaceHolderID="plcContent" runat="Server">
     <asp:Panel ID="pnlBody" runat="server">
         <asp:Panel ID="pnlContent" runat="server">
-            <asp:Literal ID="diagramArea" runat="server"></asp:Literal>
+            <asp:Literal ID="diagram" runat="server"></asp:Literal>
             <asp:Literal ID="initScript" runat="server"></asp:Literal>
         </asp:Panel>
     </asp:Panel>

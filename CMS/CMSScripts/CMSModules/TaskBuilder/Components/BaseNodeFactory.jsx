@@ -10,27 +10,35 @@ class BaseNodeFactory extends SRD.AbstractNodeFactory {
     }
 
     generateReactWidget(diagramEngine, node) {
-        return <SRD.DefaultNodeWidget node={node} diagramEngine={diagramEngine} />;
+        return <BaseNodeWidget node={node} diagramEngine={diagramEngine} />;
     }
 
     getNewInstance(node, forcePorts) {
-        let nodeModel = new BaseNodeModel(this.functionModel.name);
+        let nodeModel = new BaseNodeModel(this.functionModel);
 
         if (forcePorts) {
             if (this.functionModel.enter !== null) {
-                nodeModel.addInPort(this.functionModel.enter);
+                const label = this.functionModel.enterDisplayName || this.functionModel.enter;
+                nodeModel.addInPort(label);
             }
 
             if (this.functionModel.inputs.length) {
-                this.functionModel.inputs.map((p) => nodeModel.addInPort(p));
+                this.functionModel.inputs.map((p, i) => {
+                    const label = this.functionModel.inputsDisplayNames[i] || p;
+                    nodeModel.addInPort(label);
+                });
             }
 
             if (this.functionModel.leave !== null) {
-                nodeModel.addOutPort(this.functionModel.leave);
+                const label = this.functionModel.leaveDisplayName || this.functionModel.leave;
+                nodeModel.addOutPort(label);
             }
 
             if (this.functionModel.outputs.length) {
-                this.functionModel.outputs.map((p) => nodeModel.addOutPort(p));
+                this.functionModel.outputs.map((p, i) => {
+                    const label = this.functionModel.outputsDisplayNames[i] || p;
+                    nodeModel.addOutPort(label);
+                });
             }
         }
 

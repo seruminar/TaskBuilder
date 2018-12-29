@@ -2,10 +2,12 @@
 
 class BaseNodeModel extends SRD.NodeModel {
     name;
+    displayName;
 
-    constructor(name) {
-        super(name);
-        this.name = name;
+    constructor(functionModel) {
+        super(functionModel.name);
+        this.name = functionModel.name;
+        this.displayName = functionModel.displayName || functionModel.name;
     }
 
     addInPort(label) {

@@ -14,14 +14,14 @@ class TaskDiagram extends React.Component {
         engine.registerLinkFactory(new BaseLinkFactory("default"));
 
         // Register factories from initialization code
-        this.props.functions.map((f) => engine.registerNodeFactory(new BaseNodeFactory(f)));
+        this.props.allFunctions.map((f) => engine.registerNodeFactory(new BaseNodeFactory(f)));
 
         // Deserialize from database
         const graphModel = new SRD.DiagramModel();
         graphModel.deSerializeDiagram(JSON.parse(this.props.graph), engine);
         graphModel.setGridSize(10);
         graphModel.setZoomLevel(100);
-        graphModel.setLocked(this.props.graphIsReadOnly);
+        graphModel.setLocked(this.props.graphMode === "Readonly");
 
         engine.setDiagramModel(graphModel);
 
@@ -117,7 +117,8 @@ class TaskDiagram extends React.Component {
                         <SRD.DiagramWidget className="task-builder-diagram"
                             ref="diagram"
                             diagramEngine={this.engine}
-                            maxNumberPointsPerLink="0" />
+                            maxNumberPointsPerLink="0"
+                        />
                     </div>
                 </div>
             </div>

@@ -7,7 +7,11 @@ namespace TaskBuilder.Attributes
               Inherited = true)]
     public class OutputAttribute : BaseFunctionAttribute
     {
-        public OutputAttribute()
+        public OutputAttribute() : base(null)
+        {
+        }
+
+        public OutputAttribute(string displayName) : base(displayName)
         {
         }
     }

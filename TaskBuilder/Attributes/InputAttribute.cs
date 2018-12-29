@@ -7,7 +7,11 @@ namespace TaskBuilder.Attributes
                Inherited = true)]
     public class InputAttribute : BaseFunctionAttribute
     {
-        public InputAttribute()
+        public InputAttribute() : base(null)
+        {
+        }
+
+        public InputAttribute(string displayName) : base(displayName)
         {
         }
     }
