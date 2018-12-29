@@ -17,28 +17,6 @@
           <controlname>labelcontrol</controlname>
         </settings>
       </field>
-      <field column="FunctionDisplayName" columnsize="200" columntype="text" guid="596f929b-e504-4ef6-a172-7fdd8072343b" publicfield="false" system="true" visible="true">
-        <properties>
-          <fieldcaption>{$general.displayname$}</fieldcaption>
-        </properties>
-        <settings>
-          <AutoCompleteEnableCaching>False</AutoCompleteEnableCaching>
-          <AutoCompleteFirstRowSelected>False</AutoCompleteFirstRowSelected>
-          <AutoCompleteShowOnlyCurrentWordInCompletionListItem>False</AutoCompleteShowOnlyCurrentWordInCompletionListItem>
-          <controlname>TextBoxControl</controlname>
-          <FilterMode>False</FilterMode>
-          <Trim>False</Trim>
-        </settings>
-      </field>
-      <field column="FunctionName" columnsize="200" columntype="text" guid="c687d5bf-4ba1-4317-a5be-7e86c11f8eca" publicfield="false" system="true" visible="true">
-        <properties>
-          <fieldcaption>{$general.codename$}</fieldcaption>
-        </properties>
-        <settings>
-          <controlname>CodeName</controlname>
-          <RequireIdentifier>False</RequireIdentifier>
-        </settings>
-      </field>
       <field column="FunctionAssembly" columnsize="200" columntype="text" guid="98a58f74-e434-4c16-add5-009b8879b541" publicfield="false" system="true" visible="true">
         <properties>
           <defaultvalue>TaskBuilder</defaultvalue>

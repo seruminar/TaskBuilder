@@ -5,11 +5,12 @@ using System.Runtime.Serialization;
 using CMS;
 using CMS.DataEngine;
 using CMS.Helpers;
-using TaskBuilder;
+
+using TaskBuilder.Functions;
 
 [assembly: RegisterObjectType(typeof(FunctionInfo), FunctionInfo.OBJECT_TYPE)]
 
-namespace TaskBuilder
+namespace TaskBuilder.Functions
 {
     /// <summary>
     /// Data container class for <see cref="FunctionInfo"/>.
@@ -25,9 +26,7 @@ namespace TaskBuilder
         /// <summary>
         /// Type information.
         /// </summary>
-#warning "You will need to configure the type info."
-
-        public static readonly ObjectTypeInfo TYPEINFO = new ObjectTypeInfo(typeof(FunctionInfoProvider), OBJECT_TYPE, "TaskBuilder.Function", "FunctionID", "FunctionLastModified", "FunctionGuid", "FunctionName", "FunctionDisplayName", null, null, null, null)
+        public static readonly ObjectTypeInfo TYPEINFO = new ObjectTypeInfo(typeof(FunctionInfoProvider), OBJECT_TYPE, "TaskBuilder.Function", "FunctionID", "FunctionLastModified", "FunctionGuid", null, "FunctionClass", null, null, null, null)
         {
             ModuleName = "TaskBuilder",
             TouchCacheDependencies = true,
@@ -46,38 +45,6 @@ namespace TaskBuilder
             set
             {
                 SetValue("FunctionID", value);
-            }
-        }
-
-        /// <summary>
-        /// Function display name.
-        /// </summary>
-        [DatabaseField]
-        public virtual string FunctionDisplayName
-        {
-            get
-            {
-                return ValidationHelper.GetString(GetValue("FunctionDisplayName"), String.Empty);
-            }
-            set
-            {
-                SetValue("FunctionDisplayName", value);
-            }
-        }
-
-        /// <summary>
-        /// Function name.
-        /// </summary>
-        [DatabaseField]
-        public virtual string FunctionName
-        {
-            get
-            {
-                return ValidationHelper.GetString(GetValue("FunctionName"), String.Empty);
-            }
-            set
-            {
-                SetValue("FunctionName", value);
             }
         }
 
