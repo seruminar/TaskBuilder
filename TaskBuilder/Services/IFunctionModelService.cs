@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using CMS;
-
+using CMS.Base;
+using CMS.DataEngine;
+using TaskBuilder.Models;
 using TaskBuilder.Services;
 
 [assembly: RegisterImplementation(typeof(IFunctionModelService), typeof(FunctionModelService), Priority = CMS.Core.RegistrationPriority.Fallback)]
@@ -11,10 +12,12 @@ namespace TaskBuilder.Services
 {
     public interface IFunctionModelService
     {
-        IEnumerable<FunctionModel> FunctionModels { get; }
+        IEnumerable<IFunctionModel> AllFunctionModels { get; }
 
-        FunctionModel GetFunctionModel(string functionName);
+        IEnumerable<IFunctionModel> GetAuthorizedFunctionModels(IUserInfo user, SiteInfoIdentifier siteIdentifier);
 
-        HashSet<FunctionModel> RegisterFunctionModels();
+        IFunctionModel GetFunctionModel(string functionName);
+
+        IEnumerable<IFunctionModel> RegisterFunctionModels();
     }
 }

@@ -6,6 +6,13 @@
     <ObjectType>cms.resource</ObjectType>
   </Parent>
   <Bindings>
+    <Binding id="BlankSite">
+      <SiteID>
+        <CodeName>BlankSite</CodeName>
+        <GUID>fc0c6dce-ae90-4dff-b6e0-b250052b1313</GUID>
+        <ObjectType>cms.site</ObjectType>
+      </SiteID>
+    </Binding>
     <Binding id="DancingGoat">
       <SiteID>
         <CodeName>DancingGoat</CodeName>

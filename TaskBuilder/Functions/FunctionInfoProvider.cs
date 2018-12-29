@@ -3,7 +3,7 @@ using CMS.DataEngine;
 using CMS.Membership;
 using CMS.SiteProvider;
 
-namespace TaskBuilder
+namespace TaskBuilder.Functions
 {
     /// <summary>
     /// Class providing <see cref="FunctionInfo"/> management.
@@ -31,9 +31,9 @@ namespace TaskBuilder
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static ObjectQuery<FunctionInfo> GetFunctionsForUser(UserInfo user, SiteInfoIdentifier site)
+        public static ObjectQuery<FunctionInfo> GetFunctionsForUserAndSite(IUserInfo user, SiteInfoIdentifier site)
         {
-            return ProviderObject.GetFunctionsForUserInternal(user, site);
+            return ProviderObject.GetFunctionsForUserAndSiteInternal(user, site);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace TaskBuilder
             DeleteFunctionInfo(infoObj);
         }
 
-        private ObjectQuery<FunctionInfo> GetFunctionsForUserInternal(UserInfo user, SiteInfoIdentifier site)
+        protected virtual ObjectQuery<FunctionInfo> GetFunctionsForUserAndSiteInternal(IUserInfo user, SiteInfoIdentifier site)
         {
             var query = GetFunctions();
 
@@ -101,6 +101,15 @@ namespace TaskBuilder
                             .GetUserRoles()
                             .Column("RoleID")
                             .WhereEquals("UserID", user.UserID)
+                        )
+                        .Column("FunctionID")
+                    )
+                    .And()
+                    .WhereIn("FunctionID",
+                        FunctionSiteInfoProvider.GetFunctionSites()
+                        .WhereEquals("SiteID",
+                            SiteInfoProvider
+                             .GetSiteID(site)
                         )
                         .Column("FunctionID")
                     );

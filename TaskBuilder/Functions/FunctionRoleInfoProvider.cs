@@ -1,10 +1,9 @@
-using System;
 using System.Linq;
 
 using CMS.DataEngine;
 
-namespace TaskBuilder
-{    
+namespace TaskBuilder.Functions
+{
     /// <summary>
     /// Class providing <see cref="FunctionRoleInfo"/> management.
     /// </summary>
@@ -18,20 +17,18 @@ namespace TaskBuilder
             return ProviderObject.GetObjectQuery();
         }
 
-
-		/// <summary>
+        /// <summary>
         /// Returns <see cref="FunctionRoleInfo"/> binding structure.
         /// </summary>
         /// <param name="functionId">ObjectType.taskbuilder_function ID.</param>
-        /// <param name="roleId">Role ID.</param>  
+        /// <param name="roleId">Role ID.</param>
         public static FunctionRoleInfo GetFunctionRoleInfo(int functionId, int roleId)
         {
             return ProviderObject.GetObjectQuery().TopN(1)
                 .WhereEquals("FunctionID", functionId)
                 .WhereEquals("RoleID", roleId)
-				.FirstOrDefault();
+                .FirstOrDefault();
         }
-
 
         /// <summary>
         /// Sets specified <see cref="FunctionRoleInfo"/>.
@@ -42,7 +39,6 @@ namespace TaskBuilder
             ProviderObject.SetInfo(infoObj);
         }
 
-
         /// <summary>
         /// Deletes specified <see cref="FunctionRoleInfo"/> binding.
         /// </summary>
@@ -52,33 +48,33 @@ namespace TaskBuilder
             ProviderObject.DeleteInfo(infoObj);
         }
 
-
         /// <summary>
         /// Deletes <see cref="FunctionRoleInfo"/> binding.
         /// </summary>
         /// <param name="functionId">ObjectType.taskbuilder_function ID.</param>
-        /// <param name="roleId">Role ID.</param>  
+        /// <param name="roleId">Role ID.</param>
         public static void RemoveFunctionFromRole(int functionId, int roleId)
         {
             var infoObj = GetFunctionRoleInfo(functionId, roleId);
-			if (infoObj != null) 
-			{
-				DeleteFunctionRoleInfo(infoObj);
-			}
+            if (infoObj != null)
+            {
+                DeleteFunctionRoleInfo(infoObj);
+            }
         }
-
 
         /// <summary>
         /// Creates <see cref="FunctionRoleInfo"/> binding.
         /// </summary>
         /// <param name="functionId">ObjectType.taskbuilder_function ID.</param>
-        /// <param name="roleId">Role ID.</param>   
+        /// <param name="roleId">Role ID.</param>
         public static void AddFunctionToRole(int functionId, int roleId)
         {
             // Create new binding
-            var infoObj = new FunctionRoleInfo();
-            infoObj.FunctionID = functionId;
-			infoObj.RoleID = roleId;
+            var infoObj = new FunctionRoleInfo
+            {
+                FunctionID = functionId,
+                RoleID = roleId
+            };
 
             // Save to the database
             SetFunctionRoleInfo(infoObj);

@@ -26,11 +26,19 @@
   </ElementParentID>
   <ElementProperties>
     <Data>
-      <category_name_Breadcrumbs>False</category_name_Breadcrumbs>
+      <AllowAll>True</AllowAll>
+      <AllowGlobal>False</AllowGlobal>
       <DisplayBreadcrumbs>True</DisplayBreadcrumbs>
       <EditInDialog>False</EditInDialog>
       <ObjectType>taskbuilder.task</ObjectType>
       <OpenInDialog>False</OpenInDialog>
+      <SelectorType>Classic</SelectorType>
+      <WhereCondition>
+<![CDATA[
+{% System.FormatId(UIContext.SiteID, " TaskID IN (SELECT TaskID FROM TaskBuilder_TaskSite WHERE SiteID={0})", " 1=1") |(identity)GlobalAdministrator|(hash)53061a46714e8b4bf92b88d681585856df402d5106e972de1e1e927220e3180f%}
+	
+]]>
+      </WhereCondition>
     </Data>
   </ElementProperties>
   <ElementRequiresGlobalAdminPriviligeLevel>False</ElementRequiresGlobalAdminPriviligeLevel>

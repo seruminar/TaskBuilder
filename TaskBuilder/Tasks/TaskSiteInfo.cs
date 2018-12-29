@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Runtime.Serialization;
@@ -6,83 +6,82 @@ using System.Runtime.Serialization;
 using CMS;
 using CMS.DataEngine;
 using CMS.Helpers;
+using TaskBuilder.Tasks;
 
-using TaskBuilder.Functions;
+[assembly: RegisterObjectType(typeof(TaskSiteInfo), TaskSiteInfo.OBJECT_TYPE)]
 
-[assembly: RegisterObjectType(typeof(FunctionRoleInfo), FunctionRoleInfo.OBJECT_TYPE)]
-
-namespace TaskBuilder.Functions
+namespace TaskBuilder.Tasks
 {
     /// <summary>
-    /// Data container class for <see cref="FunctionRoleInfo"/>.
+    /// Data container class for <see cref="TaskSiteInfo"/>.
     /// </summary>
     [Serializable]
-    public partial class FunctionRoleInfo : AbstractInfo<FunctionRoleInfo>
+    public partial class TaskSiteInfo : AbstractInfo<TaskSiteInfo>
     {
         /// <summary>
         /// Object type.
         /// </summary>
-        public const string OBJECT_TYPE = "taskbuilder.functionrole";
+        public const string OBJECT_TYPE = "taskbuilder.tasksite";
 
         /// <summary>
         /// Type information.
         /// </summary>
-        public static readonly ObjectTypeInfo TYPEINFO = new ObjectTypeInfo(typeof(FunctionRoleInfoProvider), OBJECT_TYPE, "TaskBuilder.FunctionRole", "FunctionRoleID", null, null, null, null, null, null, "FunctionID", "taskbuilder.function")
+        public static readonly ObjectTypeInfo TYPEINFO = new ObjectTypeInfo(typeof(TaskSiteInfoProvider), OBJECT_TYPE, "TaskBuilder.TaskSite", "TaskSiteID", null, null, null, null, null, "SiteID", "TaskID", "taskbuilder.task")
         {
             ModuleName = "TaskBuilder",
             TouchCacheDependencies = true,
             DependsOn = new List<ObjectDependency>()
             {
-                new ObjectDependency("RoleID", PredefinedObjectType.ROLE, ObjectDependencyEnum.Binding),
+                new ObjectDependency("SiteID", PredefinedObjectType.SITE, ObjectDependencyEnum.Binding),
             },
             IsBinding = true
         };
 
         /// <summary>
-        /// Function role ID
+        /// Task site ID
         /// </summary>
 		[DatabaseField]
-        public virtual int FunctionRoleID
+        public virtual int TaskSiteID
         {
             get
             {
-                return ValidationHelper.GetInteger(GetValue("FunctionRoleID"), 0);
+                return ValidationHelper.GetInteger(GetValue("TaskSiteID"), 0);
             }
             set
             {
-                SetValue("FunctionRoleID", value);
+                SetValue("TaskSiteID", value);
             }
         }
 
         /// <summary>
-        /// Function ID
+        /// Task ID
         /// </summary>
 		[DatabaseField]
-        public virtual int FunctionID
+        public virtual int TaskID
         {
             get
             {
-                return ValidationHelper.GetInteger(GetValue("FunctionID"), 0);
+                return ValidationHelper.GetInteger(GetValue("TaskID"), 0);
             }
             set
             {
-                SetValue("FunctionID", value);
+                SetValue("TaskID", value);
             }
         }
 
         /// <summary>
-        /// Role ID
+        /// Site ID
         /// </summary>
 		[DatabaseField]
-        public virtual int RoleID
+        public virtual int SiteID
         {
             get
             {
-                return ValidationHelper.GetInteger(GetValue("RoleID"), 0);
+                return ValidationHelper.GetInteger(GetValue("SiteID"), 0);
             }
             set
             {
-                SetValue("RoleID", value);
+                SetValue("SiteID", value);
             }
         }
 
@@ -91,7 +90,7 @@ namespace TaskBuilder.Functions
         /// </summary>
         protected override void DeleteObject()
         {
-            FunctionRoleInfoProvider.DeleteFunctionRoleInfo(this);
+            TaskSiteInfoProvider.DeleteTaskSiteInfo(this);
         }
 
         /// <summary>
@@ -99,7 +98,7 @@ namespace TaskBuilder.Functions
         /// </summary>
         protected override void SetObject()
         {
-            FunctionRoleInfoProvider.SetFunctionRoleInfo(this);
+            TaskSiteInfoProvider.SetTaskSiteInfo(this);
         }
 
         /// <summary>
@@ -107,24 +106,24 @@ namespace TaskBuilder.Functions
         /// </summary>
         /// <param name="info">Serialization info.</param>
         /// <param name="context">Streaming context.</param>
-        protected FunctionRoleInfo(SerializationInfo info, StreamingContext context)
+        protected TaskSiteInfo(SerializationInfo info, StreamingContext context)
             : base(info, context, TYPEINFO)
         {
         }
 
         /// <summary>
-        /// Creates an empty instance of the <see cref="FunctionRoleInfo"/> class.
+        /// Creates an empty instance of the <see cref="TaskSiteInfo"/> class.
         /// </summary>
-        public FunctionRoleInfo()
+        public TaskSiteInfo()
             : base(TYPEINFO)
         {
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="FunctionRoleInfo"/> class from the given <see cref="DataRow"/>.
+        /// Creates a new instance of the <see cref="TaskSiteInfo"/> class from the given <see cref="DataRow"/>.
         /// </summary>
         /// <param name="dr">DataRow with the object data.</param>
-        public FunctionRoleInfo(DataRow dr)
+        public TaskSiteInfo(DataRow dr)
             : base(TYPEINFO, dr)
         {
         }

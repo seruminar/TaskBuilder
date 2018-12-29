@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Runtime.Serialization;
@@ -9,48 +9,48 @@ using CMS.Helpers;
 
 using TaskBuilder.Functions;
 
-[assembly: RegisterObjectType(typeof(FunctionRoleInfo), FunctionRoleInfo.OBJECT_TYPE)]
+[assembly: RegisterObjectType(typeof(FunctionSiteInfo), FunctionSiteInfo.OBJECT_TYPE)]
 
 namespace TaskBuilder.Functions
 {
     /// <summary>
-    /// Data container class for <see cref="FunctionRoleInfo"/>.
+    /// Data container class for <see cref="FunctionSiteInfo"/>.
     /// </summary>
     [Serializable]
-    public partial class FunctionRoleInfo : AbstractInfo<FunctionRoleInfo>
+    public partial class FunctionSiteInfo : AbstractInfo<FunctionSiteInfo>
     {
         /// <summary>
         /// Object type.
         /// </summary>
-        public const string OBJECT_TYPE = "taskbuilder.functionrole";
+        public const string OBJECT_TYPE = "taskbuilder.functionsite";
 
         /// <summary>
         /// Type information.
         /// </summary>
-        public static readonly ObjectTypeInfo TYPEINFO = new ObjectTypeInfo(typeof(FunctionRoleInfoProvider), OBJECT_TYPE, "TaskBuilder.FunctionRole", "FunctionRoleID", null, null, null, null, null, null, "FunctionID", "taskbuilder.function")
+        public static readonly ObjectTypeInfo TYPEINFO = new ObjectTypeInfo(typeof(FunctionSiteInfoProvider), OBJECT_TYPE, "TaskBuilder.FunctionSite", "FunctionSiteID", null, null, null, null, null, "SiteID", "FunctionID", "taskbuilder.function")
         {
             ModuleName = "TaskBuilder",
             TouchCacheDependencies = true,
             DependsOn = new List<ObjectDependency>()
             {
-                new ObjectDependency("RoleID", PredefinedObjectType.ROLE, ObjectDependencyEnum.Binding),
+                new ObjectDependency("SiteID", PredefinedObjectType.SITE, ObjectDependencyEnum.Binding),
             },
             IsBinding = true
         };
 
         /// <summary>
-        /// Function role ID
+        /// Function site ID
         /// </summary>
 		[DatabaseField]
-        public virtual int FunctionRoleID
+        public virtual int FunctionSiteID
         {
             get
             {
-                return ValidationHelper.GetInteger(GetValue("FunctionRoleID"), 0);
+                return ValidationHelper.GetInteger(GetValue("FunctionSiteID"), 0);
             }
             set
             {
-                SetValue("FunctionRoleID", value);
+                SetValue("FunctionSiteID", value);
             }
         }
 
@@ -71,18 +71,18 @@ namespace TaskBuilder.Functions
         }
 
         /// <summary>
-        /// Role ID
+        /// Site ID
         /// </summary>
 		[DatabaseField]
-        public virtual int RoleID
+        public virtual int SiteID
         {
             get
             {
-                return ValidationHelper.GetInteger(GetValue("RoleID"), 0);
+                return ValidationHelper.GetInteger(GetValue("SiteID"), 0);
             }
             set
             {
-                SetValue("RoleID", value);
+                SetValue("SiteID", value);
             }
         }
 
@@ -91,7 +91,7 @@ namespace TaskBuilder.Functions
         /// </summary>
         protected override void DeleteObject()
         {
-            FunctionRoleInfoProvider.DeleteFunctionRoleInfo(this);
+            FunctionSiteInfoProvider.DeleteFunctionSiteInfo(this);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace TaskBuilder.Functions
         /// </summary>
         protected override void SetObject()
         {
-            FunctionRoleInfoProvider.SetFunctionRoleInfo(this);
+            FunctionSiteInfoProvider.SetFunctionSiteInfo(this);
         }
 
         /// <summary>
@@ -107,24 +107,24 @@ namespace TaskBuilder.Functions
         /// </summary>
         /// <param name="info">Serialization info.</param>
         /// <param name="context">Streaming context.</param>
-        protected FunctionRoleInfo(SerializationInfo info, StreamingContext context)
+        protected FunctionSiteInfo(SerializationInfo info, StreamingContext context)
             : base(info, context, TYPEINFO)
         {
         }
 
         /// <summary>
-        /// Creates an empty instance of the <see cref="FunctionRoleInfo"/> class.
+        /// Creates an empty instance of the <see cref="FunctionSiteInfo"/> class.
         /// </summary>
-        public FunctionRoleInfo()
+        public FunctionSiteInfo()
             : base(TYPEINFO)
         {
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="FunctionRoleInfo"/> class from the given <see cref="DataRow"/>.
+        /// Creates a new instance of the <see cref="FunctionSiteInfo"/> class from the given <see cref="DataRow"/>.
         /// </summary>
         /// <param name="dr">DataRow with the object data.</param>
-        public FunctionRoleInfo(DataRow dr)
+        public FunctionSiteInfo(DataRow dr)
             : base(TYPEINFO, dr)
         {
         }

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.class>
+  <ClassCodeGenerationSettings>
+    <Data>
+      <NameSpace>TaskBuilder.Functions</NameSpace>
+      <ObjectType>taskbuilder.functionsite</ObjectType>
+      <SiteIDColumn>FunctionSiteID</SiteIDColumn>
+      <UseGuidHashtable>False</UseGuidHashtable>
+      <UseIdHashtable>False</UseIdHashtable>
+      <UseNameHashtable>False</UseNameHashtable>
+    </Data>
+  </ClassCodeGenerationSettings>
+  <ClassDisplayName>FunctionSite</ClassDisplayName>
+  <ClassFormDefinition>
+    <form version="2">
+      <field column="FunctionSiteID" columntype="integer" guid="dce2f88e-bf91-4490-aae6-e053ec22bfc1" isPK="true" isunique="true" publicfield="false" system="true">
+        <properties>
+          <fieldcaption>FunctionSiteID</fieldcaption>
+        </properties>
+        <settings>
+          <controlname>labelcontrol</controlname>
+        </settings>
+      </field>
+      <field column="FunctionID" columntype="integer" guid="f51d459c-b2d3-4784-9f28-b7279753ce4d" publicfield="false" refobjtype="taskbuilder.function" reftype="Binding" system="true" />
+      <field column="SiteID" columntype="integer" guid="a0374ec8-e436-43ff-9f86-530355bf3609" publicfield="false" refobjtype="cms.site" reftype="Binding" system="true" />
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>c9cc2d85-94aa-459b-a403-f830102870db</ClassGUID>
+  <ClassIsContentOnly>False</ClassIsContentOnly>
+  <ClassIsCoupledClass>True</ClassIsCoupledClass>
+  <ClassIsCustomTable>False</ClassIsCustomTable>
+  <ClassIsDocumentType>False</ClassIsDocumentType>
+  <ClassIsForm>False</ClassIsForm>
+  <ClassIsMenuItemType>False</ClassIsMenuItemType>
+  <ClassIsProduct>False</ClassIsProduct>
+  <ClassName>TaskBuilder.FunctionSite</ClassName>
+  <ClassNodeNameSource />
+  <ClassResourceID>
+    <CodeName>TaskBuilder</CodeName>
+    <GUID>4169ad8c-ab98-489e-ab44-f0cb720ddb4f</GUID>
+    <ObjectType>cms.resource</ObjectType>
+  </ClassResourceID>
+  <ClassSearchSettings>
+    <search />
+  </ClassSearchSettings>
+  <ClassShowAsSystemTable>False</ClassShowAsSystemTable>
+  <ClassShowTemplateSelection>False</ClassShowTemplateSelection>
+  <ClassTableName>TaskBuilder_FunctionSite</ClassTableName>
+  <ClassUsePublishFromTo>False</ClassUsePublishFromTo>
+  <ClassUsesVersioning>False</ClassUsesVersioning>
+</cms.class>

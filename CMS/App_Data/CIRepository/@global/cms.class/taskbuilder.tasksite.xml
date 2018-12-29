@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.class>
+  <ClassCodeGenerationSettings>
+    <Data>
+      <NameSpace>TaskBuilder.Tasks</NameSpace>
+      <ObjectType>taskbuilder.tasksite</ObjectType>
+      <SiteIDColumn>TaskSiteID</SiteIDColumn>
+      <UseGuidHashtable>False</UseGuidHashtable>
+      <UseIdHashtable>False</UseIdHashtable>
+      <UseNameHashtable>False</UseNameHashtable>
+    </Data>
+  </ClassCodeGenerationSettings>
+  <ClassDisplayName>TaskSite</ClassDisplayName>
+  <ClassFormDefinition>
+    <form version="2">
+      <field column="TaskSiteID" columntype="integer" guid="b5e88586-87ec-409a-a948-e61fcbd4c773" isPK="true" publicfield="false">
+        <properties>
+          <fieldcaption>TaskSiteID</fieldcaption>
+        </properties>
+        <settings>
+          <controlname>labelcontrol</controlname>
+        </settings>
+      </field>
+      <field column="TaskID" columntype="integer" guid="2a4f47fc-1d14-406d-9767-5b29795a0fea" publicfield="false" refobjtype="taskbuilder.task" reftype="Binding" system="true" />
+      <field column="SiteID" columntype="integer" guid="8f983bd5-3005-487d-8e8a-9eb6a0b851e9" publicfield="false" refobjtype="cms.site" reftype="Binding" system="true" />
+    </form>
+  </ClassFormDefinition>
+  <ClassGUID>db68dfce-b70c-4f4d-accb-4e1e803c82f7</ClassGUID>
+  <ClassIsContentOnly>False</ClassIsContentOnly>
+  <ClassIsCoupledClass>True</ClassIsCoupledClass>
+  <ClassIsCustomTable>False</ClassIsCustomTable>
+  <ClassIsDocumentType>False</ClassIsDocumentType>
+  <ClassIsForm>False</ClassIsForm>
+  <ClassIsMenuItemType>False</ClassIsMenuItemType>
+  <ClassIsProduct>False</ClassIsProduct>
+  <ClassName>TaskBuilder.TaskSite</ClassName>
+  <ClassNodeNameSource />
+  <ClassResourceID>
+    <CodeName>TaskBuilder</CodeName>
+    <GUID>4169ad8c-ab98-489e-ab44-f0cb720ddb4f</GUID>
+    <ObjectType>cms.resource</ObjectType>
+  </ClassResourceID>
+  <ClassSearchSettings>
+    <search />
+  </ClassSearchSettings>
+  <ClassShowAsSystemTable>False</ClassShowAsSystemTable>
+  <ClassShowTemplateSelection>False</ClassShowTemplateSelection>
+  <ClassTableName>TaskBuilder_TaskSite</ClassTableName>
+  <ClassUsePublishFromTo>False</ClassUsePublishFromTo>
+  <ClassUsesVersioning>False</ClassUsesVersioning>
+</cms.class>
