@@ -4,12 +4,20 @@ using System.Web.Http;
 using System.Web.Http.WebHost;
 using System.Web.Routing;
 using System.Web.SessionState;
+
 using CMS;
 using CMS.Core;
 using CMS.DataEngine;
+using CMS.Helpers;
+
 using Newtonsoft.Json;
+
+using TaskBuilder.Functions;
 using TaskBuilder.Models;
 using TaskBuilder.Services;
+using TaskBuilder.Tasks;
+
+using RequestContext = System.Web.Routing.RequestContext;
 
 [assembly: RegisterModule(typeof(TaskBuilder.TaskBuilder))]
 
@@ -36,7 +44,8 @@ namespace TaskBuilder
 
         private void EnsureUniqueClass(object sender, ObjectEventArgs e)
         {
-            if (e.Object is FunctionInfo function)
+            var function = e.Object as FunctionInfo;
+            if (function != null)
             {
                 var existingFunction = FunctionInfoProvider
                                         .GetFunctions()
@@ -46,14 +55,16 @@ namespace TaskBuilder
 
                 if (existingFunction != null)
                 {
-                    throw new InfoObjectException(function, "Function class is already used by another function.");
+                    throw new InfoObjectException(function, ResHelper.GetString("taskbuilder.validation.functionalreadyexists"));
                 }
             }
         }
 
         private void HandleImportTask(object sender, ObjectEventArgs e)
         {
-            if (e.Object is TaskInfo task && !string.IsNullOrEmpty(task.TaskGraph))
+            var task = e.Object as TaskInfo;
+
+            if (task != null && !string.IsNullOrEmpty(task.TaskGraph))
             {
                 var taskGraph = JsonConvert.DeserializeObject<DiagramModel>(task.TaskGraph);
 

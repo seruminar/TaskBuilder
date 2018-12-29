@@ -5,11 +5,12 @@ using System.Runtime.Serialization;
 using CMS;
 using CMS.DataEngine;
 using CMS.Helpers;
-using TaskBuilder;
+
+using TaskBuilder.Tasks;
 
 [assembly: RegisterObjectType(typeof(TaskInfo), TaskInfo.OBJECT_TYPE)]
-    
-namespace TaskBuilder
+
+namespace TaskBuilder.Tasks
 {
     /// <summary>
     /// Data container class for <see cref="TaskInfo"/>.
@@ -22,22 +23,19 @@ namespace TaskBuilder
         /// </summary>
         public const string OBJECT_TYPE = "taskbuilder.task";
 
-
         /// <summary>
         /// Type information.
         /// </summary>
-#warning "You will need to configure the type info."
         public static readonly ObjectTypeInfo TYPEINFO = new ObjectTypeInfo(typeof(TaskInfoProvider), OBJECT_TYPE, "TaskBuilder.Task", "TaskID", "TaskLastModified", "TaskGuid", "TaskName", "TaskDisplayName", null, null, null, null)
         {
-			ModuleName = "TaskBuilder",
-			TouchCacheDependencies = true,
+            ModuleName = "TaskBuilder",
+            TouchCacheDependencies = true,
         };
 
-
-		/// <summary>
+        /// <summary>
         /// Task ID.
         /// </summary>
-		[DatabaseField]
+        [DatabaseField]
         public virtual int TaskID
         {
             get
@@ -50,11 +48,10 @@ namespace TaskBuilder
             }
         }
 
-
-		/// <summary>
+        /// <summary>
         /// Task display name.
         /// </summary>
-		[DatabaseField]
+        [DatabaseField]
         public virtual string TaskDisplayName
         {
             get
@@ -67,11 +64,10 @@ namespace TaskBuilder
             }
         }
 
-
-		/// <summary>
+        /// <summary>
         /// Task name.
         /// </summary>
-		[DatabaseField]
+        [DatabaseField]
         public virtual string TaskName
         {
             get
@@ -84,11 +80,10 @@ namespace TaskBuilder
             }
         }
 
-
-		/// <summary>
+        /// <summary>
         /// Task graph.
         /// </summary>
-		[DatabaseField]
+        [DatabaseField]
         public virtual string TaskGraph
         {
             get
@@ -101,11 +96,10 @@ namespace TaskBuilder
             }
         }
 
-
-		/// <summary>
+        /// <summary>
         /// Task guid.
         /// </summary>
-		[DatabaseField]
+        [DatabaseField]
         public virtual Guid TaskGuid
         {
             get
@@ -118,11 +112,10 @@ namespace TaskBuilder
             }
         }
 
-
-		/// <summary>
+        /// <summary>
         /// Task last modified.
         /// </summary>
-		[DatabaseField]
+        [DatabaseField]
         public virtual DateTime TaskLastModified
         {
             get
@@ -135,7 +128,6 @@ namespace TaskBuilder
             }
         }
 
-
         /// <summary>
         /// Deletes the object using appropriate provider.
         /// </summary>
@@ -144,7 +136,6 @@ namespace TaskBuilder
             TaskInfoProvider.DeleteTaskInfo(this);
         }
 
-
         /// <summary>
         /// Updates the object using appropriate provider.
         /// </summary>
@@ -152,7 +143,6 @@ namespace TaskBuilder
         {
             TaskInfoProvider.SetTaskInfo(this);
         }
-
 
         /// <summary>
         /// Constructor for de-serialization.
@@ -164,7 +154,6 @@ namespace TaskBuilder
         {
         }
 
-
         /// <summary>
         /// Creates an empty instance of the <see cref="TaskInfo"/> class.
         /// </summary>
@@ -172,7 +161,6 @@ namespace TaskBuilder
             : base(TYPEINFO)
         {
         }
-
 
         /// <summary>
         /// Creates a new instances of the <see cref="TaskInfo"/> class from the given <see cref="DataRow"/>.

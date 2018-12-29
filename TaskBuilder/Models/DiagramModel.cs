@@ -1,10 +1,10 @@
-﻿namespace TaskBuilder.Models
+﻿using System;
+using System.Collections.Generic;
+
+using Newtonsoft.Json;
+
+namespace TaskBuilder.Models
 {
-    using System;
-    using System.Collections.Generic;
-
-    using Newtonsoft.Json;
-
     public class DiagramModel
     {
         public DiagramModel(Guid taskGuid)

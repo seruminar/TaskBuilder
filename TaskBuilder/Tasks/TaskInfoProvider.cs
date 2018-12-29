@@ -3,7 +3,7 @@ using CMS.DataEngine;
 using Newtonsoft.Json;
 using TaskBuilder.Models;
 
-namespace TaskBuilder
+namespace TaskBuilder.Tasks
 {
     /// <summary>
     /// Class providing <see cref="TaskInfo"/> management.

@@ -1,13 +1,6 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using System.Web.Caching;
+﻿using CMS.Base;
 
-using CMS.Base;
-using CMS.Helpers;
-
-using TaskBuilder.Services;
-
-namespace TaskBuilder
+namespace TaskBuilder.Services
 {
     internal class FunctionInitializer : AbstractWorker
     {
@@ -20,13 +13,7 @@ namespace TaskBuilder
 
         public override void Run()
         {
-            CacheHelper.Add(
-                    TaskBuilderHelper.CACHE_REGISTER_KEY,
-                    _functionModelService.RegisterFunctionModels(),
-                    null,
-                    Cache.NoAbsoluteExpiration,
-                    TimeSpan.FromMinutes(TaskBuilderHelper.CACHE_MINUTES)
-                );
+            _functionModelService.RegisterFunctionModels();
         }
     }
 }

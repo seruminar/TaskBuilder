@@ -22,7 +22,7 @@ namespace TaskBuilder.Functions
         }
 
         // This must be linked as a reactive parameter
-        [Input]
+        [Input("Description")]
         public Func<string> TargetInParameter { get; set; }
     }
 }

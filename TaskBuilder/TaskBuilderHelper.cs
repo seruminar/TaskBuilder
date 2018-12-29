@@ -47,7 +47,8 @@ namespace TaskBuilder
 
         public static string GetSecureToken()
         {
-            if (!(SessionHelper.GetValue(TASKBUILDER_SECURE_TOKEN) is string token))
+            var token = SessionHelper.GetValue(TASKBUILDER_SECURE_TOKEN) as string;
+            if (token == null)
             {
                 var key = new byte[256];
                 RNG.GetBytes(key);

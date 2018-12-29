@@ -13,7 +13,9 @@ namespace TaskBuilder
     {
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            if (actionContext.Request.Headers.TryGetValues("X-TB-Token", out IEnumerable<string> values))
+            IEnumerable<string> values;
+
+            if (actionContext.Request.Headers.TryGetValues("X-TB-Token", out values))
             {
                 var secureToken = SessionHelper.GetValue(TaskBuilderHelper.TASKBUILDER_SECURE_TOKEN) as string;
 

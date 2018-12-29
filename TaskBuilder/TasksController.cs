@@ -8,6 +8,7 @@ using CMS.Base;
 using CMS.EventLog;
 
 using TaskBuilder.Models;
+using TaskBuilder.Tasks;
 
 namespace TaskBuilder
 {
@@ -71,10 +72,15 @@ namespace TaskBuilder
 
             foreach (var link in diagram.Links)
             {
-                typeObjects.TryGetValue(link.Source, out Tuple<Type, object> source);
-                typeObjects.TryGetValue(link.Target, out Tuple<Type, object> target);
-                ports.TryGetValue(link.SourcePort, out Port sourcePort);
-                ports.TryGetValue(link.TargetPort, out Port targetPort);
+                Tuple<Type, object> source;
+                Tuple<Type, object> target;
+                Port sourcePort;
+                Port targetPort;
+
+                typeObjects.TryGetValue(link.Source, out source);
+                typeObjects.TryGetValue(link.Target, out target);
+                ports.TryGetValue(link.SourcePort, out sourcePort);
+                ports.TryGetValue(link.TargetPort, out targetPort);
 
                 switch (link.Type)
                 {
