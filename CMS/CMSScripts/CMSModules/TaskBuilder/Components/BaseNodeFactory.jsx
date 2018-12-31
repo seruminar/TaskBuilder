@@ -1,6 +1,6 @@
 ﻿const SRD = window["storm-react-diagrams"];
 
-class BaseNodeFactory extends SRD.AbstractNodeFactory {
+class BaseNodeFactory extends SRD.AbstractNodeFactory<BaseNodeModel> {
     functionModel;
 
     constructor(functionModel) {
@@ -9,7 +9,7 @@ class BaseNodeFactory extends SRD.AbstractNodeFactory {
         this.functionModel = functionModel;
     }
 
-    generateReactWidget(diagramEngine, node) {
+    generateReactWidget(diagramEngine: SRD.DiagramEngine, node: BaseNodeModel) {
         return <BaseNodeWidget node={node} diagramEngine={diagramEngine} />;
     }
 
@@ -18,26 +18,22 @@ class BaseNodeFactory extends SRD.AbstractNodeFactory {
 
         if (forcePorts) {
             if (this.functionModel.enter !== null) {
-                const label = this.functionModel.enterDisplayName || this.functionModel.enter;
-                nodeModel.addInPort(label);
+                nodeModel.addInPort(this.functionModel.enter);
             }
 
             if (this.functionModel.inputs.length) {
-                this.functionModel.inputs.map((p, i) => {
-                    const label = this.functionModel.inputsDisplayNames[i] || p;
-                    nodeModel.addInPort(label);
+                this.functionModel.inputs.map((p) => {
+                    nodeModel.addInPort(p);
                 });
             }
 
             if (this.functionModel.leave !== null) {
-                const label = this.functionModel.leaveDisplayName || this.functionModel.leave;
-                nodeModel.addOutPort(label);
+                nodeModel.addOutPort(this.functionModel.leave);
             }
 
             if (this.functionModel.outputs.length) {
-                this.functionModel.outputs.map((p, i) => {
-                    const label = this.functionModel.outputsDisplayNames[i] || p;
-                    nodeModel.addOutPort(label);
+                this.functionModel.outputs.map((p) => {
+                    nodeModel.addOutPort(p);
                 });
             }
         }

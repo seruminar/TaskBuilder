@@ -26,10 +26,9 @@
   </ElementParentID>
   <ElementProperties>
     <Data>
-      <category_name_Breadcrumbs>False</category_name_Breadcrumbs>
       <DefaultFieldLayout>twocolumns</DefaultFieldLayout>
       <DefaultFormLayout>Divs</DefaultFormLayout>
-      <DisplayBreadcrumbs>True</DisplayBreadcrumbs>
+      <DisplayBreadcrumbs>False</DisplayBreadcrumbs>
     </Data>
   </ElementProperties>
   <ElementRequiresGlobalAdminPriviligeLevel>False</ElementRequiresGlobalAdminPriviligeLevel>

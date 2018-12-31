@@ -12,12 +12,12 @@ namespace TaskBuilder.Services
 {
     public interface IFunctionModelService
     {
-        IEnumerable<IFunctionModel> AllFunctionModels { get; }
+        IEnumerable<ITypedModel> AllFunctionModels { get; }
 
-        IEnumerable<IFunctionModel> GetAuthorizedFunctionModels(IUserInfo user, SiteInfoIdentifier siteIdentifier);
+        IEnumerable<ITypedModel> GetAuthorizedFunctionModels(IUserInfo user, SiteInfoIdentifier siteIdentifier);
 
-        IFunctionModel GetFunctionModel(string functionName);
+        ITypedModel GetFunctionModel(string functionName);
 
-        IEnumerable<IFunctionModel> RegisterFunctionModels();
+        IEnumerable<ITypedModel> RegisterFunctionModels();
     }
 }

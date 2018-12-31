@@ -122,8 +122,14 @@
     <Compile Include="Functions\FunctionRoleInfoProvider.cs" />
     <Compile Include="Functions\FunctionSiteInfo.cs" />
     <Compile Include="Functions\FunctionSiteInfoProvider.cs" />
-    <Compile Include="Models\BaseFunctionModel.cs" />
-    <Compile Include="Models\FunctionModel.cs" />
+    <Compile Include="Models\TypedModel.cs" />
+    <Compile Include="Models\Diagram\Point.cs" />
+    <Compile Include="Models\Diagram\Extras.cs" />
+    <Compile Include="Models\Diagram\Port.cs" />
+    <Compile Include="Models\Diagram\Node.cs" />
+    <Compile Include="Models\Diagram\Link.cs" />
+    <Compile Include="Models\Function\PortModel.cs" />
+    <Compile Include="Models\Function\FunctionModel.cs" />
     <Compile Include="Functions\FunctionInfo.cs" />
     <Compile Include="Functions\FunctionInfoProvider.cs" />
     <Compile Include="Functions\Types\EventLogFunction.cs" />
@@ -133,10 +139,11 @@
     <Compile Include="Attributes\OutputAttribute.cs" />
     <Compile Include="Attributes\LeaveAttribute.cs" />
     <Compile Include="Functions\Types\StartFunction.cs" />
-    <Compile Include="Models\DiagramModel.cs" />
-    <Compile Include="Models\IFunctionModel.cs" />
+    <Compile Include="Models\Diagram\DiagramModel.cs" />
+    <Compile Include="Models\ITypedModel.cs" />
+    <Compile Include="Attributes\MissingAttributeException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\FunctionModelComparer.cs" />
+    <Compile Include="Models\Function\FunctionModelComparer.cs" />
     <Compile Include="TaskBuilderSecuredActionFilterAttribute.cs" />
     <Compile Include="TasksController.cs" />
     <Compile Include="Services\FunctionModelService.cs" />
@@ -154,6 +161,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

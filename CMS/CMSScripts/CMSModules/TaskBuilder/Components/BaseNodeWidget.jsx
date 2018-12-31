@@ -7,7 +7,7 @@ class BaseNodeWidget extends SRD.BaseWidget {
     }
 
     generatePort(port) {
-        return <SRD.DefaultPortLabel model={port} key={port.id} />;
+        return <BasePortWidget model={port} key={port.id} />;
     }
 
     render() {

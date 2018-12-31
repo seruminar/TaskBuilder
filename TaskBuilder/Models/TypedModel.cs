@@ -7,15 +7,22 @@ using TaskBuilder.Attributes;
 namespace TaskBuilder.Models
 {
     [DebuggerDisplay("{DisplayName}: {Name}")]
-    public class BaseFunctionModel : IFunctionModel
+    public class TypedModel : ITypedModel
     {
         [JsonProperty("name")]
         public string Name { get; }
 
         [JsonProperty("displayName")]
-        public string DisplayName { get; } = string.Empty;
+        public string DisplayName { get; set; } = string.Empty;
 
-        internal BaseFunctionModel(Type function)
+        [JsonProperty("type")]
+        public string Type { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Use this constructor to create a model for a <see cref="FunctionModel"/>.
+        /// </summary>
+        /// <param name="function"></param>
+        internal TypedModel(Type function)
         {
             var attribute = function.GetCustomAttribute<FunctionAttribute>();
 
@@ -26,7 +33,7 @@ namespace TaskBuilder.Models
             }
         }
 
-        public BaseFunctionModel(string name)
+        public TypedModel(string name)
         {
             Name = name;
         }

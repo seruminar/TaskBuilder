@@ -152,4 +152,7 @@
   <data name="taskbuilder.ui.taskbuilder" xml:space="preserve">
     <value>Task builder</value>
   </data>
+  <data name="taskbuilder.ui.edittask" xml:space="preserve">
+    <value>Edit task</value>
+  </data>
 </root>

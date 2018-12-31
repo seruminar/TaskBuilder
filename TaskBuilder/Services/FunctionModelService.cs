@@ -15,15 +15,15 @@ namespace TaskBuilder.Services
 {
     internal class FunctionModelService : IFunctionModelService
     {
-        private IEnumerable<IFunctionModel> FunctionModels => CacheHelper.Cache(RegisterFunctionModels, new CacheSettings(TaskBuilderHelper.CACHE_MINUTES, TaskBuilderHelper.CACHE_REGISTER_KEY));
+        private IEnumerable<ITypedModel> FunctionModels => CacheHelper.Cache(RegisterFunctionModels, new CacheSettings(TaskBuilderHelper.CACHE_MINUTES, TaskBuilderHelper.CACHE_REGISTER_KEY));
 
-        public IEnumerable<IFunctionModel> AllFunctionModels => FunctionModels;
+        public IEnumerable<ITypedModel> AllFunctionModels => FunctionModels;
 
         /// <summary>
         /// Finds all of the function types, gets their ports and creates a model in the cache.
         /// When a task builder is opened, the React app pulls in the models for deserialization and creating new ones in the side drawer.
         /// </summary>
-        public IEnumerable<IFunctionModel> RegisterFunctionModels()
+        public IEnumerable<ITypedModel> RegisterFunctionModels()
         {
             var functionTypes = DiscoverFunctionTypes();
 
@@ -36,25 +36,25 @@ namespace TaskBuilder.Services
         }
 
         /// <summary>
-        /// Get a <see cref="IFunctionModel"/> by name.
+        /// Get a <see cref="ITypedModel"/> by name.
         /// </summary>
         /// <param name="functionName"></param>
         /// <returns></returns>
-        public IFunctionModel GetFunctionModel(string functionName) => FunctionModels.FirstOrDefault(m => m.Name == functionName);
+        public ITypedModel GetFunctionModel(string functionName) => FunctionModels.FirstOrDefault(m => m.Name == functionName);
 
         /// <summary>
-        /// Get all <see cref="IFunctionModel"/>s authorized for given user and site.
+        /// Get all <see cref="ITypedModel"/>s authorized for given user and site.
         /// </summary>
         /// <param name="user"></param>
         /// <param name="siteIdentifier"></param>
         /// <returns></returns>
-        public IEnumerable<IFunctionModel> GetAuthorizedFunctionModels(IUserInfo user, SiteInfoIdentifier siteIdentifier)
+        public IEnumerable<ITypedModel> GetAuthorizedFunctionModels(IUserInfo user, SiteInfoIdentifier siteIdentifier)
         {
             var functionClassNames = FunctionInfoProvider
                                         .GetFunctionsForUserAndSite(user, siteIdentifier)
                                         .AsSingleColumn("FunctionClass")
                                         .GetListResult<string>()
-                                        .Select(className => new BaseFunctionModel(className));
+                                        .Select(className => new TypedModel(className));
 
             return FunctionModels.Intersect(functionClassNames, new FunctionModelComparer());
         }

@@ -10,12 +10,12 @@ class BaseNodeModel extends SRD.NodeModel {
         this.displayName = functionModel.displayName || functionModel.name;
     }
 
-    addInPort(label) {
-        return this.addPort(new SRD.DefaultPortModel(true, SRD.Toolkit.UID(), label));
+    addInPort(portModel) {
+        return this.addPort(new BasePortModel(true, SRD.Toolkit.UID(), portModel));
     }
 
-    addOutPort(label) {
-        return this.addPort(new SRD.DefaultPortModel(false, SRD.Toolkit.UID(), label));
+    addOutPort(portModel) {
+        return this.addPort(new BasePortModel(false, SRD.Toolkit.UID(), portModel));
     }
 
     getInPorts() {
