@@ -1,7 +1,7 @@
 using System;
 using CMS.DataEngine;
 using Newtonsoft.Json;
-using TaskBuilder.Models;
+using TaskBuilder.Models.Diagram;
 
 namespace TaskBuilder.Tasks
 {

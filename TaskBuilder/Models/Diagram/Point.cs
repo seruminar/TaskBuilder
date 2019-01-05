@@ -2,7 +2,7 @@
 
 using Newtonsoft.Json;
 
-namespace TaskBuilder.Models
+namespace TaskBuilder.Models.Diagram
 {
     public class Point
     {

@@ -155,4 +155,10 @@
   <data name="taskbuilder.ui.edittask" xml:space="preserve">
     <value>Edit task</value>
   </data>
+  <data name="taskbuilder.task.import.caption" xml:space="preserve">
+    <value>Import task</value>
+  </data>
+  <data name="taskbuilder.task.graph.caption" xml:space="preserve">
+    <value>Task graph</value>
+  </data>
 </root>

@@ -2,7 +2,7 @@
 
 using TaskBuilder.Attributes;
 
-namespace TaskBuilder.Functions
+namespace TaskBuilder.Functions.Types
 {
     [Function("Start")]
     public class StartFunction

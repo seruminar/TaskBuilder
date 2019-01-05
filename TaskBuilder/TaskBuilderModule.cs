@@ -13,7 +13,7 @@ using CMS.Helpers;
 using Newtonsoft.Json;
 
 using TaskBuilder.Functions;
-using TaskBuilder.Models;
+using TaskBuilder.Models.Diagram;
 using TaskBuilder.Services;
 using TaskBuilder.Tasks;
 

@@ -7,7 +7,7 @@ using CMS.SiteProvider;
 using CMS.UIControls;
 using Newtonsoft.Json;
 using TaskBuilder;
-using TaskBuilder.Models;
+using TaskBuilder.Models.Diagram;
 using TaskBuilder.Services;
 using TaskBuilder.Tasks;
 
@@ -26,11 +26,12 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
     protected void Page_Init()
     {
         ScriptHelper.RegisterScriptFile(this, "CMSModules/TaskBuilder/Vendor/lodash.min.js", false);
+
         ScriptHelper.RegisterScriptFile(this, "CMSModules/TaskBuilder/Vendor/react.development.js", false);
         ScriptHelper.RegisterScriptFile(this, "CMSModules/TaskBuilder/Vendor/react-dom.development.js", false);
         ScriptHelper.RegisterScriptFile(this, "CMSModules/TaskBuilder/Vendor/main.js", false);
 
-        ScriptHelper.RegisterClientScriptBlock(this, typeof(string), "TaskBuilder",
+        ScriptHelper.RegisterClientScriptBlock(this, typeof(string), "Components",
             string.Join(string.Empty,
                 TaskBuilderHelper.GetTransformedComponents("~/CMSScripts/CMSModules/TaskBuilder/Components/", RegexHelper.GetRegex("sandbox", true))), true);
 
@@ -62,7 +63,7 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
         }
     }
 
-    private object EnsureGraphMode()
+    private TaskGraphModeEnum EnsureGraphMode()
     {
         if (!MembershipContext.AuthenticatedUser.IsAuthorizedPerResource(TaskBuilderHelper.TASKBUILDER, "Modify"))
             return TaskGraphModeEnum.Readonly;

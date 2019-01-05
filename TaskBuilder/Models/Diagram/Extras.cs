@@ -1,4 +1,4 @@
-﻿namespace TaskBuilder.Models
+﻿namespace TaskBuilder.Models.Diagram
 {
     public class Extras
     {

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using TaskBuilder.Models;
 
-namespace TaskBuilder.Services
+namespace TaskBuilder.Models.Function
 {
     internal class FunctionModelComparer : EqualityComparer<ITypedModel>
     {

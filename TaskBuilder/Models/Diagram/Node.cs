@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
-namespace TaskBuilder.Models
+namespace TaskBuilder.Models.Diagram
 {
     public class Node
     {
@@ -30,6 +30,9 @@ namespace TaskBuilder.Models
 
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonProperty("displayName")]
+        public string DisplayName { get; set; }
 
         [JsonProperty("color")]
         public string Color { get; set; }

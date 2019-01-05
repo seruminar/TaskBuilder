@@ -4,7 +4,7 @@ using CMS.EventLog;
 
 using TaskBuilder.Attributes;
 
-namespace TaskBuilder.Functions
+namespace TaskBuilder.Functions.Types
 {
     [Function]
     public class EventLogFunction
