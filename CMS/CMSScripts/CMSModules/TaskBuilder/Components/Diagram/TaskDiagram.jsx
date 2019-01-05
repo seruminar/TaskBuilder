@@ -6,8 +6,11 @@ class TaskDiagram extends React.Component {
 
         let engine = new SRD.DiagramEngine();
 
-        // Register default port factory
-        engine.registerPortFactory(new SRD.DefaultPortFactory());
+        // Register port factories
+        engine.registerPortFactory(new BasePortFactory("enter"));
+        engine.registerPortFactory(new BasePortFactory("leave"));
+        engine.registerPortFactory(new BasePortFactory("input"));
+        engine.registerPortFactory(new BasePortFactory("output"));
 
         // Register two link types (for now, only default links can be made)
         engine.registerLinkFactory(new BaseLinkFactory("caller"));
@@ -113,7 +116,7 @@ class TaskDiagram extends React.Component {
                         onDrop={e => this.DropFunction(e)}
                         onDragOver={e => { e.preventDefault(); }}
                     >
-                        <Toast ref="toast" />
+                        <DiagramToast ref="toast" />
                         <SRD.DiagramWidget className="task-builder-diagram"
                             ref="diagram"
                             diagramEngine={this.engine}

@@ -13,10 +13,13 @@ namespace TaskBuilder.Models
         public string Name { get; }
 
         [JsonProperty("displayName")]
-        public string DisplayName { get; set; } = string.Empty;
+        public string DisplayName { get; protected set; } = string.Empty;
 
         [JsonProperty("type")]
-        public string Type { get; set; } = string.Empty;
+        public string Type { get; protected set; } = string.Empty;
+
+        [JsonProperty("displayType")]
+        public string DisplayType { get; protected set; }
 
         /// <summary>
         /// Use this constructor to create a model for a <see cref="FunctionModel"/>.

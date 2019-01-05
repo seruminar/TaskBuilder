@@ -122,13 +122,15 @@
     <Compile Include="Functions\FunctionRoleInfoProvider.cs" />
     <Compile Include="Functions\FunctionSiteInfo.cs" />
     <Compile Include="Functions\FunctionSiteInfoProvider.cs" />
+    <Compile Include="Models\Function\InvalidReturnTypeException.cs" />
+    <Compile Include="Models\Function\MemberModelTypeEnum.cs" />
     <Compile Include="Models\TypedModel.cs" />
     <Compile Include="Models\Diagram\Point.cs" />
     <Compile Include="Models\Diagram\Extras.cs" />
     <Compile Include="Models\Diagram\Port.cs" />
     <Compile Include="Models\Diagram\Node.cs" />
     <Compile Include="Models\Diagram\Link.cs" />
-    <Compile Include="Models\Function\PortModel.cs" />
+    <Compile Include="Models\Function\MemberModel.cs" />
     <Compile Include="Models\Function\FunctionModel.cs" />
     <Compile Include="Functions\FunctionInfo.cs" />
     <Compile Include="Functions\FunctionInfoProvider.cs" />

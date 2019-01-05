@@ -1,4 +1,4 @@
-﻿class Toast extends React.Component {
+﻿class DiagramToast extends React.Component {
     state = {
         show: false,
         message: null

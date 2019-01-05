@@ -1,6 +1,6 @@
 ﻿const SRD = window["storm-react-diagrams"];
 
-class BaseNodeFactory extends SRD.AbstractNodeFactory<BaseNodeModel> {
+class BaseNodeFactory extends SRD.AbstractNodeFactory {
     functionModel;
 
     constructor(functionModel) {

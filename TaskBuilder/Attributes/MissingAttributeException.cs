@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TaskBuilder.Models
+namespace TaskBuilder.Attributes
 {
     [Serializable]
     public class MissingAttributeException : Exception

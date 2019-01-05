@@ -6,8 +6,7 @@ using System.Web.Http;
 
 using CMS.Base;
 using CMS.EventLog;
-
-using TaskBuilder.Models;
+using TaskBuilder.Models.Diagram;
 using TaskBuilder.Tasks;
 
 namespace TaskBuilder
@@ -85,19 +84,19 @@ namespace TaskBuilder
                 switch (link.Type)
                 {
                     case "caller":
-                        source.Item1.GetProperty(sourcePort.Label).SetValue(
+                        source.Item1.GetProperty(sourcePort.Name).SetValue(
                             source.Item2,
-                            target.Item1.GetMethod(targetPort.Label).CreateDelegate(
-                                source.Item1.GetProperty(sourcePort.Label).PropertyType,
+                            target.Item1.GetMethod(targetPort.Name).CreateDelegate(
+                                source.Item1.GetProperty(sourcePort.Name).PropertyType,
                                 target.Item2)
                         );
                         break;
 
                     case "default":
-                        target.Item1.GetProperty(targetPort.Label).SetValue(
+                        target.Item1.GetProperty(targetPort.Name).SetValue(
                             target.Item2,
-                            source.Item1.GetProperty(sourcePort.Label).GetMethod.CreateDelegate(
-                                target.Item1.GetProperty(targetPort.Label).PropertyType,
+                            source.Item1.GetProperty(sourcePort.Name).GetMethod.CreateDelegate(
+                                target.Item1.GetProperty(targetPort.Name).PropertyType,
                                 source.Item2)
                         );
                         break;
@@ -110,8 +109,8 @@ namespace TaskBuilder
 
         private void TestBenchmark()
         {
-            var source1 = new Functions.StartFunction();
-            var target1 = new Functions.EventLogFunction();
+            var source1 = new Functions.Types.StartFunction();
+            var target1 = new Functions.Types.EventLogFunction();
 
             //Connect links
             source1.SourceOutSender = target1.TargetInReceiver;

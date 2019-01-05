@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
-namespace TaskBuilder.Models
+namespace TaskBuilder.Models.Diagram
 {
     public class Port
     {
@@ -17,7 +17,7 @@ namespace TaskBuilder.Models
         public bool Selected { get; set; }
 
         [JsonProperty("name")]
-        public Guid Name { get; set; }
+        public string Name { get; set; }
 
         [JsonProperty("parentNode")]
         public Guid ParentNode { get; set; }
@@ -25,10 +25,10 @@ namespace TaskBuilder.Models
         [JsonProperty("links")]
         public ICollection<Guid> Links { get; set; }
 
-        [JsonProperty("in")]
-        public bool In { get; set; }
+        [JsonProperty("displayName")]
+        public string DisplayName { get; set; }
 
-        [JsonProperty("label")]
-        public string Label { get; set; }
+        [JsonProperty("displayType")]
+        public string DisplayType { get; set; }
     }
 }

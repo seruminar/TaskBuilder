@@ -1,8 +1,8 @@
 ﻿const SRD = window["storm-react-diagrams"];
 
 class BaseNodeModel extends SRD.NodeModel {
-    name;
-    displayName;
+    name: string;
+    displayName: string;
 
     constructor(functionModel) {
         super(functionModel.name);
@@ -11,22 +11,30 @@ class BaseNodeModel extends SRD.NodeModel {
     }
 
     addInPort(portModel) {
-        return this.addPort(new BasePortModel(true, SRD.Toolkit.UID(), portModel));
+        return this.addPort(new BasePortModel(portModel));
     }
 
     addOutPort(portModel) {
-        return this.addPort(new BasePortModel(false, SRD.Toolkit.UID(), portModel));
+        return this.addPort(new BasePortModel(portModel));
     }
 
     getInPorts() {
         return _.filter(this.ports, portModel => {
-            return portModel.in;
+            switch (portModel.type) {
+                case "enter":
+                case "input":
+                    return true;
+            }
         });
     }
 
     getOutPorts() {
         return _.filter(this.ports, portModel => {
-            return !portModel.in;
+            switch (portModel.type) {
+                case "leave":
+                case "output":
+                    return true;
+            }
         });
     }
 }
