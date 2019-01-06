@@ -66,7 +66,7 @@ namespace TaskBuilder
 
             if (task != null && !string.IsNullOrEmpty(task.TaskGraph))
             {
-                var taskGraph = JsonConvert.DeserializeObject<DiagramModel>(task.TaskGraph);
+                var taskGraph = JsonConvert.DeserializeObject<Diagram>(task.TaskGraph);
 
                 taskGraph.Id = task.TaskGuid;
                 task.TaskGraph = JsonConvert.SerializeObject(taskGraph);

@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 
 namespace TaskBuilder.Models.Diagram
 {
-    public class DiagramModel
+    public class Diagram
     {
-        public DiagramModel(Guid taskGuid)
+        public Diagram(Guid taskGuid)
         {
             Id = taskGuid;
             Zoom = 100;
@@ -29,9 +29,9 @@ namespace TaskBuilder.Models.Diagram
         public long GridSize { get; set; }
 
         [JsonProperty("links")]
-        public ICollection<Link> Links { get; set; }
+        public List<Link> Links { get; set; }
 
         [JsonProperty("nodes")]
-        public ICollection<Node> Nodes { get; set; }
+        public List<Node> Nodes { get; set; }
     }
 }

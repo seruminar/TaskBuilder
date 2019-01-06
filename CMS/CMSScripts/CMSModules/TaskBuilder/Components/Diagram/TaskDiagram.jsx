@@ -4,27 +4,22 @@ class TaskDiagram extends React.Component {
     constructor(props) {
         super(props);
 
-        let engine = new SRD.DiagramEngine();
+        const engine = new SRD.DiagramEngine();
 
-        // Register port factories
-        engine.registerPortFactory(new BasePortFactory("enter"));
-        engine.registerPortFactory(new BasePortFactory("leave"));
-        engine.registerPortFactory(new BasePortFactory("input"));
-        engine.registerPortFactory(new BasePortFactory("output"));
-
-        // Register two link types (for now, only default links can be made)
-        engine.registerLinkFactory(new BaseLinkFactory("caller"));
-        engine.registerLinkFactory(new BaseLinkFactory("default"));
-
-        // Register factories from initialization code
-        this.props.allFunctions.map((f) => engine.registerNodeFactory(new BaseNodeFactory(f)));
+        // Register factories
+        this.props.allPortTypes.map(p => engine.registerPortFactory(new BasePortFactory(p)));
+        this.props.allLinkTypes.map(l => engine.registerLinkFactory(new BaseLinkFactory(l)));
+        this.props.allFunctions.map(f => engine.registerNodeFactory(new BaseNodeFactory(f)));
 
         // Deserialize from database
         const graphModel = new SRD.DiagramModel();
+
         graphModel.deSerializeDiagram(JSON.parse(this.props.graph), engine);
         graphModel.setGridSize(10);
         graphModel.setZoomLevel(100);
         graphModel.setLocked(this.props.graphMode === "Readonly");
+
+        console.log(graphModel);
 
         engine.setDiagramModel(graphModel);
 
@@ -33,6 +28,9 @@ class TaskDiagram extends React.Component {
 
     ProcessGraph(e, type) {
         let serialized = JSON.stringify(this.engine.diagramModel.serializeDiagram());
+
+        console.log(serialized);
+
         let toast = this.refs.toast;
         let endpoint;
 
@@ -81,11 +79,11 @@ class TaskDiagram extends React.Component {
     }
 
     DropFunction(e) {
-        const functionModel = JSON.parse(e.dataTransfer.getData("functionModel"));
+        const type = e.dataTransfer.getData("functionModel");
 
-        const nodeFactory = this.engine.getNodeFactory(functionModel.name);
-
-        const node = nodeFactory.getNewInstance(null, true);
+        const node = this.engine
+            .getNodeFactory(type)
+            .getNewInstance(null, true);
 
         const points = this.engine.getRelativeMousePoint(e);
 
@@ -120,7 +118,8 @@ class TaskDiagram extends React.Component {
                         <SRD.DiagramWidget className="task-builder-diagram"
                             ref="diagram"
                             diagramEngine={this.engine}
-                            maxNumberPointsPerLink="0"
+                            maxNumberPointsPerLink={0}
+                            allowLooseLinks={false}
                         />
                     </div>
                 </div>

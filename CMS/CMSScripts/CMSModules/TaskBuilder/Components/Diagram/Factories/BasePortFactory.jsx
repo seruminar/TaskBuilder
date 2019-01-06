@@ -6,6 +6,6 @@ class BasePortFactory extends SRD.AbstractPortFactory {
     }
 
     getNewInstance(initialConfig?: any): BasePortModel {
-        return new BasePortModel({ type: null });
+        return new BasePortModel();
     }
 }

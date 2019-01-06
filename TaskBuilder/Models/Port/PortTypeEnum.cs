@@ -2,7 +2,7 @@
 
 namespace TaskBuilder.Models.Function
 {
-    internal enum MemberModelTypeEnum
+    public enum PortTypeEnum
     {
         [JsonProperty("enter")]
         Enter,

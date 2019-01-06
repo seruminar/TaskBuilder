@@ -15,7 +15,7 @@ namespace TaskBuilder
     {
         [HttpPost]
         [TaskBuilderSecuredActionFilter]
-        public IHttpActionResult SaveTask([FromBody] DiagramModel diagram)
+        public IHttpActionResult SaveTask([FromBody] Diagram diagram)
         {
             TaskInfoProvider.SetTaskInfo(diagram);
 
@@ -27,7 +27,7 @@ namespace TaskBuilder
 
         [HttpPost]
         [TaskBuilderSecuredActionFilter]
-        public void RunTask([FromBody] DiagramModel diagram)
+        public void RunTask([FromBody] Diagram diagram)
         {
             var sw1 = new Stopwatch();
 
@@ -42,7 +42,7 @@ namespace TaskBuilder
                 );
         }
 
-        private void Run(DiagramModel diagram)
+        private void Run(Diagram diagram)
         {
             var typeObjects = new Dictionary<Guid, Tuple<Type, object>>();
             var ports = new Dictionary<Guid, Port>();
@@ -84,19 +84,19 @@ namespace TaskBuilder
                 switch (link.Type)
                 {
                     case "caller":
-                        source.Item1.GetProperty(sourcePort.Name).SetValue(
+                        source.Item1.GetProperty(sourcePort.Type).SetValue(
                             source.Item2,
-                            target.Item1.GetMethod(targetPort.Name).CreateDelegate(
-                                source.Item1.GetProperty(sourcePort.Name).PropertyType,
+                            target.Item1.GetMethod(targetPort.Type).CreateDelegate(
+                                source.Item1.GetProperty(sourcePort.Type).PropertyType,
                                 target.Item2)
                         );
                         break;
 
                     case "default":
-                        target.Item1.GetProperty(targetPort.Name).SetValue(
+                        target.Item1.GetProperty(targetPort.Type).SetValue(
                             target.Item2,
-                            source.Item1.GetProperty(sourcePort.Name).GetMethod.CreateDelegate(
-                                target.Item1.GetProperty(targetPort.Name).PropertyType,
+                            source.Item1.GetProperty(sourcePort.Type).GetMethod.CreateDelegate(
+                                target.Item1.GetProperty(targetPort.Type).PropertyType,
                                 source.Item2)
                         );
                         break;

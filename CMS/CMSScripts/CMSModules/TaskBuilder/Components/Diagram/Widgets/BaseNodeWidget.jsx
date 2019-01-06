@@ -3,11 +3,6 @@
 class BaseNodeWidget extends SRD.BaseWidget {
     constructor(props) {
         super("srd-default-node", props);
-        this.state = {};
-    }
-
-    generatePort(port) {
-        return <BasePortWidget model={port} key={port.id} />;
     }
 
     render() {
@@ -18,10 +13,14 @@ class BaseNodeWidget extends SRD.BaseWidget {
                 </div>
                 <div className={this.bem("__ports")}>
                     <div className={this.bem("__in")}>
-                        {_.map(this.props.node.getInPorts(), this.generatePort.bind(this))}
+                        {this.props.node.getInPorts().map(function (p) {
+                            return <BasePortWidget model={p} key={p.id} />;
+                        })}
                     </div>
                     <div className={this.bem("__out")}>
-                        {_.map(this.props.node.getOutPorts(), this.generatePort.bind(this))}
+                        {this.props.node.getOutPorts().map(function (p) {
+                            return <BasePortWidget model={p} key={p.id} />;
+                        })}
                     </div>
                 </div>
             </div>

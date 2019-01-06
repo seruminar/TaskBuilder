@@ -5,13 +5,9 @@ namespace TaskBuilder.Attributes
     [AttributeUsage(AttributeTargets.Class,
                AllowMultiple = false,
                Inherited = true)]
-    public class FunctionAttribute : BaseFunctionAttribute
+    public class FunctionAttribute : NamedAttribute
     {
-        public FunctionAttribute() : base(null)
-        {
-        }
-
-        public FunctionAttribute(string displayName) : base(displayName)
+        public FunctionAttribute(string displayName = null) : base(displayName)
         {
         }
     }

@@ -1,7 +1,7 @@
 ﻿const SRD = window["storm-react-diagrams"];
 
 class BaseLinkFactory extends SRD.AbstractLinkFactory {
-    constructor(type) {
+    constructor(type: string) {
         super(type);
     }
 
@@ -9,8 +9,8 @@ class BaseLinkFactory extends SRD.AbstractLinkFactory {
         return <SRD.DefaultLinkWidget link={link} diagramEngine={diagramEngine} />;
     }
 
-    getNewInstance(initialConfig) {
-        return new SRD.DefaultLinkModel();
+    getNewInstance(initialConfig?: any) {
+        return new BaseLinkModel();
     }
 
     generateLinkSegment(model, widget, selected, path) {

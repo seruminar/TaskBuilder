@@ -43,16 +43,20 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
     {
         var diagramAreaProps = new
         {
-            allFunctions = _functionModelService.AllFunctionModels,
+            allFunctions = _functionModelService.FunctionModels,
             authorizedFunctions = _functionModelService.GetAuthorizedFunctionModels(MembershipContext.AuthenticatedUser, SiteContext.CurrentSiteName),
+            allPortTypes = TaskBuilderHelper.PortTypes,
+            allLinkTypes = TaskBuilderHelper.LinkTypes,
             graph = EnsureTaskGraph(EditedObject as TaskInfo),
             graphMode = EnsureGraphMode(),
             secureToken = SecureToken
         };
 
         // Render graph area component
-        var diagramComponent = TaskBuilderHelper.Environment.CreateComponent("TaskBuilder", diagramAreaProps, "task-builder", true);
-        diagram.Text = diagramComponent.RenderHtml(true);
+        diagram.Text = TaskBuilderHelper
+                            .Environment
+                            .CreateComponent("TaskBuilder", diagramAreaProps, "task-builder", true)
+                            .RenderHtml(true);
 
         // Initialize React event bindings and startup
         initScript.Text = ScriptHelper.GetScript(TaskBuilderHelper.Environment.GetInitJavaScript());
@@ -79,6 +83,6 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
     {
         return !string.IsNullOrEmpty(taskInfo.TaskGraph)
             ? taskInfo.TaskGraph
-            : JsonConvert.SerializeObject(new DiagramModel(taskInfo.TaskGuid));
+            : JsonConvert.SerializeObject(new Diagram(taskInfo.TaskGuid));
     }
 }

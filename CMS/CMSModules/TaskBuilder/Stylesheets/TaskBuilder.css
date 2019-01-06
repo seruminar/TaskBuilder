@@ -84,6 +84,26 @@
         margin-top: 1em;
     }
 
+    #task-builder .task-builder-port {
+        display: flex;
+        margin-top: 1px;
+    }
+
+        #task-builder .task-builder-port .port-icon {
+            background: rgba(255,255,255,.1);
+            padding: .5em;
+            border-radius: .5em;
+            border: 1px rgba(255,255,255,.1) solid;
+        }
+
+            #task-builder .task-builder-port .port-icon.port-icon--selected {
+                border: 1px white solid;
+            }
+
+        #task-builder .task-builder-port .port-name {
+            padding: .5em;
+        }
+
 .srd-default-port--out {
     justify-content: initial;
 }

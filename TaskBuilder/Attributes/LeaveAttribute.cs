@@ -5,7 +5,7 @@ namespace TaskBuilder.Attributes
     [AttributeUsage(AttributeTargets.Property,
               AllowMultiple = false,
               Inherited = true)]
-    public class LeaveAttribute : BaseFunctionAttribute
+    public class LeaveAttribute : ColoredAttribute
     {
         public LeaveAttribute() : base(null)
         {

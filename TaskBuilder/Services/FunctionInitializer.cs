@@ -13,7 +13,7 @@ namespace TaskBuilder.Services
 
         public override void Run()
         {
-            _functionModelService.RegisterFunctionModels();
+            var _ = _functionModelService.FunctionModels;
         }
     }
 }

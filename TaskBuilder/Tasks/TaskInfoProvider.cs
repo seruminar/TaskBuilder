@@ -63,10 +63,10 @@ namespace TaskBuilder.Tasks
         }
 
         /// <summary>
-        /// Sets (updates or inserts) a <see cref="TaskInfo"/> based on the provided <see cref="DiagramModel"/>.
+        /// Sets (updates or inserts) a <see cref="TaskInfo"/> based on the provided <see cref="Diagram"/>.
         /// </summary>
-        /// <param name="diagram"><see cref="DiagramModel"/> to be set.</param>
-        public static void SetTaskInfo(DiagramModel diagram)
+        /// <param name="diagram"><see cref="Diagram"/> to be set.</param>
+        public static void SetTaskInfo(Diagram diagram)
         {
             TaskInfo infoObj = GetTaskInfo(diagram.Id) ?? new TaskInfo();
 

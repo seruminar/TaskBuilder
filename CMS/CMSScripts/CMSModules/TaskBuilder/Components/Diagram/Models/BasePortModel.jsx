@@ -3,18 +3,24 @@
 class BasePortModel extends SRD.PortModel {
     displayName: string;
     displayType: string;
-    links: { [id: string]: SRD.DefaultLinkModel };
+    displayColor: string;
 
     constructor(portModel) {
-        super(portModel.name, portModel.type, null);
-        this.displayName = portModel.displayName || portModel.name;
-        this.displayType = portModel.displayType;
+        if (portModel) {
+            super(portModel.displayName, portModel.type, portModel.id);
+            this.displayName = portModel.displayName;
+            this.displayType = portModel.displayType;
+            this.displayColor = portModel.displayColor;
+        } else {
+            super();
+        }
     }
 
     deSerialize(other, engine: SRD.DiagramEngine) {
         super.deSerialize(other, engine);
         this.displayName = other.displayName;
         this.displayType = other.displayType;
+        this.displayColor = other.displayColor;
     }
 
     serialize() {
@@ -22,25 +28,13 @@ class BasePortModel extends SRD.PortModel {
         if (_.VERSION === "1.5.2") _.noConflict();
 
         return _.merge(super.serialize(), {
-            portType: this.portType,
             displayName: this.displayName,
-            displayType: this.displayType
+            displayType: this.displayType,
+            displayColor: this.displayColor
         });
     }
 
-    link(port: BasePortModel): SRD.LinkModel {
-        let link = this.createLinkModel();
-
-        link.setSourcePort(this);
-        link.setTargetPort(port);
-
-        return link;
-    }
-
     canLinkToPort(other: BasePortModel): boolean {
-        console.log(this);
-        console.log(other);
-
         if (other instanceof BasePortModel) {
             if (this.type === "leave" && other.type === "enter") {
                 return true;
@@ -52,8 +46,8 @@ class BasePortModel extends SRD.PortModel {
         return false;
     }
 
+    // This function depends on the max # of links in super, try handling this when arrays are supported
     createLinkModel(): SRD.LinkModel {
-        let link = super.createLinkModel();
-        return link || new SRD.DefaultLinkModel();
+        return new BaseLinkModel(this.displayColor);
     }
 }

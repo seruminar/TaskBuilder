@@ -1,13 +1,7 @@
 ﻿namespace TaskBuilder.Models
 {
-    public interface ITypedModel
+    public interface ITypedModel : IBaseModel
     {
-        string Name { get; }
-
-        string DisplayName { get; }
-
-        string Type { get; }
-
         string DisplayType { get; }
     }
 }

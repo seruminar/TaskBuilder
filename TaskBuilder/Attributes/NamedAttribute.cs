@@ -2,11 +2,11 @@
 
 namespace TaskBuilder.Attributes
 {
-    public class BaseFunctionAttribute : Attribute
+    public class NamedAttribute : Attribute
     {
         public string DisplayName { get; }
 
-        public BaseFunctionAttribute(string displayName)
+        public NamedAttribute(string displayName = null)
         {
             DisplayName = displayName;
         }

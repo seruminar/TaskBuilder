@@ -16,11 +16,12 @@
 
     render() {
         if (this.state.hasError) {
+            console.log(this.state);
             return (
                 <div style={{ padding: '10px 15px' }}>
                     <h2>Something went wrong.</h2>
                     <div style={{ whiteSpace: 'pre-wrap' }}>
-                        {this.state.error && this.state.error.toString()}
+                        {this.state.error.stack}
                         <br />
                         {this.state.errorInfo.componentStack}
                     </div>

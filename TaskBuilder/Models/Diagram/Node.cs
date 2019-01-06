@@ -17,10 +17,10 @@ namespace TaskBuilder.Models.Diagram
         public bool Selected { get; set; }
 
         [JsonProperty("x")]
-        public long X { get; set; }
+        public double X { get; set; }
 
         [JsonProperty("y")]
-        public long Y { get; set; }
+        public double Y { get; set; }
 
         [JsonProperty("extras")]
         public Extras Extras { get; set; }
@@ -33,8 +33,5 @@ namespace TaskBuilder.Models.Diagram
 
         [JsonProperty("displayName")]
         public string DisplayName { get; set; }
-
-        [JsonProperty("color")]
-        public string Color { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
 class BasePortWidget extends SRD.BaseWidget {
     constructor(props) {
-        super("srd-default-port", props);
+        super("task-builder-port", props);
     }
 
     getClassName() {
@@ -23,7 +23,7 @@ class BasePortWidget extends SRD.BaseWidget {
     }
 
     getFlexDirection(portType: string) {
-        switch (this.props.model.type) {
+        switch (portType) {
             case "enter":
             case "input":
                 return "row";
@@ -35,9 +35,9 @@ class BasePortWidget extends SRD.BaseWidget {
 
     render() {
         return (
-            <div {...this.getProps()} style={{ flexDirection: this.getFlexDirection(this.props.model.portType) }}>
-                <SRD.PortWidget node={this.props.model.getParent()} name={this.props.model.name} />
-                <div className="name">{this.props.model.displayName} ({this.props.model.displayType})</div>
+            <div {...this.getProps()} style={{ flexDirection: this.getFlexDirection(this.props.model.type) }}>
+                <BasePortIconWidget node={this.props.model.getParent()} name={this.props.model.displayName} type={this.props.model.displayType} />
+                <div className="port-name">{this.props.model.displayName}</div>
             </div>
         );
     }

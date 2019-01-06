@@ -5,7 +5,7 @@ namespace TaskBuilder.Attributes
     [AttributeUsage(AttributeTargets.Property,
               AllowMultiple = false,
               Inherited = true)]
-    public class OutputAttribute : BaseFunctionAttribute
+    public class OutputAttribute : ColoredAttribute
     {
         public OutputAttribute() : base(null)
         {

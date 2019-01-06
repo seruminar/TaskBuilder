@@ -29,6 +29,21 @@ namespace TaskBuilder
         /// </summary>
         public static IReactEnvironment Environment => ReactEnvironment.GetCurrentOrThrow;
 
+        public static ICollection<string> LinkTypes { get; } = new List<string>()
+        {
+            "default",
+            "caller",
+            "property"
+        };
+
+        public static ICollection<string> PortTypes { get; } = new List<string>()
+        {
+            "enter",
+            "leave",
+            "input",
+            "output"
+        };
+
         /// <summary>
         /// Given a directory path, use Babel to transform all components in that path respecting the <paramref name="exclusion"/>.
         /// </summary>

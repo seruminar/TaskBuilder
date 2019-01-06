@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+
 using Newtonsoft.Json;
+
 using TaskBuilder.Attributes;
+using TaskBuilder.Models.Diagram;
 
 namespace TaskBuilder.Models.Function
 {
-    public class FunctionModel : TypedModel
+    public class FunctionModel : BaseModel, IFunctionModel
     {
         [JsonProperty("enter")]
         public ITypedModel Enter { get; }
@@ -15,16 +18,29 @@ namespace TaskBuilder.Models.Function
         public ITypedModel Leave { get; }
 
         [JsonProperty("inputs")]
-        public ICollection<ITypedModel> Inputs { get; } = new List<ITypedModel>();
+        public ICollection<IColoredModel> Inputs { get; } = new List<IColoredModel>();
 
         [JsonProperty("outputs")]
-        public ICollection<ITypedModel> Outputs { get; } = new List<ITypedModel>();
+        public ICollection<IColoredModel> Outputs { get; } = new List<IColoredModel>();
 
-        public FunctionModel(Type function) : base(function)
+        internal FunctionModel(string type)
         {
-            foreach (var method in function.GetMethods())
+            Type = type;
+        }
+
+        public FunctionModel(Type functionType)
+        {
+            var attribute = functionType.GetCustomAttribute<FunctionAttribute>();
+
+            if (attribute != null)
             {
-                MemberModel enter;
+                Type = functionType.FullName;
+                DisplayName = attribute.DisplayName ?? functionType.FullName;
+            }
+
+            foreach (var method in functionType.GetMethods())
+            {
+                PortModel enter;
 
                 if (TryBuildEnter(method, out enter))
                 {
@@ -37,12 +53,12 @@ namespace TaskBuilder.Models.Function
 
             if (Enter == null)
             {
-                throw new MissingAttributeException($"The type {nameof(function)} does not have a method decorated with {nameof(EnterAttribute)}. This is required for the function to be called.");
+                throw new MissingAttributeException($"The type {nameof(functionType)} does not have a method decorated with {nameof(EnterAttribute)}. This is required for the function to be called.");
             }
 
-            foreach (var property in function.GetProperties())
+            foreach (var property in functionType.GetProperties())
             {
-                MemberModel model;
+                PortModel model;
 
                 if (Leave == null && TryBuildLeave(property, out model))
                 {
@@ -61,7 +77,7 @@ namespace TaskBuilder.Models.Function
             }
         }
 
-        private bool TryBuildEnter(MethodInfo method, out MemberModel enter)
+        private bool TryBuildEnter(MethodInfo method, out PortModel enter)
         {
             var attribute = method.GetCustomAttribute<EnterAttribute>();
 
@@ -74,15 +90,16 @@ namespace TaskBuilder.Models.Function
             if (method.ReturnType != typeof(void))
                 throw new InvalidReturnTypeException($"The return type of {method.Name} must be void in order to be used as {nameof(Enter)}");
 
-            enter = new MemberModel(method.Name,
+            enter = new PortModel(method.Name,
                 attribute.DisplayName,
                 method.ReturnType.Name,
-                MemberModelTypeEnum.Enter.ToString().ToLower()
+                PortTypeEnum.Enter,
+                attribute.DisplayColor
             );
             return true;
         }
 
-        private bool TryBuildLeave(PropertyInfo property, out MemberModel leave)
+        private bool TryBuildLeave(PropertyInfo property, out PortModel leave)
         {
             var attribute = property.GetCustomAttribute<LeaveAttribute>();
 
@@ -95,15 +112,16 @@ namespace TaskBuilder.Models.Function
             if (property.PropertyType != typeof(Action))
                 throw new InvalidReturnTypeException($"The return type of {property.Name} must be {nameof(Action)} in order to be used as {nameof(Leave)}.");
 
-            leave = new MemberModel(property.Name,
+            leave = new PortModel(property.Name,
                 attribute.DisplayName,
                 property.PropertyType.Name,
-                MemberModelTypeEnum.Leave.ToString().ToLower()
+                PortTypeEnum.Leave,
+                attribute.DisplayColor
             );
             return true;
         }
 
-        private bool TryAddInput(PropertyInfo property, out MemberModel input)
+        private bool TryAddInput(PropertyInfo property, out PortModel input)
         {
             var attribute = property.GetCustomAttribute<InputAttribute>();
 
@@ -116,15 +134,16 @@ namespace TaskBuilder.Models.Function
             if (property.PropertyType.Name != "Func`1" || property.PropertyType.GenericTypeArguments.Length != 1)
                 throw new InvalidReturnTypeException($"The return type of {property.Name} must be a Func with one parameter in order to be used for {nameof(Inputs)}.");
 
-            input = new MemberModel(property.Name,
+            input = new PortModel(property.Name,
                 attribute.DisplayName,
                 property.PropertyType.GenericTypeArguments[0].Name,
-                MemberModelTypeEnum.Input.ToString().ToLower()
+                PortTypeEnum.Input,
+                attribute.DisplayColor
             );
             return true;
         }
 
-        private bool TryAddOutput(PropertyInfo property, out MemberModel output)
+        private bool TryAddOutput(PropertyInfo property, out PortModel output)
         {
             var attribute = property.GetCustomAttribute<OutputAttribute>();
 
@@ -134,10 +153,11 @@ namespace TaskBuilder.Models.Function
                 return false;
             }
 
-            output = new MemberModel(property.Name,
+            output = new PortModel(property.Name,
                 attribute.DisplayName,
                 property.PropertyType.Name,
-                MemberModelTypeEnum.Output.ToString().ToLower()
+                PortTypeEnum.Output,
+                attribute.DisplayColor
             );
             return true;
         }
