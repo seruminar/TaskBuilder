@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace TaskBuilder.Models.Diagram
 {
@@ -13,25 +13,30 @@ namespace TaskBuilder.Models.Diagram
             Zoom = 100;
         }
 
-        [JsonProperty("id")]
         public Guid Id { get; set; }
 
-        [JsonProperty("offsetX")]
         public long OffsetX { get; set; }
 
-        [JsonProperty("offsetY")]
         public long OffsetY { get; set; }
 
-        [JsonProperty("zoom")]
         public long Zoom { get; set; }
 
-        [JsonProperty("gridSize")]
         public long GridSize { get; set; }
 
-        [JsonProperty("links")]
-        public List<Link> Links { get; set; }
+        public ICollection<Link> Links { get; set; }
 
-        [JsonProperty("nodes")]
-        public List<Node> Nodes { get; set; }
+        public ICollection<Node> Nodes { get; set; }
+
+        public string ToJSON()
+        {
+            var settings = new JsonSerializerSettings()
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+
+            settings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter(true));
+
+            return JsonConvert.SerializeObject(this, settings);
+        }
     }
 }

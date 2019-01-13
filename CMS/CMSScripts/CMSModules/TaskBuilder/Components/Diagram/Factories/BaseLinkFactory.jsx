@@ -10,13 +10,18 @@ class BaseLinkFactory extends SRD.AbstractLinkFactory {
     }
 
     getNewInstance(initialConfig?: any) {
-        return new BaseLinkModel();
+        switch (this.type) {
+            case "caller":
+                return new BaseCallerLinkModel();
+            case "parameter":
+                return new BaseParameterLinkModel();
+        }
     }
 
     generateLinkSegment(model, widget, selected, path) {
         return (
             <path
-                className={selected ? widget.bem("--path-selected") : ""}
+                className={selected ? widget.bem("-path-selected") : ""}
                 strokeWidth={model.width}
                 stroke={model.color}
                 d={path}

@@ -32,6 +32,14 @@
             );
         }
 
+        // Hack to revert version of _ that was loaded by Kentico's cmsrequire
+        const setUnderscore = setInterval(() => {
+            if (_.VERSION === "1.5.2") {
+                _.noConflict();
+                clearInterval(setUnderscore);
+            }
+        }, 500);
+
         return <TaskDiagram {...this.props} />;
     }
 }

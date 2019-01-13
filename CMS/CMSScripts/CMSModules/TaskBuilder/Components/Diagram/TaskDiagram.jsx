@@ -4,93 +4,64 @@ class TaskDiagram extends React.Component {
     constructor(props) {
         super(props);
 
-        const engine = new SRD.DiagramEngine();
+        const diagramEngine = new SRD.DiagramEngine();
 
-        // Register factories
-        this.props.allPortTypes.map(p => engine.registerPortFactory(new BasePortFactory(p)));
-        this.props.allLinkTypes.map(l => engine.registerLinkFactory(new BaseLinkFactory(l)));
-        this.props.allFunctions.map(f => engine.registerNodeFactory(new BaseNodeFactory(f)));
+        this.props.models.ports.map(p => diagramEngine.registerPortFactory(new BasePortFactory(p)));
+        this.props.models.links.map(l => diagramEngine.registerLinkFactory(new BaseLinkFactory(l)));
+        this.props.models.functions.all.map(f => diagramEngine.registerNodeFactory(new BaseFunctionFactory(f)));
 
-        // Deserialize from database
-        const graphModel = new SRD.DiagramModel();
+        const graphModel = new BaseGraphModel(this.props.graph.json, this.props.graph.mode, diagramEngine);
 
-        graphModel.deSerializeDiagram(JSON.parse(this.props.graph), engine);
-        graphModel.setGridSize(10);
-        graphModel.setZoomLevel(100);
-        graphModel.setLocked(this.props.graphMode === "Readonly");
+        diagramEngine.setDiagramModel(graphModel);
 
-        console.log(graphModel);
-
-        engine.setDiagramModel(graphModel);
-
-        this.engine = engine;
+        this.diagramEngine = diagramEngine;
     }
 
-    ProcessGraph(e, type) {
-        let serialized = JSON.stringify(this.engine.diagramModel.serializeDiagram());
-
-        console.log(serialized);
-
-        let toast = this.refs.toast;
-        let endpoint;
-
-        switch (type) {
-            case "save":
-                endpoint = "SaveTask";
-                break;
-            case "run":
-                endpoint = "RunTask";
-                break;
-            default:
-        }
-
-        let request = {
+    requestWithSerializedGraphBody = () => {
+        return {
             method: "POST",
             cache: "no-cache",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
                 "X-TB-Token": this.props.secureToken
             },
-            body: serialized
+            body: JSON.stringify(this.diagramEngine.diagramModel.serializeDiagram())
         };
+    }
 
-        fetch("/Kentico11_hf_TaskBuilder/taskbuilder/Tasks/" + endpoint, request)
-            .then(function (response) {
+    saveTask = () => this.postTask(this.props.endpoints.save, this.requestWithSerializedGraphBody(), "saveTask");
+
+    runTask = () => this.postTask(this.props.endpoints.run, this.requestWithSerializedGraphBody(), "runTask");
+
+    postTask = (endpoint, request, actionName) => {
+        fetch(endpoint, request)
+            .then(response => {
                 if (response.status !== 200) {
-                    console.log("Call to " + type + " responded: " + response.status);
+                    console.log(`${actionName} responded ${response.status}`, response);
                     return;
                 }
 
-                response.json().then(function (data) {
-                    switch (data.result) {
-                        case "savesuccess":
-                            toast.setState({
-                                show: true,
-                                message: "Save successful."
-                            });
-                            break;
-                        default:
-                    }
-                });
+                response.json().then(data => this.showToast(data));
             })
-            .catch(function (err) {
-                console.log('SaveGraph', err);
+            .catch(err => {
+                console.log(`${actionName} errored ${err.message}`, err);
             });
     }
 
-    DropFunction(e) {
-        const type = e.dataTransfer.getData("functionModel");
+    showToast = (data) => {
+        this.refs.toast.setState({
+            show: true,
+            result: data.result,
+            message: data.message
+        });
+    }
 
-        const node = this.engine
-            .getNodeFactory(type)
-            .getNewInstance(null, true);
+    dropFunction = (name, mousePoint) => {
+        const node = this.diagramEngine
+            .getNodeFactory(name)
+            .getNewInstance(null, true, mousePoint);
 
-        const points = this.engine.getRelativeMousePoint(e);
-
-        node.x = points.x;
-        node.y = points.y;
-
-        this.engine
+        this.diagramEngine
             .getDiagramModel()
             .addNode(node);
 
@@ -98,26 +69,38 @@ class TaskDiagram extends React.Component {
     }
 
     render() {
+        let saveButton;
+
+        if (this.props.graph.mode !== "sandbox") {
+            saveButton = (
+                <DiagramButton
+                    text="Save Task"
+                    iconClass="icon-arrow-down-line"
+                    onClick={() => this.saveTask()}
+                />
+            );
+        }
+
         return (
             <div className="task-builder-area">
                 <div className="task-builder-buttons">
-                    <DiagramButton text="Save Graph"
-                        onClick={e => this.ProcessGraph(e, "save")}
-                    />
-                    <DiagramButton text="Run Graph"
-                        onClick={e => this.ProcessGraph(e, "run")}
+                    {saveButton}
+                    <DiagramButton
+                        text="Run Task"
+                        iconClass="icon-triangle-right"
+                        onClick={() => this.runTask()}
                     />
                 </div>
                 <div className="task-builder-row">
-                    <FunctionTray functions={this.props.authorizedFunctions} />
+                    <FunctionTray functions={this.props.models.functions.authorized} />
                     <div className="task-builder-diagram-wrapper"
-                        onDrop={e => this.DropFunction(e)}
+                        onDrop={e => this.dropFunction(e.dataTransfer.getData("functionName"), this.diagramEngine.getRelativeMousePoint(e))}
                         onDragOver={e => { e.preventDefault(); }}
                     >
                         <DiagramToast ref="toast" />
                         <SRD.DiagramWidget className="task-builder-diagram"
                             ref="diagram"
-                            diagramEngine={this.engine}
+                            diagramEngine={this.diagramEngine}
                             maxNumberPointsPerLink={0}
                             allowLooseLinks={false}
                         />

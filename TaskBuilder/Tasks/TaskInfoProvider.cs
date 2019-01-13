@@ -1,6 +1,5 @@
 using System;
 using CMS.DataEngine;
-using Newtonsoft.Json;
 using TaskBuilder.Models.Diagram;
 
 namespace TaskBuilder.Tasks
@@ -70,7 +69,7 @@ namespace TaskBuilder.Tasks
         {
             TaskInfo infoObj = GetTaskInfo(diagram.Id) ?? new TaskInfo();
 
-            infoObj.TaskGraph = JsonConvert.SerializeObject(diagram);
+            infoObj.TaskGraph = diagram.ToJSON();
 
             SetTaskInfo(infoObj);
         }

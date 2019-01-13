@@ -3,6 +3,7 @@
     background-color: #3c3c3c !important;
     background-image: linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0.1) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.1) 75%, rgba(255, 255, 255, 0.1) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0.1) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.1) 75%, rgba(255, 255, 255, 0.1) 76%, transparent 77%, transparent);
     background-size: 50px 50px;
+    color: #ddd;
 }
 
 .cms-bootstrap .PageContent {
@@ -84,26 +85,91 @@
         margin-top: 1em;
     }
 
-    #task-builder .task-builder-port {
-        display: flex;
-        margin-top: 1px;
+    #task-builder .srd-default-link-path-selected {
+        stroke-dasharray: 10,2;
+        animation: dash 1s linear infinite
     }
 
-        #task-builder .task-builder-port .port-icon {
-            background: rgba(255,255,255,.1);
-            padding: .5em;
-            border-radius: .5em;
-            border: 1px rgba(255,255,255,.1) solid;
+        #task-builder .srd-default-link-path-selected path {
+            stroke: #ffffff69 !important;
         }
 
-            #task-builder .task-builder-port .port-icon.port-icon--selected {
-                border: 1px white solid;
-            }
+    #task-builder .function {
+        background-color: #1e1e1e;
+        border-radius: 0.3em;
+        font-family: sans-serif;
+        overflow: hidden;
+        box-shadow: 0.2em 0.4em 0.3em #00000080;
+        white-space: nowrap;
+    }
 
-        #task-builder .task-builder-port .port-name {
-            padding: .5em;
+    #task-builder .srd-node--selected .function {
+        box-shadow: #9eefff 0 0 2em;
+    }
+
+    #task-builder .function-title {
+        background: #000;
+    }
+
+    #task-builder .function-name {
+        font-weight: 600;
+        padding: 0.2em 0.5em;
+        box-shadow: inset 0 0 10px #000;
+    }
+
+    #task-builder .function-ports {
+        display: flex;
+        background: linear-gradient(rgba(0, 0, 0, 0.65),rgba(0, 0, 0, 0));
+    }
+
+    #task-builder .function-in, .function-out {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #task-builder .function-out {
+        text-align: right;
+    }
+
+    #task-builder .port-invoke,
+    #task-builder .port-dispatch,
+    #task-builder .port-input,
+    #task-builder .port-output {
+        display: flex;
+    }
+
+    #task-builder .port-dispatch,
+    #task-builder .port-output {
+        justify-content: flex-end;
+    }
+
+    #task-builder .port.port-icon {
+        font-weight: bold;
+        padding: 0.5em;
+    }
+
+    #task-builder .port-name {
+        padding: 0.5em;
+    }
+
+    #task-builder .port.port-icon-selected {
+        text-shadow: 0 0 0.2em #fff, 0 0 0.5em #fff;
+        cursor: grab;
+    }
+
+    #task-builder .port-value select,
+    #task-builder .port-value input {
+        background: #333;
+        color: #ddd;
+        border: none;
+    }
+
+    #task-builder .port-value {
+        padding: 0.3em 0;
+    }
+
+        #task-builder .port-value option {
+            background: #333;
+            padding: .1em .2em;
         }
-
-.srd-default-port--out {
-    justify-content: initial;
-}

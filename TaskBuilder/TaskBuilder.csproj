@@ -54,6 +54,10 @@
     <Reference Include="CMS.Helpers">
       <HintPath>..\CMS\Bin\CMS.Helpers.dll</HintPath>
     </Reference>
+    <Reference Include="CMS.Localization, Version=11.0.0.0, Culture=neutral, PublicKeyToken=834b12a258f213f9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CMS\Bin\CMS.Localization.dll</HintPath>
+    </Reference>
     <Reference Include="CMS.Membership">
       <HintPath>..\CMS\Bin\CMS.Membership.dll</HintPath>
     </Reference>
@@ -118,21 +122,31 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\NamedAttribute.cs" />
+    <Compile Include="Attributes\PortAttribute.cs" />
     <Compile Include="Attributes\FunctionAttribute.cs" />
     <Compile Include="Functions\FunctionRoleInfo.cs" />
     <Compile Include="Functions\FunctionRoleInfoProvider.cs" />
     <Compile Include="Functions\FunctionSiteInfo.cs" />
     <Compile Include="Functions\FunctionSiteInfoProvider.cs" />
+    <Compile Include="Functions\Implementations\EventLogFunction.cs" />
+    <Compile Include="Functions\Implementations\StartFunction.cs" />
+    <Compile Include="Models\Diagram\Dispatch.cs" />
+    <Compile Include="Models\Diagram\Input.cs" />
+    <Compile Include="Models\Diagram\Invoke.cs" />
+    <Compile Include="Models\Diagram\Model.cs" />
+    <Compile Include="Models\Diagram\Output.cs" />
+    <Compile Include="Models\Function\InputOptionModel.cs" />
+    <Compile Include="Models\Function\IInvokeModel.cs" />
+    <Compile Include="Models\Function\CallerModel.cs" />
+    <Compile Include="Models\Function\IDispatchModel.cs" />
+    <Compile Include="Models\Function\IInputModel.cs" />
+    <Compile Include="Models\Function\InputModel.cs" />
+    <Compile Include="Models\Function\IOutputModel.cs" />
+    <Compile Include="Models\Function\IParameterModel.cs" />
+    <Compile Include="Models\Function\OutputModel.cs" />
+    <Compile Include="Models\InputType.cs" />
     <Compile Include="Models\Function\IFunctionModel.cs" />
-    <Compile Include="Models\IColoredModel.cs" />
-    <Compile Include="Models\ITypedModel.cs" />
-    <Compile Include="Models\ColoredModel.cs" />
-    <Compile Include="Models\TypedModel.cs" />
-    <Compile Include="Models\Port\PortModel.cs" />
-    <Compile Include="Models\Function\InvalidReturnTypeException.cs" />
-    <Compile Include="Models\Port\PortTypeEnum.cs" />
-    <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\Function\Exceptions\InvalidReturnTypeException.cs" />
     <Compile Include="Models\Diagram\Point.cs" />
     <Compile Include="Models\Diagram\Extras.cs" />
     <Compile Include="Models\Diagram\Port.cs" />
@@ -141,19 +155,14 @@
     <Compile Include="Models\Function\FunctionModel.cs" />
     <Compile Include="Functions\FunctionInfo.cs" />
     <Compile Include="Functions\FunctionInfoProvider.cs" />
-    <Compile Include="Functions\Types\EventLogFunction.cs" />
-    <Compile Include="Attributes\ColoredAttribute.cs" />
-    <Compile Include="Attributes\EnterAttribute.cs" />
     <Compile Include="Attributes\InputAttribute.cs" />
     <Compile Include="Attributes\OutputAttribute.cs" />
-    <Compile Include="Attributes\LeaveAttribute.cs" />
-    <Compile Include="Functions\Types\StartFunction.cs" />
     <Compile Include="Models\Diagram\Diagram.cs" />
-    <Compile Include="Models\IBaseModel.cs" />
-    <Compile Include="Models\Function\MissingAttributeException.cs" />
+    <Compile Include="Models\Function\Exceptions\MissingAttributeException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Function\FunctionModelComparer.cs" />
     <Compile Include="TaskBuilderSecuredActionFilterAttribute.cs" />
+    <Compile Include="TasksControllerResultEnum.cs" />
     <Compile Include="TasksController.cs" />
     <Compile Include="Services\FunctionModelService.cs" />
     <Compile Include="Services\IFunctionModelService.cs" />
@@ -170,7 +179,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

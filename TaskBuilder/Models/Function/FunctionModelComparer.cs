@@ -6,12 +6,12 @@ namespace TaskBuilder.Models.Function
     {
         public override bool Equals(IFunctionModel x, IFunctionModel y)
         {
-            return string.Equals(x.Type, y.Type);
+            return string.Equals(x.Name, y.Name);
         }
 
         public override int GetHashCode(IFunctionModel obj)
         {
-            return obj.Type.GetHashCode();
+            return obj.Name.GetHashCode();
         }
     }
 }

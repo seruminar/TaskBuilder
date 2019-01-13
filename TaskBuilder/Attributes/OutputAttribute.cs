@@ -2,17 +2,12 @@
 
 namespace TaskBuilder.Attributes
 {
-    [AttributeUsage(AttributeTargets.Property,
-              AllowMultiple = false,
-              Inherited = true)]
-    public class OutputAttribute : ColoredAttribute
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    public class OutputAttribute : PortAttribute
     {
-        public OutputAttribute() : base(null)
+        public OutputAttribute(string displayName = null)
         {
-        }
-
-        public OutputAttribute(string displayName) : base(displayName)
-        {
+            DisplayName = displayName;
         }
     }
 }

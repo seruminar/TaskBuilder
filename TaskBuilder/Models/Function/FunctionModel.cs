@@ -2,126 +2,117 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-using Newtonsoft.Json;
-
 using TaskBuilder.Attributes;
-using TaskBuilder.Models.Diagram;
+using TaskBuilder.Models.Function.Exceptions;
 
 namespace TaskBuilder.Models.Function
 {
-    public class FunctionModel : BaseModel, IFunctionModel
+    public class FunctionModel : IFunctionModel
     {
-        [JsonProperty("enter")]
-        public ITypedModel Enter { get; }
+        private readonly string INVOKE = "Invoke";
+        private readonly string DISPATCH = "Dispatch";
 
-        [JsonProperty("leave")]
-        public ITypedModel Leave { get; }
+        public string Name { get; }
 
-        [JsonProperty("inputs")]
-        public ICollection<IColoredModel> Inputs { get; } = new List<IColoredModel>();
+        public string DisplayName { get; }
 
-        [JsonProperty("outputs")]
-        public ICollection<IColoredModel> Outputs { get; } = new List<IColoredModel>();
+        public string DisplayColor { get; }
 
-        internal FunctionModel(string type)
+        public IInvokeModel Invoke { get; }
+
+        public IDispatchModel Dispatch { get; }
+
+        public ICollection<IInputModel> Inputs { get; } = new List<IInputModel>();
+
+        public ICollection<IOutputModel> Outputs { get; } = new List<IOutputModel>();
+
+        internal FunctionModel(string name)
         {
-            Type = type;
+            Name = name;
         }
 
         public FunctionModel(Type functionType)
         {
+            Name = functionType.FullName;
+
             var attribute = functionType.GetCustomAttribute<FunctionAttribute>();
 
-            if (attribute != null)
-            {
-                Type = functionType.FullName;
-                DisplayName = attribute.DisplayName ?? functionType.FullName;
-            }
+            DisplayName = TaskBuilderHelper.GetDisplayName(attribute.DisplayName, functionType.FullName, functionType.Name);
+            DisplayColor = TaskBuilderHelper.GetDisplayColor(null, attribute.DisplayColor);
 
-            foreach (var method in functionType.GetMethods())
+            foreach (var method in functionType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
             {
-                PortModel enter;
+                CallerModel invoke;
 
-                if (TryBuildEnter(method, out enter))
+                if (TryBuildInvoke(method, out invoke))
                 {
-                    Enter = enter;
+                    Invoke = invoke;
                     break;
                 }
 
                 continue;
             }
 
-            if (Enter == null)
-            {
-                throw new MissingAttributeException($"The type {nameof(functionType)} does not have a method decorated with {nameof(EnterAttribute)}. This is required for the function to be called.");
-            }
+            if (Invoke == null)
+                throw new MissingMethodException($"The type {nameof(functionType)} does not have a method named {INVOKE}. This is required for the function to be invoked.");
+
+            CallerModel dispatch;
 
             foreach (var property in functionType.GetProperties())
             {
-                PortModel model;
+                if (Dispatch == null && TryBuildDispatch(property, out dispatch))
+                {
+                    Dispatch = dispatch;
+                    continue;
+                }
 
-                if (Leave == null && TryBuildLeave(property, out model))
+                InputModel input;
+
+                if (TryAddInput(property, functionType.FullName, out input))
                 {
-                    Leave = model;
+                    Inputs.Add(input);
+                    continue;
                 }
-                else
-                if (TryAddInput(property, out model))
+
+                OutputModel output;
+
+                if (TryAddOutput(property, functionType.FullName, out output))
                 {
-                    Inputs.Add(model);
-                }
-                else
-                if (TryAddOutput(property, out model))
-                {
-                    Outputs.Add(model);
+                    Outputs.Add(output);
+                    continue;
                 }
             }
         }
 
-        private bool TryBuildEnter(MethodInfo method, out PortModel enter)
+        private bool TryBuildInvoke(MethodInfo method, out CallerModel invoke)
         {
-            var attribute = method.GetCustomAttribute<EnterAttribute>();
-
-            if (attribute == null)
+            if (!method.Name.Equals(INVOKE, StringComparison.OrdinalIgnoreCase))
             {
-                enter = null;
+                invoke = null;
                 return false;
             }
 
-            if (method.ReturnType != typeof(void))
-                throw new InvalidReturnTypeException($"The return type of {method.Name} must be void in order to be used as {nameof(Enter)}");
+            EnsureMemberType(method.ReturnType != typeof(void), method.Name, "void", nameof(Invoke));
 
-            enter = new PortModel(method.Name,
-                attribute.DisplayName,
-                method.ReturnType.Name,
-                PortTypeEnum.Enter,
-                attribute.DisplayColor
-            );
+            invoke = new CallerModel(method.Name);
             return true;
         }
 
-        private bool TryBuildLeave(PropertyInfo property, out PortModel leave)
+        private bool TryBuildDispatch(PropertyInfo property, out CallerModel dispatch)
         {
-            var attribute = property.GetCustomAttribute<LeaveAttribute>();
-
-            if (attribute == null)
+            if (!property.Name.Equals(DISPATCH, StringComparison.OrdinalIgnoreCase))
             {
-                leave = null;
+                dispatch = null;
                 return false;
             }
 
-            if (property.PropertyType != typeof(Action))
-                throw new InvalidReturnTypeException($"The return type of {property.Name} must be {nameof(Action)} in order to be used as {nameof(Leave)}.");
+            EnsureMemberType(property.PropertyType != typeof(Action), property.Name, nameof(Action), nameof(Dispatch));
 
-            leave = new PortModel(property.Name,
-                attribute.DisplayName,
-                property.PropertyType.Name,
-                PortTypeEnum.Leave,
-                attribute.DisplayColor
-            );
+            dispatch = new CallerModel(property.Name);
             return true;
         }
 
-        private bool TryAddInput(PropertyInfo property, out PortModel input)
+        private bool TryAddInput(PropertyInfo property, string functionFullName, out InputModel input)
         {
             var attribute = property.GetCustomAttribute<InputAttribute>();
 
@@ -131,19 +122,16 @@ namespace TaskBuilder.Models.Function
                 return false;
             }
 
-            if (property.PropertyType.Name != "Func`1" || property.PropertyType.GenericTypeArguments.Length != 1)
-                throw new InvalidReturnTypeException($"The return type of {property.Name} must be a Func with one parameter in order to be used for {nameof(Inputs)}.");
+            EnsureMemberType(property.PropertyType.Name != "Func`1" || property.PropertyType.GenericTypeArguments.Length != 1, property.Name, "Func with one parameter", nameof(Inputs));
 
-            input = new PortModel(property.Name,
-                attribute.DisplayName,
+            input = new InputModel(property.Name,
+                functionFullName + property.Name,
                 property.PropertyType.GenericTypeArguments[0].Name,
-                PortTypeEnum.Input,
-                attribute.DisplayColor
-            );
+                attribute);
             return true;
         }
 
-        private bool TryAddOutput(PropertyInfo property, out PortModel output)
+        private bool TryAddOutput(PropertyInfo property, string functionFullName, out OutputModel output)
         {
             var attribute = property.GetCustomAttribute<OutputAttribute>();
 
@@ -153,13 +141,20 @@ namespace TaskBuilder.Models.Function
                 return false;
             }
 
-            output = new PortModel(property.Name,
-                attribute.DisplayName,
+            EnsureMemberType(property.PropertyType.GetTypeInfo().IsGenericType, property.Name, property.PropertyType.Name, nameof(Outputs));
+
+            output = new OutputModel(property.Name,
+                functionFullName + property.Name,
                 property.PropertyType.Name,
-                PortTypeEnum.Output,
-                attribute.DisplayColor
+                attribute
             );
             return true;
+        }
+
+        private void EnsureMemberType(bool invalidCondition, string functionMemberName, string typeName, string modelMemberName)
+        {
+            if (invalidCondition)
+                throw new InvalidReturnTypeException($"The return type of {functionMemberName} must be {typeName} in order to be used for {modelMemberName}");
         }
     }
 }

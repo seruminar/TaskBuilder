@@ -33,4 +33,7 @@
   <ElementSize>0</ElementSize>
   <ElementTargetURL>~/CMSModules/TaskBuilder/TaskBuilder_Sandbox.aspx</ElementTargetURL>
   <ElementType>Url</ElementType>
+  <ElementVisibilityCondition>
+    <![CDATA[{%Rule("(CurrentUser.IsAuthorizedPerResource(\"TaskBuilder\",\"Modify\"))", "<rules><r pos=\"0\" par=\"\" op=\"and\" n=\"Permission\" ><p n=\"module\"><t>TaskBuilder</t><v>TaskBuilder</v><r>0</r><d>select module</d><vt>text</vt><tv>1</tv></p><p n=\"permission\"><t>Modify</t><v>Modify</v><r>0</r><d>select permission</d><vt>text</vt><tv>1</tv></p></r></rules>")|(identity)GlobalAdministrator|(hash)d626a2682264466ce6834b6780e7303ed8b26960f65ce947d9f1d1ffe58e1937%}]]>
+  </ElementVisibilityCondition>
 </cms.uielement>

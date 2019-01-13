@@ -1,11 +1,12 @@
 ﻿using System;
+
 using CMS.Base.Web.UI;
 using CMS.Core;
 using CMS.Helpers;
 using CMS.Membership;
 using CMS.SiteProvider;
 using CMS.UIControls;
-using Newtonsoft.Json;
+
 using TaskBuilder;
 using TaskBuilder.Models.Diagram;
 using TaskBuilder.Services;
@@ -43,12 +44,26 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
     {
         var diagramAreaProps = new
         {
-            allFunctions = _functionModelService.FunctionModels,
-            authorizedFunctions = _functionModelService.GetAuthorizedFunctionModels(MembershipContext.AuthenticatedUser, SiteContext.CurrentSiteName),
-            allPortTypes = TaskBuilderHelper.PortTypes,
-            allLinkTypes = TaskBuilderHelper.LinkTypes,
-            graph = EnsureTaskGraph(EditedObject as TaskInfo),
-            graphMode = EnsureGraphMode(),
+            models = new
+            {
+                functions = new
+                {
+                    all = _functionModelService.FunctionModels,
+                    authorized = _functionModelService.GetAuthorizedFunctionModels(MembershipContext.AuthenticatedUser, SiteContext.CurrentSiteName)
+                },
+                ports = TaskBuilderHelper.PortTypes,
+                links = TaskBuilderHelper.LinkTypes
+            },
+            graph = new
+            {
+                json = EnsureTaskGraph(EditedObject as TaskInfo),
+                mode = EnsureGraphMode()
+            },
+            endpoints = new
+            {
+                save = "/Kentico11_hf_TaskBuilder/taskbuilder/Tasks/SaveTask",
+                run = "/Kentico11_hf_TaskBuilder/taskbuilder/Tasks/RunTask"
+            },
             secureToken = SecureToken
         };
 
@@ -83,6 +98,6 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
     {
         return !string.IsNullOrEmpty(taskInfo.TaskGraph)
             ? taskInfo.TaskGraph
-            : JsonConvert.SerializeObject(new Diagram(taskInfo.TaskGuid));
+            : new Diagram(taskInfo.TaskGuid).ToJSON();
     }
 }

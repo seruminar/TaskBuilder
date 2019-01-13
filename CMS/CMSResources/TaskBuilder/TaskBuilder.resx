@@ -161,4 +161,10 @@
   <data name="taskbuilder.task.graph.caption" xml:space="preserve">
     <value>Task graph</value>
   </data>
+  <data name="taskbuilder.messages.savesuccessful" xml:space="preserve">
+    <value>Save successful.</value>
+  </data>
+  <data name="taskbuilder.messages.runcompleted" xml:space="preserve">
+    <value>Run completed.</value>
+  </data>
 </root>

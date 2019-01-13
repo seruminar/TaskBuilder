@@ -10,7 +10,6 @@ using CMS.Helpers;
 
 using TaskBuilder.Attributes;
 using TaskBuilder.Functions;
-using TaskBuilder.Models;
 using TaskBuilder.Models.Function;
 
 namespace TaskBuilder.Services
@@ -25,9 +24,6 @@ namespace TaskBuilder.Services
 
         #region Public Methods
 
-        /// <summary>
-        /// Get all <see cref="IBaseModel"/>s authorized for given user and site.
-        /// </summary>
         public IEnumerable<IFunctionModel> GetAuthorizedFunctionModels(IUserInfo user, SiteInfoIdentifier siteIdentifier)
         {
             var functionClassNames = FunctionInfoProvider
@@ -43,10 +39,6 @@ namespace TaskBuilder.Services
 
         #region Private Methods
 
-        /// <summary>
-        /// Finds all of the function types, gets their ports and creates a model in the cache.
-        /// When a task builder is opened, the React app pulls in the models for deserialization and creating new ones in the side drawer.
-        /// </summary>
         private static IEnumerable<IFunctionModel> RegisterFunctionModels()
         {
             var functionTypes = DiscoverFunctionTypes();

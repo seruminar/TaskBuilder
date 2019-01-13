@@ -4,7 +4,7 @@
             <div
                 draggable className="task-builder-tray-item"
                 onDragStart={e => {
-                    e.dataTransfer.setData("functionModel", this.props.functionModel.type);
+                    e.dataTransfer.setData("functionName", this.props.functionModel.name);
                 }}
             >
                 <i className="icon-w-products-data-source" />

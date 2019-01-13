@@ -6,6 +6,7 @@ using System.Web.Http;
 
 using CMS.Base;
 using CMS.EventLog;
+using CMS.Helpers;
 using TaskBuilder.Models.Diagram;
 using TaskBuilder.Tasks;
 
@@ -21,13 +22,14 @@ namespace TaskBuilder
 
             return Json(new
             {
-                result = "savesuccess"
+                result = TasksControllerResultEnum.Success,
+                message = ResHelper.GetString("taskbuilder.messages.savesuccessful")
             });
         }
 
         [HttpPost]
         [TaskBuilderSecuredActionFilter]
-        public void RunTask([FromBody] Diagram diagram)
+        public IHttpActionResult RunTask([FromBody] Diagram diagram)
         {
             var sw1 = new Stopwatch();
 
@@ -40,6 +42,12 @@ namespace TaskBuilder
             EventLogProvider.LogInformation(nameof(TasksController), "TESTBENCHMARK",
                 $"Log event to Event log: {(double)sw1.ElapsedTicks / Stopwatch.Frequency * 1000L}ms"
                 );
+
+            return Json(new
+            {
+                result = TasksControllerResultEnum.Success,
+                message = ResHelper.GetString("taskbuilder.messages.runcompleted")
+            });
         }
 
         private void Run(Diagram diagram)
@@ -63,7 +71,7 @@ namespace TaskBuilder
                 }
 
                 // Find the start function and save it
-                if (node.Type == "TaskBuilder.Functions.StartFunction")
+                if (node.Type == "TaskBuilder.Functions.Implementations.StartFunction")
                 {
                     startTypeObject = Tuple.Create(nodeType, typeObject);
                 }
@@ -84,19 +92,19 @@ namespace TaskBuilder
                 switch (link.Type)
                 {
                     case "caller":
-                        source.Item1.GetProperty(sourcePort.Type).SetValue(
+                        source.Item1.GetProperty(sourcePort.Name).SetValue(
                             source.Item2,
-                            target.Item1.GetMethod(targetPort.Type).CreateDelegate(
-                                source.Item1.GetProperty(sourcePort.Type).PropertyType,
+                            target.Item1.GetMethod(targetPort.Name).CreateDelegate(
+                                source.Item1.GetProperty(sourcePort.Name).PropertyType,
                                 target.Item2)
                         );
                         break;
 
-                    case "default":
-                        target.Item1.GetProperty(targetPort.Type).SetValue(
+                    case "parameter":
+                        target.Item1.GetProperty(targetPort.Name).SetValue(
                             target.Item2,
-                            source.Item1.GetProperty(sourcePort.Type).GetMethod.CreateDelegate(
-                                target.Item1.GetProperty(targetPort.Type).PropertyType,
+                            source.Item1.GetProperty(sourcePort.Name).GetMethod.CreateDelegate(
+                                target.Item1.GetProperty(targetPort.Name).PropertyType,
                                 source.Item2)
                         );
                         break;
@@ -104,26 +112,26 @@ namespace TaskBuilder
             }
 
             // Call the start function
-            startTypeObject?.Item1.GetMethod("SourceInReceiver").Invoke(startTypeObject.Item2, null);
+            startTypeObject?.Item1.GetMethod("Invoke").Invoke(startTypeObject.Item2, null);
         }
 
         private void TestBenchmark()
         {
-            var source1 = new Functions.Types.StartFunction();
-            var target1 = new Functions.Types.EventLogFunction();
+            var source1 = new Functions.Implementations.StartFunction();
+            var target1 = new Functions.Implementations.EventLogFunction();
 
             //Connect links
-            source1.SourceOutSender = target1.TargetInReceiver;
+            source1.Dispatch = target1.Invoke;
 
             // Call start node
-            source1.SourceInReceiver();
+            source1.Invoke();
 
             var sw2 = new Stopwatch();
 
             sw2.Start();
 
-            Type sourceType2 = ClassHelper.GetClassType("TaskBuilder", "TaskBuilder.Functions.StartFunction");
-            Type targetType2 = ClassHelper.GetClassType("TaskBuilder", "TaskBuilder.Functions.EventLogFunction");
+            Type sourceType2 = ClassHelper.GetClassType("TaskBuilder", "TaskBuilder.Functions.Implementations.StartFunction");
+            Type targetType2 = ClassHelper.GetClassType("TaskBuilder", "TaskBuilder.Functions.Implementations.EventLogFunction");
 
             var source2 = FormatterServices.GetUninitializedObject(sourceType2);
             var target2 = FormatterServices.GetUninitializedObject(targetType2);

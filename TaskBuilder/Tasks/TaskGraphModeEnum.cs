@@ -3,6 +3,7 @@
     public enum TaskGraphModeEnum
     {
         Full,
-        Readonly
+        Readonly,
+        Sandbox
     }
 }
