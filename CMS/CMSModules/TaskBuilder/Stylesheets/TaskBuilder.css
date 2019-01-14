@@ -64,7 +64,7 @@
     }
 
         #task-builder .task-builder-tray-item:hover {
-            background-color: #d0e8ed !important;
+            background-color: rgb(208, 232, 237) !important;
         }
 
         #task-builder .task-builder-tray-item i {
@@ -91,21 +91,30 @@
     }
 
         #task-builder .srd-default-link-path-selected path {
-            stroke: #ffffff69 !important;
+            stroke: rgba(255, 255, 255, 0.5) !important;
         }
 
     #task-builder .function {
-        background-color: #1e1e1e;
-        border-radius: 0.3em;
-        font-family: sans-serif;
-        overflow: hidden;
-        box-shadow: 0.2em 0.4em 0.3em #00000080;
+        border-radius: 0.5em;
         white-space: nowrap;
+        border: 0.2em solid transparent;
     }
 
+        #task-builder .function .function-shadow {
+            background-color: #1e1e1e;
+            border-radius: 0.3em;
+            overflow: hidden;
+            box-shadow: 0.2em 0.4em 0.3em rgba(0, 0, 0, 0.5);
+        }
+
     #task-builder .srd-node--selected .function {
-        box-shadow: #9eefff 0 0 2em;
+        border: 0.2em solid rgb(208, 232, 237);
+        box-shadow: 0.2em 0.4em 0.3em rgba(0, 0, 0, 0.5);
     }
+
+        #task-builder .srd-node--selected .function .function-shadow {
+            box-shadow: initial;
+        }
 
     #task-builder .function-title {
         background: #000;
@@ -144,13 +153,17 @@
         justify-content: flex-end;
     }
 
-    #task-builder .port.port-icon {
+    #task-builder .port {
         font-weight: bold;
         padding: 0.5em;
     }
 
-    #task-builder .port-name {
-        padding: 0.5em;
+    #task-builder .function-in .port-name {
+        padding: 0.5em 0.5em 0.5em 0;
+    }
+
+    #task-builder .function-out .port-name {
+        padding: 0.5em 0 0.5em 0.5em;
     }
 
     #task-builder .port.port-icon-selected {

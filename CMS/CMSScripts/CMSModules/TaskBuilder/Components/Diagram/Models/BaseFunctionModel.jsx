@@ -1,7 +1,7 @@
 ﻿const SRD = window["storm-react-diagrams"];
 
 class BaseFunctionModel extends SRD.NodeModel {
-    model;
+    model = null;
 
     constructor(model, forcePorts) {
         super(model.name);
@@ -40,7 +40,7 @@ class BaseFunctionModel extends SRD.NodeModel {
         return super.addPort(new BaseOutputModel(model));
     }
 
-    deSerialize(other, engine: SRD.DiagramEngine) {
+    deSerialize(other, engine) {
         super.deSerialize(other, engine);
         this.model = other.model;
     }

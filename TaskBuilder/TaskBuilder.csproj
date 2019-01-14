@@ -130,12 +130,15 @@
     <Compile Include="Functions\FunctionSiteInfoProvider.cs" />
     <Compile Include="Functions\Implementations\EventLogFunction.cs" />
     <Compile Include="Functions\Implementations\StartFunction.cs" />
+    <Compile Include="Functions\IValueFactory.cs" />
+    <Compile Include="Functions\InputValueFactories\StringValueFactory.cs" />
     <Compile Include="Models\Diagram\Dispatch.cs" />
     <Compile Include="Models\Diagram\Input.cs" />
     <Compile Include="Models\Diagram\Invoke.cs" />
     <Compile Include="Models\Diagram\Model.cs" />
     <Compile Include="Models\Diagram\Output.cs" />
-    <Compile Include="Models\Function\InputOptionModel.cs" />
+    <Compile Include="Models\Function\IInputValueModel.cs" />
+    <Compile Include="Models\Function\InputValueModel.cs" />
     <Compile Include="Models\Function\IInvokeModel.cs" />
     <Compile Include="Models\Function\CallerModel.cs" />
     <Compile Include="Models\Function\IDispatchModel.cs" />

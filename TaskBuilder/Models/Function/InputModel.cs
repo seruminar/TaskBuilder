@@ -1,4 +1,5 @@
-﻿using TaskBuilder.Attributes;
+﻿using System.Collections.Generic;
+using TaskBuilder.Attributes;
 
 namespace TaskBuilder.Models.Function
 {
@@ -14,9 +15,11 @@ namespace TaskBuilder.Models.Function
 
         public InputType InputType { get; }
 
-        public object DefaultValue { get; }
+        public string Value { get; }
 
-        public InputOptionModel[] InputOptions { get; }
+        public InputValueModel DefaultValue { get; }
+
+        public IEnumerable<InputValueModel> ValueOptions { get; }
 
         public InputModel(string name, string fullName, string typeName, InputAttribute attribute)
         {
@@ -26,7 +29,7 @@ namespace TaskBuilder.Models.Function
             DisplayColor = TaskBuilderHelper.GetDisplayColor(typeName);
             InputType = attribute.InputType;
             DefaultValue = attribute.DefaultValue;
-            InputOptions = attribute.InputOptions;
+            ValueOptions = attribute.ValueOptions;
         }
     }
 }

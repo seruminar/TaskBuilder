@@ -7,7 +7,7 @@ using TaskBuilder.Models.Function.Exceptions;
 
 namespace TaskBuilder.Models.Function
 {
-    public class FunctionModel : IFunctionModel
+    internal class FunctionModel : IFunctionModel
     {
         private readonly string INVOKE = "Invoke";
         private readonly string DISPATCH = "Dispatch";

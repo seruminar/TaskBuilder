@@ -6,9 +6,9 @@ namespace TaskBuilder.Attributes
     [AttributeUsage(AttributeTargets.Struct, AllowMultiple = false)]
     public class FunctionAttribute : Attribute
     {
-        public string DisplayName { get; }
+        internal string DisplayName { get; }
 
-        public Color DisplayColor { get; }
+        internal Color DisplayColor { get; }
 
         public FunctionAttribute(string displayName)
         {

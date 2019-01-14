@@ -15,6 +15,8 @@ class TaskDiagram extends React.Component {
         diagramEngine.setDiagramModel(graphModel);
 
         this.diagramEngine = diagramEngine;
+
+        window.diagram = this;
     }
 
     requestWithSerializedGraphBody = () => {

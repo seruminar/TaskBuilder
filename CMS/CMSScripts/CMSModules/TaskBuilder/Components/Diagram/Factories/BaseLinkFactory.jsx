@@ -1,7 +1,7 @@
 ﻿const SRD = window["storm-react-diagrams"];
 
 class BaseLinkFactory extends SRD.AbstractLinkFactory {
-    constructor(type: string) {
+    constructor(type) {
         super(type);
     }
 
@@ -9,7 +9,7 @@ class BaseLinkFactory extends SRD.AbstractLinkFactory {
         return <SRD.DefaultLinkWidget link={link} diagramEngine={diagramEngine} />;
     }
 
-    getNewInstance(initialConfig?: any) {
+    getNewInstance(initialConfig) {
         switch (this.type) {
             case "caller":
                 return new BaseCallerLinkModel();

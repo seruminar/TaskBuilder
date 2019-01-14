@@ -1,14 +1,12 @@
 ﻿const SRD = window["storm-react-diagrams"];
 
 class BaseParameterLinkModel extends SRD.LinkModel {
-    width: number;
-    curvyness: number;
-    color: string;
+    width = 3;
+    curvyness = 50;
+    color = null;
 
-    constructor(linkColor: string) {
+    constructor(linkColor) {
         super("parameter");
-        this.width = 3;
-        this.curvyness = 50;
         this.color = linkColor;
     }
 
@@ -20,7 +18,7 @@ class BaseParameterLinkModel extends SRD.LinkModel {
         });
     }
 
-    deSerialize(ob, engine: SRD.DiagramEngine) {
+    deSerialize(ob, engine) {
         super.deSerialize(ob, engine);
         this.width = ob.width;
         this.curvyness = ob.curvyness;
@@ -37,7 +35,7 @@ class BaseParameterLinkModel extends SRD.LinkModel {
         super.setTargetPort(port);
     }
 
-    addLabel(label: SRD.LabelModel | string) {
+    addLabel(label) {
         if (label instanceof SRD.LabelModel) {
             return super.addLabel(label);
         }
@@ -48,20 +46,20 @@ class BaseParameterLinkModel extends SRD.LinkModel {
         return super.addLabel(labelOb);
     }
 
-    setWidth(width: number) {
+    setWidth(width) {
         this.width = width;
 
-        this.iterateListeners((listener: SRD.DefaultLinkModelListener, event: vBaseEvent) => {
+        this.iterateListeners((listener, event) => {
             if (listener.widthChanged) {
                 listener.widthChanged({ ...event, width: width });
             }
         });
     }
 
-    setColor(color: string) {
+    setColor(color) {
         this.color = color;
 
-        this.iterateListeners((listener: SRD.DefaultLinkModelListener, event: SRD.BaseEvent) => {
+        this.iterateListeners((listener, event) => {
             if (listener.colorChanged) {
                 listener.colorChanged({ ...event, color: color });
             }

@@ -1,11 +1,15 @@
-﻿namespace TaskBuilder.Models.Function
+﻿using System.Collections.Generic;
+
+namespace TaskBuilder.Models.Function
 {
     public interface IInputModel : IParameterModel
     {
         InputType InputType { get; }
 
-        object DefaultValue { get; }
+        string Value { get; }
 
-        InputOptionModel[] InputOptions { get; }
+        InputValueModel DefaultValue { get; }
+
+        IEnumerable<InputValueModel> ValueOptions { get; }
     }
 }

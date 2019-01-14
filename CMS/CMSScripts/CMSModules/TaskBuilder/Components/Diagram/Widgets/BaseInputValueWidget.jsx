@@ -16,47 +16,39 @@ class BaseInputValueWidget extends SRD.BaseWidget {
     }
 
     render() {
-        let inputType;
-
-        if (this.props.inputOptions && this.props.inputOptions.length) {
-            inputType = "dropdown";
-        } else {
-            switch (this.props.inputType) {
-                case "automatic":
-                    switch (this.props.typeName) {
-                        case "string":
-                        case "int":
-                            inputType = "field";
-                            break;
-                        default:
-                            inputType = "none";
-                    }
-                    break;
-                default:
-                    inputType = this.props.inputType;
-            }
+        let value;
+        if (this.props.defaultValue) {
+            value = this.props.defaultValue.value;
         }
 
-        switch (inputType) {
+        switch (this.props.inputType) {
+            case "bare":
+            case "plain":
+                return <div />;
+            case "field":
+                return (
+                    <div {...this.getProps()}>
+                        <input
+                            type="text"
+                            value={value}
+                            onChange={e => this.setValue(e)}
+                        />
+                    </div>
+                );
             case "dropdown":
                 return (
                     <div {...this.getProps()}>
-                        <select onChange={e => this.setValue(e)}>
-                            {this.props.inputOptions.map((option, i) =>
-                                <option value={option.value} key={option.value + i}>{option.displayName}</option>
+                        <select onChange={e => this.setValue(e)} defaultValue={value}>
+                            {this.props.valueOptions.map((option, i) =>
+                                (
+                                    <option key={i}>
+                                        {option.value}
+                                    </option>
+                                )
                             )}
                         </select>
                     </div>
                 );
-            case "field":
-                return (
-                    <div {...this.getProps()}>
-                        <input type="text" onInput={e => this.setValue(e)} />
-                    </div>
-                );
-            case "none":
-            default:
-                return <div />;
         }
     }
 }

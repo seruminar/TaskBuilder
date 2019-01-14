@@ -1,21 +1,23 @@
 ﻿const SRD = window["storm-react-diagrams"];
 
 class BaseInputModel extends SRD.PortModel {
-    model;
-    linked;
-    value;
+    model = null;
+    linked = false;
+    value = null;
 
     constructor(model) {
         if (model) {
             super(model.name, "input");
             this.model = model;
-            this.value = model.defaultValue;
+            if (model.defaultValue) {
+                this.value = model.defaultValue.value;
+            }
         } else {
             super("", "input");
         }
     }
 
-    deSerialize(other, engine: SRD.DiagramEngine) {
+    deSerialize(other, engine) {
         super.deSerialize(other, engine);
         this.model = other.model;
         this.value = other.value;
@@ -34,13 +36,13 @@ class BaseInputModel extends SRD.PortModel {
         this.value = value;
     }
 
-    canLinkToPort(other): boolean {
+    canLinkToPort(other) {
         //return other instanceof BaseOutputModel
         //    && other.model.typeName === this.model.typeName;
         return false;
     }
 
-    createLinkModel(): SRD.LinkModel {
+    createLinkModel() {
         return new BaseParameterLinkModel(this.model.displayColor);
     }
 

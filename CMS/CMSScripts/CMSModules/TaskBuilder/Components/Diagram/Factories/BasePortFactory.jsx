@@ -1,7 +1,7 @@
 ﻿const SRD = window["storm-react-diagrams"];
 
 class BasePortFactory extends SRD.AbstractPortFactory {
-    getNewInstance(initialConfig?: any) {
+    getNewInstance(initialConfig) {
         switch (this.type) {
             case "invoke":
                 return new BaseInvokeModel(null, null);

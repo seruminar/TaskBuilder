@@ -1,7 +1,7 @@
 ﻿const SRD = window["storm-react-diagrams"];
 
 class BaseFunctionFactory extends SRD.AbstractNodeFactory {
-    model;
+    model = null;
 
     constructor(model) {
         super(model.name);
@@ -9,11 +9,11 @@ class BaseFunctionFactory extends SRD.AbstractNodeFactory {
         this.model = model;
     }
 
-    generateReactWidget(diagramEngine: SRD.DiagramEngine, node: BaseFunctionModel) {
-        return <BaseFunctionWidget function={node} diagramEngine={diagramEngine} />;
+    generateReactWidget(engine, node) {
+        return <BaseFunctionWidget function={node} diagramEngine={engine} />;
     }
 
-    getNewInstance(initialConfig?: any, forcePorts, locationPoint): BaseFunctionModel {
+    getNewInstance(initialConfig, forcePorts, locationPoint) {
         const nodeModel = new BaseFunctionModel(this.model, forcePorts);
 
         if (locationPoint) {

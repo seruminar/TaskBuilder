@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
+
 using TaskBuilder.Models;
 using TaskBuilder.Models.Function;
 
@@ -9,75 +11,76 @@ namespace TaskBuilder.Attributes
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class InputAttribute : PortAttribute
     {
-        private readonly string INPUT_OPTIONS_FACTORY_METHOD_NAME = "InputOptions";
+        public const string FACTORY_VALUE_OPTIONS_METHOD = "ValueOptions";
+        public const string FACTORY_DEFAULT_VALUE_METHOD = "DefaultValue";
 
-        public object DefaultValue { get; }
+        internal InputType InputType { get; }
 
-        public InputType InputType { get; }
+        internal Type ValueFactory { get; }
 
-        public InputOptionModel[] InputOptions { get; }
+        internal InputValueModel DefaultValue { get; }
 
-        public InputAttribute(InputType inputType) : this(null, inputType)
+        internal IEnumerable<InputValueModel> ValueOptions { get; }
+
+        public InputAttribute(string displayName = null) : this(displayName, null, null, null)
         {
         }
 
-        public InputAttribute(string displayName, InputType inputType = InputType.Automatic) : this(displayName, null, inputType: inputType)
+        public InputAttribute(Type valueFactory, object[] defaultValueParams = null, object[] valueOptionsParams = null) : this(null, valueFactory, defaultValueParams, valueOptionsParams)
         {
         }
 
-        public InputAttribute(object defaultValue, InputType inputType = InputType.Automatic) : this(null, defaultValue, inputType)
+        public InputAttribute(string displayName, Type valueFactory, object[] defaultValueParams = null, object[] valueOptionsParams = null)
         {
+            InputType = InputType.Bare;
+
+            if (!string.IsNullOrEmpty(displayName))
+            {
+                DisplayName = displayName;
+                InputType = InputType.Plain;
+            }
+
+            if (valueFactory != null)
+            {
+                ValueFactory = valueFactory;
+
+                if (defaultValueParams != null)
+                {
+                    DefaultValue = TryGetDefaultValue(valueFactory, defaultValueParams);
+                    InputType = InputType.Field;
+                }
+
+                if (valueOptionsParams != null)
+                {
+                    ValueOptions = TryGetValueOptions(valueFactory, valueOptionsParams);
+                    InputType = InputType.Dropdown;
+                }
+            }
+            else throw new ArgumentNullException(nameof(ValueFactory));
         }
 
-        public InputAttribute(string displayName, object defaultValue, InputType inputType = InputType.Automatic)
+        private InputValueModel TryGetDefaultValue(Type valueFactory, object[] defaultValueParams)
         {
-            DisplayName = displayName;
-            DefaultValue = defaultValue;
-            InputType = inputType;
+            var factory = FormatterServices.GetUninitializedObject(valueFactory);
+            return valueFactory.InvokeMember(
+                FACTORY_DEFAULT_VALUE_METHOD,
+                BindingFlags.Public | BindingFlags.Instance | BindingFlags.InvokeMethod,
+                null,
+                factory,
+                defaultValueParams)
+                as InputValueModel;
         }
 
-        public InputAttribute(Type inputOptionsFactory) : this(null, inputOptionsFactory)
+        private IEnumerable<InputValueModel> TryGetValueOptions(Type valueFactory, object[] valueOptionsParams)
         {
-        }
-
-        public InputAttribute(Type inputOptionsFactory, object defaultValue) : this(null, inputOptionsFactory, defaultValue)
-        {
-        }
-
-        public InputAttribute(string displayName, Type inputOptionsFactory) : this(displayName, inputOptionsFactory, null)
-        {
-        }
-
-        public InputAttribute(string displayName, Type inputOptionsFactory, object defaultValue)
-        {
-            DisplayName = displayName;
-            DefaultValue = defaultValue;
-            InputOptions = TryGetInputOptions(inputOptionsFactory);
-        }
-
-        public InputAttribute(object[] inputOptions) : this(null, inputOptions)
-        {
-        }
-
-        public InputAttribute(object[] inputOptions, object defaultValue) : this(null, inputOptions, defaultValue)
-        {
-        }
-
-        public InputAttribute(string displayName, object[] inputOptions) : this(displayName, inputOptions, null)
-        {
-        }
-
-        public InputAttribute(string displayName, object[] inputOptions, object defaultValue)
-        {
-            DisplayName = displayName;
-            DefaultValue = defaultValue;
-            InputOptions = Array.ConvertAll(inputOptions, new Converter<object, InputOptionModel>(obj => new InputOptionModel(obj)));
-        }
-
-        private InputOptionModel[] TryGetInputOptions(Type inputOptionsFactory)
-        {
-            var factory = FormatterServices.GetUninitializedObject(inputOptionsFactory);
-            return inputOptionsFactory.InvokeMember(INPUT_OPTIONS_FACTORY_METHOD_NAME, BindingFlags.Public | BindingFlags.Instance, null, factory, null) as InputOptionModel[];
+            var factory = FormatterServices.GetUninitializedObject(valueFactory);
+            return valueFactory.InvokeMember(
+                FACTORY_VALUE_OPTIONS_METHOD,
+                BindingFlags.Public | BindingFlags.Instance | BindingFlags.InvokeMethod,
+                null,
+                factory,
+                valueOptionsParams)
+                as IEnumerable<InputValueModel>;
         }
     }
 }

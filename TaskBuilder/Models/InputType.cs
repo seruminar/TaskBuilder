@@ -2,8 +2,9 @@
 {
     public enum InputType
     {
-        Automatic,
+        Bare,
+        Plain,
         Field,
-        None
+        Dropdown
     }
 }

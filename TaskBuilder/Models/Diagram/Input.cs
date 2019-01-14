@@ -1,4 +1,5 @@
-﻿using TaskBuilder.Models.Function;
+﻿using System.Collections.Generic;
+using TaskBuilder.Models.Function;
 
 namespace TaskBuilder.Models.Diagram
 {
@@ -6,9 +7,11 @@ namespace TaskBuilder.Models.Diagram
     {
         public InputType InputType { get; set; }
 
-        public object DefaultValue { get; set; }
+        public string Value { get; set; }
 
-        public InputOptionModel[] InputOptions { get; set; }
+        public InputValueModel DefaultValue { get; set; }
+
+        public IEnumerable<InputValueModel> ValueOptions { get; set; }
 
         public string Name { get; set; }
 
