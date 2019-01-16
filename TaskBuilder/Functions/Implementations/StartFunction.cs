@@ -1,10 +1,11 @@
 ﻿using System;
+
 using TaskBuilder.Attributes;
 
 namespace TaskBuilder.Functions.Implementations
 {
     [Function("Start", 255, 0, 0)]
-    public struct StartFunction
+    public struct StartFunction : IInvokable, IDispatcher
     {
         // Encapsulates behavior of Function
         public void Invoke()

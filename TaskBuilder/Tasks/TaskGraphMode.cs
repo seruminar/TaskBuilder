@@ -1,6 +1,6 @@
 ﻿namespace TaskBuilder.Tasks
 {
-    public enum TaskGraphModeEnum
+    public enum TaskGraphMode
     {
         Full,
         Readonly,

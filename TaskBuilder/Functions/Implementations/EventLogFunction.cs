@@ -2,12 +2,12 @@
 using CMS.EventLog;
 
 using TaskBuilder.Attributes;
-using TaskBuilder.Functions.InputValueFactories;
+using TaskBuilder.Services.ValueFactories;
 
 namespace TaskBuilder.Functions.Implementations
 {
     [Function(0, 0, 255)]
-    public struct EventLogFunction
+    public struct EventLogFunction : IInvokable
     {
         public void Invoke()
         {
@@ -21,7 +21,7 @@ namespace TaskBuilder.Functions.Implementations
         }
 
         // This must be linked as a reactive parameter
-        [Input("Description", typeof(StringValueFactory), defaultValueParams: new object[] { "default" })]
+        [Input("Description", null, typeof(StringValueFactory), defaultValueParams: new object[] { "default" })]
         public Func<string> TargetInParameter { get; set; }
 
         [Input(typeof(StringValueFactory), new object[] { EventType.INFORMATION }, new object[] { EventType.INFORMATION, EventType.WARNING, EventType.ERROR })]

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace TaskBuilder.Models.Diagram
 {
+    [DebuggerDisplay("{Type}")]
     public class Node
     {
         public Guid Id { get; set; }

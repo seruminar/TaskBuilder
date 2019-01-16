@@ -20,6 +20,7 @@ class TaskDiagram extends React.Component {
     }
 
     requestWithSerializedGraphBody = () => {
+        console.log(this.diagramEngine.diagramModel.serializeDiagram());
         return {
             method: "POST",
             cache: "no-cache",

@@ -1,6 +1,6 @@
 ﻿namespace TaskBuilder.Models.Function
 {
-    public interface IDispatchModel
+    public interface IDispatchModel : IPortModel
     {
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace TaskBuilder
 {
-    internal enum TasksControllerResultEnum
+    internal enum TasksControllerResult
     {
         Success
     }

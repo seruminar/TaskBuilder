@@ -47,7 +47,7 @@ public partial class TaskBuilder_TaskSandbox : CMSPage
             {
                 functions = new
                 {
-                    all = _functionModelService.FunctionModels,
+                    all = _functionModelService.GetFunctionModels(),
                     authorized = _functionModelService.GetAuthorizedFunctionModels(MembershipContext.AuthenticatedUser, SiteContext.CurrentSiteName)
                 },
                 ports = TaskBuilderHelper.PortTypes,
@@ -81,9 +81,9 @@ public partial class TaskBuilder_TaskSandbox : CMSPage
         }
     }
 
-    private TaskGraphModeEnum EnsureGraphMode()
+    private TaskGraphMode EnsureGraphMode()
     {
-        return TaskGraphModeEnum.Sandbox;
+        return TaskGraphMode.Sandbox;
     }
 
     /// <summary>

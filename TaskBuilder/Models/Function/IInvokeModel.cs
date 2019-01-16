@@ -1,7 +1,6 @@
 ﻿namespace TaskBuilder.Models.Function
 {
-    public interface IInvokeModel
+    public interface IInvokeModel : IPortModel
     {
-        string Name { get; }
     }
 }

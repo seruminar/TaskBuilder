@@ -5,13 +5,11 @@
     }
 
     componentDidUpdate() {
-        let innerThis = this;
-
-        setTimeout(function () {
-            innerThis.setState({
+        setTimeout(() => {
+            this.setState({
                 show: false,
                 message: null
-            })
+            });
         }, 3000);
     }
 

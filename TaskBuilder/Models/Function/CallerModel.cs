@@ -6,7 +6,7 @@
 
         public CallerModel(string name)
         {
-            Name = name.ToLower();
+            Name = name;
         }
     }
 }

@@ -6,10 +6,8 @@ namespace TaskBuilder.Models.Function
     {
         InputType InputType { get; }
 
-        string Value { get; }
+        IInputValueModel DefaultValue { get; }
 
-        InputValueModel DefaultValue { get; }
-
-        IEnumerable<InputValueModel> ValueOptions { get; }
+        IEnumerable<IInputValueModel> ValueOptions { get; }
     }
 }

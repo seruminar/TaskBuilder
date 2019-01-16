@@ -11,5 +11,7 @@ namespace TaskBuilder.Models.Diagram
         public string DisplayName { get; set; }
 
         public string DisplayColor { get; set; }
+
+        public string Description { get; set; }
     }
 }

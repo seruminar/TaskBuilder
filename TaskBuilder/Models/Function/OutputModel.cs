@@ -1,8 +1,6 @@
-﻿using TaskBuilder.Attributes;
-
-namespace TaskBuilder.Models.Function
+﻿namespace TaskBuilder.Models.Function
 {
-    internal class OutputModel : IOutputModel
+    public class OutputModel : IOutputModel
     {
         public string Name { get; }
 
@@ -10,15 +8,17 @@ namespace TaskBuilder.Models.Function
 
         public string DisplayName { get; }
 
+        public string Description { get; }
+
         public string DisplayColor { get; }
 
-        public OutputModel(string name, string fullName, string typeName, OutputAttribute attribute)
+        public OutputModel(string name, string typeName, string displayName, string description, string displayColor)
         {
             Name = name;
             TypeName = typeName;
-            DisplayName = TaskBuilderHelper.GetDisplayName(attribute.DisplayName, fullName, name);
-
-            DisplayColor = TaskBuilderHelper.GetDisplayColor(typeName);
+            DisplayName = displayName;
+            Description = description;
+            DisplayColor = displayColor;
         }
     }
 }

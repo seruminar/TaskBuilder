@@ -6,71 +6,51 @@ using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Web.Hosting;
 
-using CMS.DataEngine;
 using CMS.Helpers;
-using CMS.Localization;
+
 using React;
 
 namespace TaskBuilder
 {
     public static class TaskBuilderHelper
     {
-        internal static readonly string CACHE_INTERVAL_SETTINGS_KEY = "TBModelServiceCacheInterval";
-        internal static readonly string CACHE_REGISTER_KEY = "tbmodel";
+        public const string TASKBUILDER = nameof(TaskBuilder);
 
-        internal static readonly int CACHE_MINUTES = SettingsKeyInfoProvider.GetIntValue(CACHE_INTERVAL_SETTINGS_KEY, CACHE_INTERVAL_SETTINGS_KEY, 60);
+        public const string CACHE_REGISTER_KEY = "tbmodel";
+        public static readonly int CACHE_MINUTES = 60;
 
-        public static readonly string TASKBUILDER = nameof(TaskBuilder);
-
-        public static readonly string TASKBUILDER_SECURE_TOKEN = "TaskBuilderToken";
+        internal const string TASKBUILDER_SECURE_TOKEN = "TaskBuilderToken";
         private static readonly RandomNumberGenerator RNG = RandomNumberGenerator.Create();
 
-        private static readonly Color DEFAULT_DISPLAY_COLOR = Color.FromArgb(127, 255, 255, 255);
+        private const string CALLER = "caller";
+        private const string PARAMETER = "parameter";
+        private const string INVOKE = "invoke";
+        private const string DISPATCH = "dispatch";
+        private const string INPUT = "input";
+        private const string OUTPUT = "output";
+
+        public static ICollection<string> LinkTypes { get; } = new List<string>()
+        {
+            CALLER,
+            PARAMETER
+        };
+
+        public static ICollection<string> PortTypes { get; } = new List<string>()
+        {
+            INVOKE,
+            DISPATCH,
+            INPUT,
+            OUTPUT
+        };
+
+        public static Dictionary<string, Color> DisplayColors = new Dictionary<string, Color>() {
+            { nameof(String), Color.SandyBrown }
+        };
 
         /// <summary>
         /// Exposes ReactEnvironment.
         /// </summary>
         public static IReactEnvironment Environment => ReactEnvironment.GetCurrentOrThrow;
-
-        public static ICollection<string> LinkTypes { get; } = new List<string>()
-        {
-            "caller",
-            "parameter"
-        };
-
-        public static ICollection<string> PortTypes { get; } = new List<string>()
-        {
-            "invoke",
-            "dispatch",
-            "input",
-            "output"
-        };
-
-        internal static readonly Dictionary<string, Color?> DisplayColors = new Dictionary<string, Color?>() {
-            { nameof(String), Color.SandyBrown }
-        };
-
-        internal static string GetDisplayName(string displayName, string fullName, string name)
-        {
-            return !string.IsNullOrEmpty(displayName)
-                ? ResHelper.GetString(displayName)
-                : LocalizationHelper.GetString(fullName, null, defaultValue: null)
-                  ?? Regex.Replace(name, "[a-z][A-Z]", m => $"{m.Value[0]} {m.Value[1]}");
-        }
-
-        internal static string GetDisplayColor(string typeName, Color? customColor = null)
-        {
-            if (!string.IsNullOrEmpty(typeName))
-            {
-                Color? displayColor;
-
-                DisplayColors.TryGetValue(typeName, out displayColor);
-
-                return ColorTranslator.ToHtml(displayColor ?? DEFAULT_DISPLAY_COLOR);
-            }
-
-            return ColorTranslator.ToHtml(customColor ?? DEFAULT_DISPLAY_COLOR);
-        }
 
         /// <summary>
         /// Given a directory path, use Babel to transform all components in that path respecting the

@@ -11,6 +11,7 @@ using CMS.DataEngine;
 using CMS.Helpers;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using TaskBuilder.Functions;
 using TaskBuilder.Models.Diagram;
@@ -44,7 +45,20 @@ namespace TaskBuilder
                 .ContractResolver = new CamelCasePropertyNamesContractResolver();
 
             reactConfig.JsonSerializerSettings
-                .Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter(true));
+                .Converters.Add(new StringEnumConverter(true));
+
+            JsonConvert.DefaultSettings = () =>
+            {
+                var settings = new JsonSerializerSettings()
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                };
+
+                settings
+                    .Converters.Add(new StringEnumConverter(true));
+
+                return settings;
+            };
 
             // Map route directly to RouteTable to enable session access
             RouteTable.Routes

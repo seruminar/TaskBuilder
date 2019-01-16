@@ -48,7 +48,7 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
             {
                 functions = new
                 {
-                    all = _functionModelService.FunctionModels,
+                    all = _functionModelService.GetFunctionModels(),
                     authorized = _functionModelService.GetAuthorizedFunctionModels(MembershipContext.AuthenticatedUser, SiteContext.CurrentSiteName)
                 },
                 ports = TaskBuilderHelper.PortTypes,
@@ -82,12 +82,12 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
         }
     }
 
-    private TaskGraphModeEnum EnsureGraphMode()
+    private TaskGraphMode EnsureGraphMode()
     {
         if (!MembershipContext.AuthenticatedUser.IsAuthorizedPerResource(TaskBuilderHelper.TASKBUILDER, "Modify"))
-            return TaskGraphModeEnum.Readonly;
+            return TaskGraphMode.Readonly;
 
-        return TaskGraphModeEnum.Full;
+        return TaskGraphMode.Full;
     }
 
     /// <summary>

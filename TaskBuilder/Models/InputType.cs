@@ -2,8 +2,8 @@
 {
     public enum InputType
     {
-        Bare,
         Plain,
+        Checkbox,
         Field,
         Dropdown
     }

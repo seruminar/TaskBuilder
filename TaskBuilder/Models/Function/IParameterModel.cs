@@ -1,12 +1,12 @@
 ﻿namespace TaskBuilder.Models.Function
 {
-    public interface IParameterModel
+    public interface IParameterModel : IPortModel
     {
-        string Name { get; }
-
         string TypeName { get; }
 
         string DisplayName { get; }
+
+        string Description { get; }
 
         string DisplayColor { get; }
     }

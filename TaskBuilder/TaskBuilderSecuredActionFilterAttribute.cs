@@ -24,6 +24,7 @@ namespace TaskBuilder
                     return;
                 }
             }
+
             throw new HttpResponseException(HttpStatusCode.Forbidden);
         }
     }

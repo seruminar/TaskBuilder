@@ -22,7 +22,7 @@ class BaseCallerIconWidget extends SRD.BaseWidget {
                 onMouseLeave={() => {
                     this.setState({ selected: false });
                 }}
-                data-name={this.props.model.type}
+                data-name={this.props.model.model.name}
                 data-nodeid={this.props.model.getParent().getID()}
             >
                 <i className={this.props.model.linked || this.state.selected ? "icon-caret-right" : "icon-chevron-right"} />

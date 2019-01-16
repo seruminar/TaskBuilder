@@ -19,7 +19,7 @@ namespace TaskBuilder.Models.Diagram
 
         public Input Model { get; set; }
 
-        public bool? Linked { get; set; }
+        public bool Linked { get; set; }
 
         public string LinkColor { get; set; }
 

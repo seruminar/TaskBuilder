@@ -167,7 +167,6 @@
     }
 
     #task-builder .port.port-icon-selected {
-        text-shadow: 0 0 0.2em #fff, 0 0 0.5em #fff;
         cursor: grab;
     }
 
