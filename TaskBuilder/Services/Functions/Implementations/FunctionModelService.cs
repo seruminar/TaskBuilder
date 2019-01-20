@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using CMS.Base;
 using CMS.DataEngine;
 using CMS.Helpers;
+
 using TaskBuilder.Functions;
 using TaskBuilder.Models.Function;
 
-namespace TaskBuilder.Services
+namespace TaskBuilder.Services.Functions
 {
     public class FunctionModelService : IFunctionModelService
     {
@@ -21,9 +23,9 @@ namespace TaskBuilder.Services
             _functionModelBuilder = functionModelBuilder;
         }
 
-        public IEnumerable<IFunctionModel> GetFunctionModels()
+        public async Task<IEnumerable<FunctionModel>> AllFunctionModels()
         {
-            return CacheHelper.Cache(
+            return await CacheHelper.Cache(
                 RegisterFunctionModels,
                 new CacheSettings(
                     TaskBuilderHelper.CACHE_MINUTES,
@@ -32,20 +34,23 @@ namespace TaskBuilder.Services
                 );
         }
 
-        public IEnumerable<IFunctionModel> GetAuthorizedFunctionModels(IUserInfo user, SiteInfoIdentifier siteIdentifier)
+        public IEnumerable<FunctionModel> AuthorizedFunctionModels(IUserInfo user, SiteInfoIdentifier siteIdentifier)
         {
             var functionClassNames = FunctionInfoProvider
                                         .GetFunctionsForUserAndSite(user, siteIdentifier)
-                                        .AsSingleColumn(nameof(FunctionInfo.FunctionClass))
-                                        .GetListResult<string>()
-                                        .Select(className => _functionModelBuilder.BuildSimpleFunctionModel(className));
+                                        .Columns(nameof(FunctionInfo.FunctionClass), nameof(FunctionInfo.FunctionAssembly))
+                                        .Select(r => _functionModelBuilder.BuildSimpleFunctionModel(
+                                                            r[nameof(FunctionInfo.FunctionClass)].ToString(),
+                                                            r[nameof(FunctionInfo.FunctionAssembly)].ToString()
+                                                        )
+                                                );
 
-            return GetFunctionModels().Intersect(functionClassNames, new FunctionModelComparer());
+            return functionClassNames;
         }
 
-        private IEnumerable<IFunctionModel> RegisterFunctionModels()
+        private async Task<IEnumerable<FunctionModel>> RegisterFunctionModels()
         {
-            var functionTypes = _functionDiscoveryService.DiscoverFunctionTypes();
+            var functionTypes = await _functionDiscoveryService.DiscoverFunctionTypes();
 
             if (!functionTypes.Any())
             {

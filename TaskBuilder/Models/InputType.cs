@@ -3,8 +3,7 @@
     public enum InputType
     {
         Plain,
-        Checkbox,
-        Field,
-        Dropdown
+        Fields,
+        Dropdown,
     }
 }

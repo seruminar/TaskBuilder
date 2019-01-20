@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-
-namespace TaskBuilder.Models.Function
+﻿namespace TaskBuilder.Models.Function
 {
-    public interface IInputModel : IParameterModel
+    public interface IInputModel<TFieldsModel> : IParameterModel where TFieldsModel : IInputFieldsModel<FieldModel>
     {
         InputType InputType { get; }
 
-        IInputValueModel DefaultValue { get; }
+        TFieldsModel FieldsModel { get; }
 
-        IEnumerable<IInputValueModel> ValueOptions { get; }
+        TFieldsModel DefaultFieldsModel { get; }
     }
 }

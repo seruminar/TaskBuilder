@@ -2,7 +2,7 @@
 using CMS.EventLog;
 
 using TaskBuilder.Attributes;
-using TaskBuilder.Services.ValueFactories;
+using TaskBuilder.ValueBuilders;
 
 namespace TaskBuilder.Functions.Implementations
 {
@@ -21,10 +21,10 @@ namespace TaskBuilder.Functions.Implementations
         }
 
         // This must be linked as a reactive parameter
-        [Input("Description", null, typeof(StringValueFactory), defaultValueParams: new object[] { "default" })]
+        [Input("Description", null, typeof(StringValueBuilder), valueParams: new object[] { "default" })]
         public Func<string> TargetInParameter { get; set; }
 
-        [Input(typeof(StringValueFactory), new object[] { EventType.INFORMATION }, new object[] { EventType.INFORMATION, EventType.WARNING, EventType.ERROR })]
+        [Input(typeof(StringValueOptionsBuilder), false, new object[] { EventType.INFORMATION }, new object[] { EventType.INFORMATION, EventType.WARNING, EventType.ERROR })]
         public Func<string> EventRecordType { get; set; }
     }
 }

@@ -8,7 +8,7 @@ class TaskDiagram extends React.Component {
 
         this.props.models.ports.map(p => diagramEngine.registerPortFactory(new BasePortFactory(p)));
         this.props.models.links.map(l => diagramEngine.registerLinkFactory(new BaseLinkFactory(l)));
-        this.props.models.functions.all.map(f => diagramEngine.registerNodeFactory(new BaseFunctionFactory(f)));
+        diagramEngine.registerNodeFactory(new BaseFunctionFactory(this.props.models.functions.all));
 
         const graphModel = new BaseGraphModel(this.props.graph.json, this.props.graph.mode, diagramEngine);
 
@@ -59,10 +59,10 @@ class TaskDiagram extends React.Component {
         });
     }
 
-    dropFunction = (name, mousePoint) => {
+    dropFunction = (signature, mousePoint) => {
         const node = this.diagramEngine
-            .getNodeFactory(name)
-            .getNewInstance(null, true, mousePoint);
+            .getNodeFactory("function")
+            .getNewInstance(null, signature, true, mousePoint);
 
         this.diagramEngine
             .getDiagramModel()
@@ -95,9 +95,17 @@ class TaskDiagram extends React.Component {
                     />
                 </div>
                 <div className="task-builder-row">
-                    <FunctionTray functions={this.props.models.functions.authorized} />
+                    <FunctionTray
+                        functions={
+                            _.intersectionWith(
+                                this.props.models.functions.all,
+                                this.props.models.functions.authorized,
+                                (a, b) => a.typeName === b.typeName && a.assembly === b.assembly
+                            )
+                        }
+                    />
                     <div className="task-builder-diagram-wrapper"
-                        onDrop={e => this.dropFunction(e.dataTransfer.getData("functionName"), this.diagramEngine.getRelativeMousePoint(e))}
+                        onDrop={e => this.dropFunction(e.dataTransfer.getData("functionSignature"), this.diagramEngine.getRelativeMousePoint(e))}
                         onDragOver={e => { e.preventDefault(); }}
                     >
                         <DiagramToast ref="toast" />

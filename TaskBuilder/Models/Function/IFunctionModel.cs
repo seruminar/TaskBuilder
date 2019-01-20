@@ -2,20 +2,25 @@
 
 namespace TaskBuilder.Models.Function
 {
-    public interface IFunctionModel
+    public interface IFunctionModel<TInvoke, TDispatch, TInput, TOutput> where TInvoke : IInvokeModel
+                                                                        where TDispatch : IDispatchModel
+                                                                        where TInput : IInputModel<InputFieldsModel>
+                                                                        where TOutput : IOutputModel
     {
-        string Name { get; }
+        string TypeName { get; }
+
+        string Assembly { get; }
 
         string DisplayName { get; }
 
         string DisplayColor { get; }
 
-        IInvokeModel Invoke { get; }
+        TInvoke Invoke { get; }
 
-        IDispatchModel Dispatch { get; }
+        ICollection<TDispatch> Dispatchs { get; }
 
-        ICollection<IInputModel> Inputs { get; }
+        ICollection<TInput> Inputs { get; }
 
-        ICollection<IOutputModel> Outputs { get; }
+        ICollection<TOutput> Outputs { get; }
     }
 }

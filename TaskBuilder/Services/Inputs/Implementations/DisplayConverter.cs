@@ -4,27 +4,29 @@ using System.Text.RegularExpressions;
 using CMS.Helpers;
 using CMS.Localization;
 
-namespace TaskBuilder.Services
+using TaskBuilder.Functions;
+
+namespace TaskBuilder.Services.Inputs
 {
     public class DisplayConverter : IDisplayConverter
     {
         private static readonly Color DEFAULT_DISPLAY_COLOR = Color.FromArgb(127, 255, 255, 255);
 
-        public string GetDisplayColor(string typeName, Color? customColor = null)
+        public string DisplayColorFrom(string typeName, Color? customColor = null)
         {
             if (!string.IsNullOrEmpty(typeName)
-                && TaskBuilderHelper.DisplayColors.ContainsKey(typeName))
-                return ColorTranslator.ToHtml(TaskBuilderHelper.DisplayColors[typeName]);
+                && FunctionHelper.DisplayColors.ContainsKey(typeName))
+                return ColorTranslator.ToHtml(FunctionHelper.DisplayColors[typeName]);
 
             return ColorTranslator.ToHtml(customColor ?? DEFAULT_DISPLAY_COLOR);
         }
 
-        public string GetDescription(string description)
+        public string DescriptionFrom(string description)
         {
             return ResHelper.GetString(description);
         }
 
-        public string GetDisplayName(string displayName, string fullName, string name)
+        public string DisplayNameFrom(string displayName, string fullName, string name)
         {
             return !string.IsNullOrEmpty(displayName)
                 ? ResHelper.GetString(displayName)

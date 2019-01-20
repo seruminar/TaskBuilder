@@ -1,5 +1,7 @@
 ﻿using CMS.Base;
 
+using TaskBuilder.Services.Functions;
+
 namespace TaskBuilder.Services
 {
     internal class FunctionInitializer : AbstractWorker
@@ -13,7 +15,7 @@ namespace TaskBuilder.Services
 
         public override void Run()
         {
-            _functionModelService.GetFunctionModels();
+            _functionModelService.AllFunctionModels();
         }
     }
 }

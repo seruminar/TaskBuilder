@@ -8,8 +8,9 @@ using CMS.SiteProvider;
 using CMS.UIControls;
 
 using TaskBuilder;
+using TaskBuilder.Functions;
 using TaskBuilder.Models.Diagram;
-using TaskBuilder.Services;
+using TaskBuilder.Services.Functions;
 using TaskBuilder.Tasks;
 
 [Title("taskbuilder.ui.edittask")]
@@ -40,7 +41,7 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
         CssRegistration.RegisterCssLink(this, "~/CMSModules/TaskBuilder/Stylesheets/TaskBuilder.css");
     }
 
-    protected void Page_Load(object sender, EventArgs e)
+    protected async void Page_Load(object sender, EventArgs e)
     {
         var diagramAreaProps = new
         {
@@ -48,11 +49,11 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
             {
                 functions = new
                 {
-                    all = _functionModelService.GetFunctionModels(),
-                    authorized = _functionModelService.GetAuthorizedFunctionModels(MembershipContext.AuthenticatedUser, SiteContext.CurrentSiteName)
+                    all = await _functionModelService.AllFunctionModels(),
+                    authorized = _functionModelService.AuthorizedFunctionModels(MembershipContext.AuthenticatedUser, SiteContext.CurrentSiteName)
                 },
-                ports = TaskBuilderHelper.PortTypes,
-                links = TaskBuilderHelper.LinkTypes
+                ports = FunctionHelper.PortTypes,
+                links = FunctionHelper.LinkTypes
             },
             graph = new
             {
@@ -98,6 +99,6 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
     {
         return !string.IsNullOrEmpty(taskInfo.TaskGraph)
             ? taskInfo.TaskGraph
-            : new Diagram(taskInfo.TaskGuid).ToJSON();
+            : new Diagram(taskInfo.TaskGuid).ToJson();
     }
 }

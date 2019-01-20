@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using TaskBuilder.Functions;
 
-namespace TaskBuilder
+namespace TaskBuilder.Tasks
 {
-    internal class Task
+    public class Task
     {
         private readonly Dictionary<Guid, IInvokable> _invokables;
         private IInvokable _startInvokable;

@@ -5,7 +5,7 @@
         return (
             <div className="task-builder-function-tray" style={collapsedStyle}>
                 {this.props.functions.map((f, index) =>
-                    <FunctionTrayItem functionModel={f} key={f.name + index} />
+                    <FunctionTrayItem functionModel={f} key={f.typeName + index} />
                 )}
             </div>
         );

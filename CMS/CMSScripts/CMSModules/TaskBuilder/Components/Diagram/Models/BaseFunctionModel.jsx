@@ -4,14 +4,14 @@ class BaseFunctionModel extends SRD.NodeModel {
     model = null;
 
     constructor(model, forcePorts) {
-        super(model.name);
+        super("function");
         this.model = model;
 
         if (forcePorts) {
             this.addInvoke(model.invoke, model.displayColor);
 
-            if (model.dispatch !== null) {
-                this.addDispatch(model.dispatch, model.displayColor);
+            if (model.dispatchs.length) {
+                model.dispatchs.map(d => this.addDispatch(d, model.displayColor));
             }
 
             if (model.inputs.length) {
@@ -42,12 +42,12 @@ class BaseFunctionModel extends SRD.NodeModel {
 
     deSerialize(other, engine) {
         super.deSerialize(other, engine);
-        this.model = other.model;
+        this.model = other.function;
     }
 
     serialize() {
         return _.merge(super.serialize(), {
-            model: this.model
+            function: this.model
         });
     }
 
@@ -55,8 +55,8 @@ class BaseFunctionModel extends SRD.NodeModel {
         return _.find(this.ports, ["type", "invoke"]);
     }
 
-    getDispatch() {
-        return _.find(this.ports, ["type", "dispatch"]);
+    getDispatchs() {
+        return _.filter(this.ports, ["type", "dispatch"]);
     }
 
     getInputs() {

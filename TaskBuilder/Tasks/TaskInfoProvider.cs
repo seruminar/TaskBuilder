@@ -71,7 +71,7 @@ namespace TaskBuilder.Tasks
         {
             TaskInfo infoObj = GetTaskInfo(diagram.Id) ?? new TaskInfo();
 
-            infoObj.TaskGraph = diagram.ToJSON();
+            infoObj.TaskGraph = diagram.ToJson();
 
             SetTaskInfo(infoObj);
         }

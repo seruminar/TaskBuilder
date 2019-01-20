@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using TaskBuilder.Models.Function;
 
 namespace TaskBuilder.Models.Diagram
 {
@@ -21,6 +22,6 @@ namespace TaskBuilder.Models.Diagram
 
         public ICollection<Port> Ports { get; set; }
 
-        public Model Model { get; set; }
+        public FunctionModel Function { get; set; }
     }
 }

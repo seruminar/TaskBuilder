@@ -2,16 +2,17 @@
 
 namespace TaskBuilder.Models.Function
 {
-    internal class FunctionModelComparer : EqualityComparer<IFunctionModel>
+    internal class FunctionModelComparer : EqualityComparer<FunctionModel>
     {
-        public override bool Equals(IFunctionModel x, IFunctionModel y)
+        public override bool Equals(FunctionModel x, FunctionModel y)
         {
-            return string.Equals(x.Name, y.Name);
+            return string.Equals(x.TypeName, y.TypeName) &&
+                    string.Equals(x.Assembly, y.Assembly);
         }
 
-        public override int GetHashCode(IFunctionModel obj)
+        public override int GetHashCode(FunctionModel obj)
         {
-            return obj.Name.GetHashCode();
+            return obj.TypeName.GetHashCode() ^ obj.Assembly.GetHashCode();
         }
     }
 }

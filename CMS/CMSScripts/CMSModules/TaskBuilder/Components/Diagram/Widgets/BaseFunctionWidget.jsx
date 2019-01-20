@@ -27,7 +27,9 @@ class BaseFunctionWidget extends SRD.BaseWidget {
                             )}
                         </div>
                         <div className={this.bem("-out")}>
-                            <BaseDispatchWidget model={this.props.function.getDispatch()} />
+                            {this.props.function.getDispatchs().map(p =>
+                                <BaseDispatchWidget model={p} key={p.id} />
+                            )}
                             {this.props.function.getOutputs().map(p =>
                                 <BaseOutputWidget model={p} key={p.id} />
                             )}

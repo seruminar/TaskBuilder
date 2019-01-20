@@ -5,27 +5,43 @@ namespace TaskBuilder.Attributes
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class InputAttribute : PortAttribute
     {
-        internal Type ValueFactory { get; }
+        internal Type ValueBuilder { get; }
 
-        internal object[] DefaultValueParams { get; }
+        internal bool InlineOnly { get; }
+
+        internal object[] ValueParams { get; }
 
         internal object[] ValueOptionsParams { get; }
 
-        public InputAttribute(string displayName = null, string description = null) : this(displayName, description, null, null, null)
+        public InputAttribute(string displayName = null, string description = null) : this(displayName, description, null, false, null, null)
         {
         }
 
-        public InputAttribute(Type valueFactory, object[] defaultValueParams = null, object[] valueOptionsParams = null) : this(null, null, valueFactory, defaultValueParams, valueOptionsParams)
+        public InputAttribute(string displayName, Type valueFactory, bool inlineOnly = false, object[] valueParams = null, object[] valueOptionsParams = null) : this(displayName, null, valueFactory, false, valueParams, valueOptionsParams)
         {
         }
 
-        public InputAttribute(string displayName, string description, Type valueFactory, object[] defaultValueParams = null, object[] valueOptionsParams = null) : base(displayName, description)
+        public InputAttribute(Type valueBuilder, bool inlineOnly = false, object[] valueParams = null, object[] valueOptionsParams = null) : this(null, null, valueBuilder, false, valueParams, valueOptionsParams)
         {
-            if (valueFactory == null)
-                throw new ArgumentNullException(nameof(ValueFactory));
+        }
 
-            ValueFactory = valueFactory;
-            DefaultValueParams = defaultValueParams;
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="displayName"></param>
+        /// <param name="description"></param>
+        /// <param name="valueBuilder"></param>
+        /// <param name="inlineOnly"></param>
+        /// <param name="valueParams">For no default value, set to null.</param>
+        /// <param name="valueOptionsParams"></param>
+        public InputAttribute(string displayName, string description, Type valueBuilder, bool inlineOnly = false, object[] valueParams = null, object[] valueOptionsParams = null) : base(displayName, description)
+        {
+            if (valueBuilder == null)
+                throw new ArgumentNullException(nameof(ValueBuilder));
+
+            ValueBuilder = valueBuilder;
+            InlineOnly = inlineOnly;
+            ValueParams = valueParams;
             ValueOptionsParams = valueOptionsParams;
         }
     }

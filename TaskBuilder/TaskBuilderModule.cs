@@ -11,11 +11,11 @@ using CMS.DataEngine;
 using CMS.Helpers;
 
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
+
 using TaskBuilder.Functions;
 using TaskBuilder.Models.Diagram;
 using TaskBuilder.Services;
+using TaskBuilder.Services.Functions;
 using TaskBuilder.Tasks;
 
 using RequestContext = System.Web.Routing.RequestContext;
@@ -41,24 +41,7 @@ namespace TaskBuilder
 
             var reactConfig = TaskBuilderHelper.Environment.Configuration;
 
-            reactConfig.JsonSerializerSettings
-                .ContractResolver = new CamelCasePropertyNamesContractResolver();
-
-            reactConfig.JsonSerializerSettings
-                .Converters.Add(new StringEnumConverter(true));
-
-            JsonConvert.DefaultSettings = () =>
-            {
-                var settings = new JsonSerializerSettings()
-                {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
-                };
-
-                settings
-                    .Converters.Add(new StringEnumConverter(true));
-
-                return settings;
-            };
+            reactConfig.JsonSerializerSettings = TaskBuilderHelper.JsonSerializerSettings;
 
             // Map route directly to RouteTable to enable session access
             RouteTable.Routes
@@ -93,7 +76,7 @@ namespace TaskBuilder
                 var taskDiagram = JsonConvert.DeserializeObject<Diagram>(task.TaskGraph);
 
                 taskDiagram.Id = task.TaskGuid;
-                task.TaskGraph = taskDiagram.ToJSON();
+                task.TaskGraph = taskDiagram.ToJson();
             }
         }
 

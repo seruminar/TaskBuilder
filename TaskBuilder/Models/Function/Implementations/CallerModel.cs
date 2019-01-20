@@ -1,6 +1,6 @@
 ﻿namespace TaskBuilder.Models.Function
 {
-    internal class CallerModel : IInvokeModel, IDispatchModel
+    public class CallerModel : IInvokeModel, IDispatchModel
     {
         public string Name { get; }
 

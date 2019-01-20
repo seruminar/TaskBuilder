@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace TaskBuilder.Models.Diagram
 {
@@ -27,16 +26,9 @@ namespace TaskBuilder.Models.Diagram
 
         public ICollection<Node> Nodes { get; set; }
 
-        public string ToJSON()
+        public string ToJson()
         {
-            var settings = new JsonSerializerSettings()
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
-
-            settings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter(true));
-
-            return JsonConvert.SerializeObject(this, settings);
+            return JsonConvert.SerializeObject(this, TaskBuilderHelper.JsonSerializerSettings);
         }
     }
 }
