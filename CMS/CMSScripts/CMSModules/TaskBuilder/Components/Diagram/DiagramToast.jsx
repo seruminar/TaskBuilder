@@ -5,12 +5,14 @@
     }
 
     componentDidUpdate() {
-        setTimeout(() => {
-            this.setState({
-                show: false,
-                message: null
-            });
-        }, 3000);
+        if (this.state.show) {
+            setTimeout(() => {
+                this.setState({
+                    show: false,
+                    message: null
+                });
+            }, 3000);
+        }
     }
 
     render() {

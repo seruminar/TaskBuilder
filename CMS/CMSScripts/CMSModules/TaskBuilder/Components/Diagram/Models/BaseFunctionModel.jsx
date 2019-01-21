@@ -1,53 +1,53 @@
 ﻿const SRD = window["storm-react-diagrams"];
 
 class BaseFunctionModel extends SRD.NodeModel {
-    model = null;
+    function = null;
 
-    constructor(model, forcePorts) {
+    constructor(func, forcePorts) {
         super("function");
-        this.model = model;
+        this.function = func;
 
         if (forcePorts) {
-            this.addInvoke(model.invoke, model.displayColor);
+            this.addInvoke(this.function.invoke);
 
-            if (model.dispatchs.length) {
-                model.dispatchs.map(d => this.addDispatch(d, model.displayColor));
+            if (this.function.dispatchs.length) {
+                this.function.dispatchs.map(d => this.addDispatch(d));
             }
 
-            if (model.inputs.length) {
-                model.inputs.map(i => this.addInput(i));
+            if (this.function.inputs.length) {
+                this.function.inputs.map(i => this.addInput(i));
             }
 
-            if (model.outputs.length) {
-                model.outputs.map(o => this.addOutput(o));
+            if (this.function.outputs.length) {
+                this.function.outputs.map(o => this.addOutput(o));
             }
         }
     }
 
-    addInvoke(model, linkColor) {
-        return super.addPort(new BaseInvokeModel(model, linkColor));
+    addInvoke(model) {
+        return super.addPort(new BaseInvokeModel(model.name));
     }
 
-    addDispatch(model, linkColor) {
-        return super.addPort(new BaseDispatchModel(model, linkColor));
+    addDispatch(model) {
+        return super.addPort(new BaseDispatchModel(model.name));
     }
 
     addInput(model) {
-        return super.addPort(new BaseInputModel(model));
+        return super.addPort(new BaseInputModel(model.name));
     }
 
     addOutput(model) {
-        return super.addPort(new BaseOutputModel(model));
+        return super.addPort(new BaseOutputModel(model.name));
     }
 
     deSerialize(other, engine) {
         super.deSerialize(other, engine);
-        this.model = other.function;
+        this.function = other.function;
     }
 
     serialize() {
         return _.merge(super.serialize(), {
-            function: this.model
+            function: this.function
         });
     }
 

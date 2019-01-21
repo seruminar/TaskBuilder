@@ -14,12 +14,12 @@ namespace TaskBuilder.Services.Functions
 {
     public class FunctionModelService : IFunctionModelService
     {
-        private readonly IFunctionDiscoveryService _functionDiscoveryService;
+        private readonly IFunctionTypeService _functionTypeService;
         private readonly IFunctionModelBuilder _functionModelBuilder;
 
-        public FunctionModelService(IFunctionDiscoveryService functionDiscoveryService, IFunctionModelBuilder functionModelBuilder)
+        public FunctionModelService(IFunctionTypeService functionTypeService, IFunctionModelBuilder functionModelBuilder)
         {
-            _functionDiscoveryService = functionDiscoveryService;
+            _functionTypeService = functionTypeService;
             _functionModelBuilder = functionModelBuilder;
         }
 
@@ -34,30 +34,34 @@ namespace TaskBuilder.Services.Functions
                 );
         }
 
-        public IEnumerable<FunctionModel> AuthorizedFunctionModels(IUserInfo user, SiteInfoIdentifier siteIdentifier)
+        public IEnumerable<Guid> AuthorizedFunctionIdentifiers(IUserInfo user, SiteInfoIdentifier siteIdentifier)
         {
             var functionClassNames = FunctionInfoProvider
                                         .GetFunctionsForUserAndSite(user, siteIdentifier)
-                                        .Columns(nameof(FunctionInfo.FunctionClass), nameof(FunctionInfo.FunctionAssembly))
-                                        .Select(r => _functionModelBuilder.BuildSimpleFunctionModel(
-                                                            r[nameof(FunctionInfo.FunctionClass)].ToString(),
-                                                            r[nameof(FunctionInfo.FunctionAssembly)].ToString()
-                                                        )
-                                                );
+                                        .Columns(nameof(FunctionInfo.FunctionClass), nameof(FunctionInfo.FunctionAssembly));
 
-            return functionClassNames;
+            return _functionTypeService
+                .GetFilteredFunctionIdentifiers(t => functionClassNames
+                                                        .FirstOrDefault(f => CompareFunctionAndType(f, t)) != null
+                                                );
+        }
+
+        public bool CompareFunctionAndType(FunctionInfo functionInfo, Type functionType)
+        {
+            return functionInfo.FunctionClass == functionType.FullName
+                && functionInfo.FunctionAssembly == functionType.Assembly.GetName().Name;
         }
 
         private async Task<IEnumerable<FunctionModel>> RegisterFunctionModels()
         {
-            var functionTypes = await _functionDiscoveryService.DiscoverFunctionTypes();
+            var functionTypes = await _functionTypeService.DiscoverFunctionTypes();
 
             if (!functionTypes.Any())
             {
                 throw new Exception($"{nameof(FunctionModelService)} could not find any function types.");
             }
 
-            return functionTypes.Select(_functionModelBuilder.BuildFunctionModel);
+            return functionTypes.Select(pair => _functionModelBuilder.BuildFunctionModel(pair.Key, pair.Value));
         }
     }
 }

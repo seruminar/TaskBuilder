@@ -14,24 +14,24 @@ class BaseFunctionWidget extends SRD.BaseWidget {
                     >
                         <div
                             className={this.bem("-name")}
-                            style={{ boxShadow: "inset 0 0.9em 3em " + this.props.function.model.displayColor }}
+                            style={{ boxShadow: "inset 0 0.9em 3em " + this.props.node.function.displayColor }}
                         >
-                            {this.props.function.model.displayName}
+                            {this.props.node.function.displayName}
                         </div>
                     </div>
                     <div className={this.bem("-ports")}>
                         <div className={this.bem("-in")}>
-                            <BaseInvokeWidget model={this.props.function.getInvoke()} />
-                            {this.props.function.getInputs().map(p =>
-                                <BaseInputWidget model={p} key={p.id} />
+                            <BaseInvokeWidget port={this.props.node.getInvoke()} />
+                            {this.props.node.getInputs().map(p =>
+                                <BaseInputWidget port={p} model={p.getModel()} key={p.id} />
                             )}
                         </div>
                         <div className={this.bem("-out")}>
-                            {this.props.function.getDispatchs().map(p =>
-                                <BaseDispatchWidget model={p} key={p.id} />
+                            {this.props.node.getDispatchs().map(p =>
+                                <BaseDispatchWidget port={p} key={p.id} />
                             )}
-                            {this.props.function.getOutputs().map(p =>
-                                <BaseOutputWidget model={p} key={p.id} />
+                            {this.props.node.getOutputs().map(p =>
+                                <BaseOutputWidget port={p} model={p.getModel()} key={p.id} />
                             )}
                         </div>
                     </div>

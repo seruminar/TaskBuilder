@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TaskBuilder.Models.Function
 {
     public class FunctionModel : IFunctionModel<CallerModel, CallerModel, InputModel, OutputModel>
     {
-        public string TypeName { get; }
-
-        public string Assembly { get; }
+        public Guid TypeIdentifier { get; }
 
         public string DisplayName { get; }
 
@@ -20,10 +19,9 @@ namespace TaskBuilder.Models.Function
 
         public ICollection<OutputModel> Outputs { get; } = new List<OutputModel>();
 
-        public FunctionModel(string typeName, string assembly, string displayName = null, string displayColor = null)
+        public FunctionModel(Guid typeIdentifier, string displayName = null, string displayColor = null)
         {
-            TypeName = typeName;
-            Assembly = assembly;
+            TypeIdentifier = typeIdentifier;
             DisplayName = displayName;
             DisplayColor = displayColor;
         }

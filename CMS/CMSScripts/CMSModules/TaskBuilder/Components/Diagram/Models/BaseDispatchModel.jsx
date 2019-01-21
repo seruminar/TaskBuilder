@@ -1,33 +1,24 @@
 ﻿const SRD = window["storm-react-diagrams"];
 
 class BaseDispatchModel extends SRD.PortModel {
-    model = null;
     linked = false;
-    linkColor = null;
 
-    constructor(model, linkColor) {
-        if (model) {
-            super(model.name, "dispatch");
-            this.model = model;
+    constructor(name) {
+        if (name) {
+            super(name, "dispatch");
         } else {
             super("", "dispatch");
         }
-
-        this.linkColor = linkColor;
     }
 
     deSerialize(other, engine) {
         super.deSerialize(other, engine);
-        this.model = other.model;
         this.linked = other.linked;
-        this.linkColor = other.linkColor;
     }
 
     serialize() {
         return _.merge(super.serialize(), {
-            model: this.model,
-            linked: this.linked,
-            linkColor: this.linkColor
+            linked: this.linked
         });
     }
 
@@ -36,7 +27,7 @@ class BaseDispatchModel extends SRD.PortModel {
     }
 
     createLinkModel() {
-        return new BaseCallerLinkModel(this.linkColor);
+        return new BaseCallerLinkModel(this.getParent().function.displayColor);
     }
 
     addLink(link) {

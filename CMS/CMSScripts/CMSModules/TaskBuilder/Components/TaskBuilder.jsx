@@ -38,7 +38,7 @@
                 _.noConflict();
                 clearInterval(setUnderscore);
             }
-        }, 500);
+        }, 50);
 
         return <TaskDiagram {...this.props} />;
     }

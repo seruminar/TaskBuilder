@@ -15,10 +15,10 @@ namespace TaskBuilder.Services.Tasks
 {
     internal class TaskCompiler : ITaskCompiler
     {
-        private readonly IFunctionDiscoveryService _functionDiscoveryService;
+        private readonly IFunctionTypeService _functionDiscoveryService;
         private readonly IInputValueService _inputValueService;
 
-        public TaskCompiler(IFunctionDiscoveryService functionDiscoveryService, IInputValueService inputValueService)
+        public TaskCompiler(IFunctionTypeService functionDiscoveryService, IInputValueService inputValueService)
         {
             _functionDiscoveryService = functionDiscoveryService;
             _inputValueService = inputValueService;
@@ -26,7 +26,7 @@ namespace TaskBuilder.Services.Tasks
 
         public Task PrepareTask(Diagram diagram)
         {
-            var startFunctionFullName = "TaskBuilder.Functions.Implementations.StartFunction";
+            var startFunctionDisplayName = "Start";
 
             var invokables = new Dictionary<Guid, IInvokable>(diagram.Nodes.Count);
             var dispatchers = new Dictionary<Guid, IDispatcher>();
@@ -34,14 +34,14 @@ namespace TaskBuilder.Services.Tasks
             var linkedPorts = new Dictionary<Guid, string>();
             var openInputPorts = new Dictionary<Guid, string>();
             var fieldsModels = new Dictionary<Guid, InputFieldsModel>();
-            var portFunctionNames = new Dictionary<Guid, string>();
+            var portFunctionIdentifiers = new Dictionary<Guid, Guid>();
             var portFunctionGuids = new Dictionary<Guid, Guid>();
 
             IInvokable startInvokable = null;
 
             var types = diagram.Nodes.ToDictionary(n => n.Id, node =>
             {
-                var type = _functionDiscoveryService.GetFunctionType(node.Function.Assembly, node.Function.TypeName);
+                var type = _functionDiscoveryService.GetFunctionType(node.Function.TypeIdentifier);
 
                 var function = FormatterServices.GetUninitializedObject(type);
 
@@ -67,16 +67,16 @@ namespace TaskBuilder.Services.Tasks
                         var fieldsModel = node.Function
                             .Inputs
                             .FirstOrDefault(i => i.Name == port.Name)
-                            .FieldsModel;
+                            .DefaultFieldsModel;
 
                         fieldsModels.Add(port.Id, fieldsModel);
-                        portFunctionNames.Add(port.Id, node.Function.TypeName);
+                        portFunctionIdentifiers.Add(port.Id, node.Function.TypeIdentifier);
                         portFunctionGuids.Add(port.Id, node.Id);
                     }
                 }
 
                 // Find the start function and save it
-                if (node.Function.TypeName == startFunctionFullName)
+                if (node.Function.DisplayName == startFunctionDisplayName)
                 {
                     startInvokable = function as IInvokable;
                 }
@@ -124,7 +124,7 @@ namespace TaskBuilder.Services.Tasks
 
                     if (fieldsModels.TryGetValue(openPort.Key, out fields))
                     {
-                        value = _inputValueService.ConstructValue(portFunctionNames[openPort.Key], openPort.Value, fields);
+                        value = _inputValueService.ConstructValue(portFunctionIdentifiers[openPort.Key], openPort.Value, fields);
                     }
                     else
                     {

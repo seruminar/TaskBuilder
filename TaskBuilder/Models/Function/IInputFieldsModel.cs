@@ -4,6 +4,6 @@ namespace TaskBuilder.Models.Function
 {
     public interface IInputFieldsModel<TInner> where TInner : IFieldModel
     {
-        ICollection<TInner> Fields { get; }
+        IEnumerable<TInner> Fields { get; }
     }
 }

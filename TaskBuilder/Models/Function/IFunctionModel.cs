@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TaskBuilder.Models.Function
 {
@@ -7,9 +8,7 @@ namespace TaskBuilder.Models.Function
                                                                         where TInput : IInputModel<InputFieldsModel>
                                                                         where TOutput : IOutputModel
     {
-        string TypeName { get; }
-
-        string Assembly { get; }
+        Guid TypeIdentifier { get; }
 
         string DisplayName { get; }
 

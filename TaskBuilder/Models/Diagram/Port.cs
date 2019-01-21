@@ -18,7 +18,5 @@ namespace TaskBuilder.Models.Diagram
         public ICollection<Guid> Links { get; set; }
 
         public bool Linked { get; set; }
-
-        public string LinkColor { get; set; }
     }
 }

@@ -5,16 +5,10 @@ class BaseInvokeWidget extends SRD.BaseWidget {
         super("port-invoke", props);
     }
 
-    getClassName() {
-        return super.getClassName();
-    }
-
     render() {
         return (
             <div {...this.getProps()}>
-                <BaseCallerIconWidget
-                    model={this.props.model}
-                />
+                <BaseCallerIconWidget {...this.props} />
             </div>
         );
     }

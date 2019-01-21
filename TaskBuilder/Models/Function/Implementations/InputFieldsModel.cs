@@ -4,9 +4,9 @@ namespace TaskBuilder.Models.Function
 {
     public class InputFieldsModel : IInputFieldsModel<FieldModel>
     {
-        public ICollection<FieldModel> Fields { get; }
+        public IEnumerable<FieldModel> Fields { get; }
 
-        public InputFieldsModel(ICollection<FieldModel> fields)
+        public InputFieldsModel(IEnumerable<FieldModel> fields)
         {
             Fields = fields;
         }

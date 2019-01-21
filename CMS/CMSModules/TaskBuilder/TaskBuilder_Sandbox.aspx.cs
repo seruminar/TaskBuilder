@@ -49,7 +49,7 @@ public partial class TaskBuilder_TaskSandbox : CMSPage
                 functions = new
                 {
                     all = await _functionModelService.AllFunctionModels(),
-                    authorized = _functionModelService.AuthorizedFunctionModels(MembershipContext.AuthenticatedUser, SiteContext.CurrentSiteName)
+                    authorized = _functionModelService.AuthorizedFunctionIdentifiers(MembershipContext.AuthenticatedUser, SiteContext.CurrentSiteName)
                 },
                 ports = FunctionHelper.PortTypes,
                 links = FunctionHelper.LinkTypes

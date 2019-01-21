@@ -10,11 +10,11 @@ class BaseFunctionFactory extends SRD.AbstractNodeFactory {
     }
 
     generateReactWidget(engine, node) {
-        return <BaseFunctionWidget function={node} diagramEngine={engine} />;
+        return <BaseFunctionWidget node={node} diagramEngine={engine} />;
     }
 
     getNewInstance(initialConfig, signature, forcePorts, locationPoint) {
-        const model = _.find(this.functions, f => f.assembly + f.typeName === signature);
+        const model = _.find(this.functions, f => f.typeIdentifier === signature);
 
         const nodeModel = new BaseFunctionModel(model, forcePorts);
 

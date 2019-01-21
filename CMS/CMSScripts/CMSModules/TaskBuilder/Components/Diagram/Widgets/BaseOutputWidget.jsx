@@ -5,17 +5,11 @@ class BaseOutputWidget extends SRD.BaseWidget {
         super("port-output", props);
     }
 
-    getClassName() {
-        return super.getClassName();
-    }
-
     render() {
         return (
             <div {...this.getProps()}>
-                <div className="port-name">{this.props.model.model.displayName}</div>
-                <BaseParameterIconWidget
-                    model={this.props.model}
-                />
+                <div className="port-name">{this.props.model.displayName}</div>
+                <BaseParameterIconWidget {...this.props} />
             </div>
         );
     }

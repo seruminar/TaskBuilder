@@ -145,8 +145,8 @@
     <Compile Include="Models\Function\IPortModel.cs" />
     <Compile Include="Services\Functions\Implementations\FunctionModelBuilder.cs" />
     <Compile Include="Services\Inputs\Implementations\DisplayConverter.cs" />
-    <Compile Include="Services\Functions\Implementations\FunctionDiscoveryService.cs" />
-    <Compile Include="Services\Functions\IFunctionDiscoveryService.cs" />
+    <Compile Include="Services\Functions\Implementations\FunctionTypeService.cs" />
+    <Compile Include="Services\Functions\IFunctionTypeService.cs" />
     <Compile Include="Services\Inputs\Implementations\InputValueService.cs" />
     <Compile Include="Services\Inputs\IInputValueService.cs" />
     <Compile Include="Services\Inputs\IDisplayConverter.cs" />
@@ -167,7 +167,7 @@
     <Compile Include="Models\Function\Implementations\OutputModel.cs" />
     <Compile Include="Models\InputType.cs" />
     <Compile Include="Models\Function\IFunctionModel.cs" />
-    <Compile Include="Models\Function\Exceptions\InvalidReturnTypeException.cs" />
+    <Compile Include="Services\Functions\Exceptions\InvalidReturnTypeException.cs" />
     <Compile Include="Models\Diagram\Point.cs" />
     <Compile Include="Models\Diagram\Extras.cs" />
     <Compile Include="Models\Diagram\Port.cs" />
@@ -179,9 +179,8 @@
     <Compile Include="Attributes\InputAttribute.cs" />
     <Compile Include="Attributes\OutputAttribute.cs" />
     <Compile Include="Models\Diagram\Diagram.cs" />
-    <Compile Include="Models\Function\Exceptions\MissingAttributeException.cs" />
+    <Compile Include="Services\Functions\Exceptions\MissingAttributeException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\Function\FunctionModelComparer.cs" />
     <Compile Include="Services\Functions\IFunctionModelBuilder.cs" />
     <Compile Include="Tasks\Task.cs" />
     <Compile Include="TaskBuilderSecuredActionFilterAttribute.cs" />

@@ -5,7 +5,7 @@ using TaskBuilder.Attributes;
 using TaskBuilder.Functions;
 using TaskBuilder.Models;
 using TaskBuilder.Models.Function;
-using TaskBuilder.Models.Function.Exceptions;
+using TaskBuilder.Services.Functions.Exceptions;
 using TaskBuilder.Services.Inputs;
 
 namespace TaskBuilder.Services.Functions
@@ -21,18 +21,12 @@ namespace TaskBuilder.Services.Functions
             _inputValueService = inputValueService;
         }
 
-        public FunctionModel BuildSimpleFunctionModel(string typeName, string assemblyName)
-        {
-            return new FunctionModel(typeName, assemblyName);
-        }
-
-        public FunctionModel BuildFunctionModel(Type functionType)
+        public FunctionModel BuildFunctionModel(Guid functionTypeIdentifier, Type functionType)
         {
             var attribute = functionType.GetCustomAttribute<FunctionAttribute>();
 
             var functionModel = new FunctionModel(
-                typeName: functionType.FullName,
-                assembly: functionType.Assembly.GetName().Name,
+                typeIdentifier: functionTypeIdentifier,
                 displayName: _displayConverter.DisplayNameFrom(attribute.DisplayName, functionType.FullName, functionType.Name),
                 displayColor: _displayConverter.DisplayColorFrom(null, attribute.DisplayColor)
                 );
@@ -63,7 +57,7 @@ namespace TaskBuilder.Services.Functions
 
                 InputModel inputModel;
 
-                if (TryBuildInputModel(property, functionType.FullName, out inputModel))
+                if (TryBuildInputModel(property, functionType.FullName, functionTypeIdentifier, out inputModel))
                 {
                     functionModel.Inputs.Add(inputModel);
                     continue;
@@ -110,7 +104,7 @@ namespace TaskBuilder.Services.Functions
             return true;
         }
 
-        public bool TryBuildInputModel(PropertyInfo inputProperty, string functionFullName, out InputModel inputModel)
+        public bool TryBuildInputModel(PropertyInfo inputProperty, string functionFullName, Guid functionTypeIdentifier, out InputModel inputModel)
         {
             var attribute = inputProperty.GetCustomAttribute<InputAttribute>();
 
@@ -143,20 +137,13 @@ namespace TaskBuilder.Services.Functions
                 }
                 else if (attribute.ValueParams != null)
                 {
-                    hasEmptyValue = _inputValueService.TryGetEmptyFields(attribute.ValueBuilder, out fieldsModel);
                     hasDefaultValue = _inputValueService.TryGetDefaultFields(attribute.ValueBuilder, out defaultFieldsModel, attribute.ValueParams);
+                    fieldsModel = defaultFieldsModel;
                 }
 
-                if (hasEmptyValue)
-                {
-                    inputType = InputType.Fields;
-                }
-                if (hasValueOptions)
-                {
-                    inputType = InputType.Dropdown;
-                }
+                inputType = hasValueOptions ? InputType.Dropdown : InputType.Fields;
 
-                _inputValueService.StoreValueBuilder(functionFullName, inputProperty.Name, attribute.ValueBuilder);
+                _inputValueService.StoreValueBuilder(functionTypeIdentifier, inputProperty.Name, attribute.ValueBuilder);
             }
 
             inputModel = new InputModel(

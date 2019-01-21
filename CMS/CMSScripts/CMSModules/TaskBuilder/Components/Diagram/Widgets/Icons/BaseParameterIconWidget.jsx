@@ -23,11 +23,11 @@ class BaseParameterIconWidget extends SRD.BaseWidget {
                     onMouseLeave={() => {
                         this.setState({ selected: false });
                     }}
-                    data-name={this.props.model.model.name}
-                    data-nodeid={this.props.model.getParent().getID()}
-                    style={{ color: this.props.model.model.displayColor }}
+                    data-name={this.props.port.name}
+                    data-nodeid={this.props.port.getParent().getID()}
+                    style={{ color: this.props.model.displayColor }}
                 >
-                    <i className={this.props.model.linked || this.state.selected ? "icon-caret-right" : "icon-chevron-right"} />
+                    <i className={this.props.port.linked || this.state.selected ? "icon-caret-right" : "icon-chevron-right"} />
                 </div>
             </div>
         );

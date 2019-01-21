@@ -5,20 +5,11 @@ class BaseDispatchWidget extends SRD.BaseWidget {
         super("port-dispatch", props);
     }
 
-    getClassName() {
-        return super.getClassName();
-    }
-
     render() {
-        if (this.props.model) {
-            return (
-                <div {...this.getProps()}>
-                    <BaseCallerIconWidget
-                        model={this.props.model}
-                    />
-                </div>
-            );
-        }
-        return <div />;
+        return (
+            <div {...this.getProps()}>
+                <BaseCallerIconWidget {...this.props} />
+            </div>
+        );
     }
 }

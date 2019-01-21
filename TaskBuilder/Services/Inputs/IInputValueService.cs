@@ -9,9 +9,9 @@ namespace TaskBuilder.Services.Inputs
 {
     public interface IInputValueService
     {
-        void StoreValueBuilder(string functionName, string inputName, Type valueFactory);
+        void StoreValueBuilder(Guid functionTypeIdentifier, string inputName, Type valueFactory);
 
-        dynamic ConstructValue(string functionName, string inputName, InputFieldsModel fieldsModel);
+        dynamic ConstructValue(Guid functionTypeIdentifier, string inputName, InputFieldsModel fieldsModel);
 
         bool TryGetEmptyFields(Type builderType, out InputFieldsModel emptyFieldsModel);
 

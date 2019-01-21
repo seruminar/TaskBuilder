@@ -5,47 +5,41 @@ class BaseInputValueWidget extends SRD.BaseWidget {
         super("port-value", props);
     }
 
-    setValue = (e) => {
-        if (e.data !== "") {
-            this.props.model.setValue(e.data);
+    setValue = (key, value) => {
+        if (value !== "") {
+            switch (this.props.model.inputType) {
+                case "fields":
+                    this.props.model.defaultFieldsModel.fields.find(f => f.key === key).value = value;
+                    break;
+                case "dropdown":
+                    this.props.model.defaultFieldsModel.fields[0] = { key, value };
+                    break;
+            }
         }
     }
 
-    //componentDidUpdate() {
-    //    switch (this.props.inputType) {
-    //        case "fields":
-    //            console.log(this.refs.field.value);
-    //            this.props.model.setValue(this.refs.field.value);
-    //            break;
-    //        case "dropdown":
-    //            console.log(this.refs.dropdown.value);
-    //            this.props.model.setValue(this.refs.dropdown.value);
-    //    }
-    //}
-
     render() {
-        let defaultValue;
-        if (this.props.defaultFieldsModel) {
-            defaultValue = this.props.defaultFieldsModel.fields[0].value;
-        }
-
-        switch (this.props.inputType) {
+        switch (this.props.model.inputType) {
             case "plain":
                 return <div />;
             case "fields":
                 return (
                     <div {...this.getProps()}>
-                        {this.props.fieldsModel.fields.map(field =>
-                            (
+                        {this.props.model.fieldsModel.fields.map(field => {
+                            // Create a switch based on field data type (string, number, float?, checkbox)
+                            //let inputType;
+
+                            return (
                                 <input
                                     type="text"
                                     key={field.key}
-                                    defaultValue={defaultValue || field.value}
-                                    onFocus={() => this.props.model.getParent().setLocked(true)}
-                                    onBlur={() => this.props.model.getParent().setLocked(false)}
-                                    onChange={e => this.setValue(e)}
+                                    defaultValue={this.props.model.defaultFieldsModel.fields.find(f => f.key == field.key).value || field.value}
+                                    onFocus={() => this.props.port.getParent().setLocked(true)}
+                                    onBlur={() => this.props.port.getParent().setLocked(false)}
+                                    onChange={e => this.setValue(field.key, e.target.value)}
                                 />
                             )
+                        }
                         )}
                     </div>
                 );
@@ -53,13 +47,14 @@ class BaseInputValueWidget extends SRD.BaseWidget {
                 return (
                     <div {...this.getProps()}>
                         <select
-                            defaultValue={defaultValue}
-                            onChange={e => this.setValue(e)}
+                            defaultValue={this.props.model.defaultFieldsModel.fields[0].value}
+                            onChange={e => this.setValue(e.target.value, e.target.selectedOptions[0].textContent)}
                         >
-                            {this.props.fieldsModel.fields.map(field =>
+                            {this.props.model.fieldsModel.fields.map(field =>
                                 (
                                     <option
                                         key={field.key}
+                                        value={field.key}
                                     >
                                         {field.value}
                                     </option>

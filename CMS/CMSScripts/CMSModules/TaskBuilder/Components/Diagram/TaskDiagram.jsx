@@ -100,7 +100,7 @@ class TaskDiagram extends React.Component {
                             _.intersectionWith(
                                 this.props.models.functions.all,
                                 this.props.models.functions.authorized,
-                                (a, b) => a.typeName === b.typeName && a.assembly === b.assembly
+                                (a, b) => a.typeIdentifier === b
                             )
                         }
                     />

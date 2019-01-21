@@ -1,6 +1,6 @@
 ﻿class FunctionTrayItem extends React.Component {
     render() {
-        const signature = this.props.functionModel.assembly + this.props.functionModel.typeName;
+        const signature = this.props.functionModel.typeIdentifier;
 
         return (
             <div

@@ -5,7 +5,7 @@ using TaskBuilder.Models.Function;
 
 namespace TaskBuilder.Models.Diagram
 {
-    [DebuggerDisplay("{Type}")]
+    [DebuggerDisplay("{Function}")]
     public class Node
     {
         public Guid Id { get; set; }

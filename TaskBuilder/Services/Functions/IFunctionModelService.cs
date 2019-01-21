@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using CMS;
 using CMS.Base;
 using CMS.DataEngine;
 
+using TaskBuilder.Functions;
 using TaskBuilder.Models.Function;
 using TaskBuilder.Services.Functions;
 
@@ -23,6 +25,8 @@ namespace TaskBuilder.Services.Functions
         /// <summary>
         /// Get all <see cref="IFunctionModel"/>s authorized for given user and site.
         /// </summary>
-        IEnumerable<FunctionModel> AuthorizedFunctionModels(IUserInfo user, SiteInfoIdentifier siteIdentifier);
+        IEnumerable<Guid> AuthorizedFunctionIdentifiers(IUserInfo user, SiteInfoIdentifier siteIdentifier);
+
+        bool CompareFunctionAndType(FunctionInfo functionInfo, Type functionType);
     }
 }

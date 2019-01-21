@@ -10,16 +10,21 @@ using TaskBuilder.Attributes;
 
 namespace TaskBuilder.Services.Functions
 {
-    public class FunctionDiscoveryService : IFunctionDiscoveryService
+    public class FunctionTypeService : IFunctionTypeService
     {
-        private IDictionary<string, Type> _functionTypes;
+        private IDictionary<Guid, Type> _functionTypes;
 
-        public Type GetFunctionType(string functionAssemblyName, string functionFullName)
+        public Type GetFunctionType(Guid functionTypeIdentifier)
         {
-            return _functionTypes[$"{functionAssemblyName}{functionFullName}"];
+            return _functionTypes[functionTypeIdentifier];
         }
 
-        public async Task<IEnumerable<Type>> DiscoverFunctionTypes()
+        public IEnumerable<Guid> GetFilteredFunctionIdentifiers(Func<Type, bool> whereOperation)
+        {
+            return _functionTypes.Where(p => whereOperation(p.Value)).Select(p => p.Key);
+        }
+
+        public async Task<IDictionary<Guid, Type>> DiscoverFunctionTypes()
         {
             // Get loaded assemblies
             var discoveredAssemblies = AssemblyDiscoveryHelper.GetAssemblies(false);
@@ -53,9 +58,9 @@ namespace TaskBuilder.Services.Functions
                 );
             }
 
-            _functionTypes = functionTypes.ToDictionary(t => $"{t.Assembly.GetName().Name}{t.FullName}");
+            _functionTypes = functionTypes.ToDictionary(_ => Guid.NewGuid());
 
-            return functionTypes;
+            return _functionTypes;
         }
     }
 }

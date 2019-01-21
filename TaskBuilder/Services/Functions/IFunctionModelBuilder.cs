@@ -12,15 +12,13 @@ namespace TaskBuilder.Services.Functions
 {
     public interface IFunctionModelBuilder
     {
-        FunctionModel BuildSimpleFunctionModel(string typeName, string assemblyName);
-
-        FunctionModel BuildFunctionModel(Type functionType);
+        FunctionModel BuildFunctionModel(Guid functionTypeIdentifier, Type functionType);
 
         bool TryBuildInvokeModel(MethodInfo invokeMethod, out CallerModel invokeModel);
 
         bool TryBuildDispatchModel(PropertyInfo dispatchProperty, out CallerModel dispatchModel);
 
-        bool TryBuildInputModel(PropertyInfo inputProperty, string functionFullName, out InputModel inputModel);
+        bool TryBuildInputModel(PropertyInfo inputProperty, string functionFullName, Guid functionTypeIdentifier, out InputModel inputModel);
 
         bool TryBuildOutputModel(PropertyInfo outputProperty, string functionFullName, out OutputModel outputModel);
     }

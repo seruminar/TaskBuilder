@@ -15,7 +15,7 @@ namespace TaskBuilder.ValueBuilders
 
         public InputFieldsModel NewFieldsModel()
         {
-            ICollection<FieldModel> fields = new List<FieldModel>
+            IEnumerable<FieldModel> fields = new List<FieldModel>
             {
                 new FieldModel("value", string.Empty)
             };
@@ -25,12 +25,12 @@ namespace TaskBuilder.ValueBuilders
 
         public InputFieldsModel FieldsModelFrom(params dynamic[] fieldsParams)
         {
-            return new InputFieldsModel(fieldsParams.Select(p => new FieldModel((string)p, (FieldParameter)p)).ToList());
+            return new InputFieldsModel(fieldsParams.Select(p => new FieldModel((string)p, (FieldParameter)p)));
         }
 
         public InputFieldsModel OptionsModelFrom(params dynamic[] optionsParams)
         {
-            return new InputFieldsModel(optionsParams.Select(p => new FieldModel((string)p, (FieldParameter)p)).ToList());
+            return new InputFieldsModel(optionsParams.Select(p => new FieldModel((string)p, (FieldParameter)p)));
         }
     }
 }
