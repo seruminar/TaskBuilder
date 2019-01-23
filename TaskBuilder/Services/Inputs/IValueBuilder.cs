@@ -1,11 +1,11 @@
-﻿using TaskBuilder.Models.Function;
+﻿using TaskBuilder.Models.Function.InputValue;
 
 namespace TaskBuilder.Services.Inputs
 {
     public interface IValueBuilder<TValue>
     {
-        TValue ConstructValue(InputFieldsModel inputValueModel);
+        TValue BuildValue(IInputValueModel inputValueModel);
 
-        InputFieldsModel NewFieldsModel();
+        IInputValueModel GetStructureModel(params dynamic[] structureModelParams);
     }
 }

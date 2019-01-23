@@ -15,10 +15,12 @@ namespace TaskBuilder.Services.Functions
     /// </summary>
     public interface IFunctionTypeService
     {
-        Type GetFunctionType(Guid functionTypeIdentifier);
+        Type GetFunctionType(string functionTypeIdentifier);
 
-        IEnumerable<Guid> GetFilteredFunctionIdentifiers(Func<Type, bool> whereOperation);
+        IEnumerable<string> GetFilteredFunctionIdentifiers(Func<Type, bool> whereOperation);
 
-        Task<IDictionary<Guid, Type>> DiscoverFunctionTypes();
+        Task<IDictionary<string, Type>> DiscoverFunctionTypes();
+
+        string HashFunctionTypeIdentifier(string identifier);
     }
 }

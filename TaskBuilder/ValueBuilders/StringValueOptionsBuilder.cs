@@ -1,36 +1,36 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using TaskBuilder.Models.Function;
+using TaskBuilder.Models.Function.InputValue;
 using TaskBuilder.Services.Inputs;
 
 namespace TaskBuilder.ValueBuilders
 {
-    public class StringValueOptionsBuilder : IValueOptionsModelBuilder<string>, IValueModelBuilder<string>
+    public class StringValueOptionsBuilder : IFilledValueBuilder<string>
     {
-        public string ConstructValue(InputFieldsModel inputValueModel)
+        public string BuildValue(IInputValueModel inputValueModel)
         {
-            return inputValueModel.Fields.FirstOrDefault(v => !string.IsNullOrEmpty(v.Value)).Value;
+            return inputValueModel.Fields.FirstOrDefault(v => !string.IsNullOrEmpty(v.Value[0])).Value[0];
         }
 
-        public InputFieldsModel NewFieldsModel()
+        public IInputValueModel GetStructureModel(params dynamic[] structureModelParams)
         {
-            IEnumerable<FieldModel> fields = new List<FieldModel>
+            var fields = new Dictionary<string, FieldModel>
             {
-                new FieldModel("value", string.Empty)
+                {"options", new FieldModel(FieldType.Dropdown) { Value = structureModelParams.Select(o => (FieldParameter)o).ToArray()} }
             };
 
-            return new InputFieldsModel(fields);
+            return new InputValueModel(fields);
         }
 
-        public InputFieldsModel FieldsModelFrom(params dynamic[] fieldsParams)
+        public IInputValueModel GetFilledModel(IInputValueModel structureModel, params dynamic[] filledModelParams)
         {
-            return new InputFieldsModel(fieldsParams.Select(p => new FieldModel((string)p, (FieldParameter)p)));
-        }
+            var fields = new Dictionary<string, FieldModel>
+            {
+                {"options", new FieldModel(FieldType.Dropdown) { Value = new FieldParameter[] { filledModelParams[0] } } }
+            };
 
-        public InputFieldsModel OptionsModelFrom(params dynamic[] optionsParams)
-        {
-            return new InputFieldsModel(optionsParams.Select(p => new FieldModel((string)p, (FieldParameter)p)));
+            return new InputValueModel(fields);
         }
     }
 }

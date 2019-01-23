@@ -1,4 +1,4 @@
-﻿namespace TaskBuilder.Models.Function
+﻿namespace TaskBuilder.Models.Function.InputValue
 {
     public sealed class FieldParameter
     {

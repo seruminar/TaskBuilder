@@ -21,10 +21,10 @@ namespace TaskBuilder.Functions.Implementations
         }
 
         // This must be linked as a reactive parameter
-        [Input("Description", null, typeof(StringValueBuilder), valueParams: new object[] { "default" })]
+        [Input("Description", null, typeof(StringValueBuilder), new object[] { "description" }, new object[] { "default" })]
         public Func<string> TargetInParameter { get; set; }
 
-        [Input(typeof(StringValueOptionsBuilder), false, new object[] { EventType.INFORMATION }, new object[] { EventType.INFORMATION, EventType.WARNING, EventType.ERROR })]
+        [Input(typeof(StringValueOptionsBuilder), new object[] { EventType.INFORMATION, EventType.WARNING, EventType.ERROR }, new object[] { EventType.WARNING }, true)]
         public Func<string> EventRecordType { get; set; }
     }
 }

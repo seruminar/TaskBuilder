@@ -1,6 +1,8 @@
 ﻿using System;
+
 using CMS;
-using TaskBuilder.Models.Function;
+
+using TaskBuilder.Models.Function.InputValue;
 using TaskBuilder.Services.Inputs;
 
 [assembly: RegisterImplementation(typeof(IInputValueService), typeof(InputValueService), Priority = CMS.Core.RegistrationPriority.Fallback)]
@@ -9,14 +11,12 @@ namespace TaskBuilder.Services.Inputs
 {
     public interface IInputValueService
     {
-        void StoreValueBuilder(Guid functionTypeIdentifier, string inputName, Type valueFactory);
+        void StoreValueBuilder(string functionTypeIdentifier, string inputName, Type valueFactory);
 
-        dynamic ConstructValue(Guid functionTypeIdentifier, string inputName, InputFieldsModel fieldsModel);
+        dynamic BuildValue(string functionTypeIdentifier, string inputName, IInputValueModel filledModel);
 
-        bool TryGetEmptyFields(Type builderType, out InputFieldsModel emptyFieldsModel);
+        bool TryGetStructureModel(Type builderType, out IInputValueModel structureModel, dynamic[] structureModelParams);
 
-        bool TryGetDefaultFields(Type builderType, out InputFieldsModel defaultFieldsModel, object[] defaultValueParams);
-
-        bool TryGetOptions(Type builderType, out InputFieldsModel optionsModel, object[] valueOptionsParams);
+        bool TryGetFilledModel(Type builderType, IInputValueModel structureModel, out IInputValueModel filledModel, dynamic[] filledModelParams);
     }
 }

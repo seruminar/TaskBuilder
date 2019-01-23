@@ -7,7 +7,7 @@ using System.Web.Http.Filters;
 
 using CMS.Helpers;
 
-namespace TaskBuilder
+namespace TaskBuilder.Infrastructure
 {
     internal class TaskBuilderSecuredActionFilterAttribute : ActionFilterAttribute
     {

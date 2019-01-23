@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Security;
+
 using CMS.EventLog;
-using TaskBuilder.Models.Function;
+
+using TaskBuilder.Models.Function.InputValue;
 
 namespace TaskBuilder.Services.Inputs
 {
@@ -12,7 +14,7 @@ namespace TaskBuilder.Services.Inputs
         private readonly IDictionary<string, Type> _valueBuilders = new Dictionary<string, Type>();
         private readonly IDictionary<string, object[]> _defaultValueParams = new Dictionary<string, object[]>();
 
-        public void StoreValueBuilder(Guid functionTypeIdentifier, string inputName, Type valueFactory)
+        public void StoreValueBuilder(string functionTypeIdentifier, string inputName, Type valueFactory)
         {
             if (!_valueBuilders.ContainsKey($"{functionTypeIdentifier}.{inputName}"))
             {
@@ -20,7 +22,7 @@ namespace TaskBuilder.Services.Inputs
             }
         }
 
-        public dynamic ConstructValue(Guid functionTypeIdentifier, string inputName, InputFieldsModel fieldsModel)
+        public dynamic BuildValue(string functionTypeIdentifier, string inputName, IInputValueModel filledModel)
         {
             try
             {
@@ -29,80 +31,58 @@ namespace TaskBuilder.Services.Inputs
                 var builder = FormatterServices.GetUninitializedObject(builderType);
 
                 var constructValue = builderType
-                    .GetMethod(nameof(IValueBuilder<object>.ConstructValue));
+                    .GetMethod(nameof(IValueBuilder<object>.BuildValue));
 
-                return constructValue.Invoke(builder, new[] { fieldsModel });
+                return constructValue.Invoke(builder, new[] { filledModel });
             }
             catch (SecurityException ex)
             {
-                EventLogProvider.LogException(TaskBuilderHelper.TASKBUILDER, nameof(ConstructValue).ToUpper(), ex);
+                EventLogProvider.LogException(TaskBuilderHelper.TASKBUILDER, nameof(BuildValue).ToUpper(), ex);
             }
 
             return null;
         }
 
-        public bool TryGetEmptyFields(Type builderType, out InputFieldsModel emptyFieldsModel)
+        public bool TryGetStructureModel(Type builderType, out IInputValueModel structureModel, dynamic[] structureModelParams)
         {
             try
             {
                 var builder = FormatterServices.GetUninitializedObject(builderType);
 
-                var emptyValueModelMethod = builderType
-                    .GetMethod(nameof(IValueBuilder<object>.NewFieldsModel));
+                var structureModelMethod = builderType
+                    .GetMethod(nameof(IValueBuilder<object>.GetStructureModel));
 
-                emptyFieldsModel = emptyValueModelMethod.Invoke(builder, null) as InputFieldsModel;
+                structureModel = structureModelMethod.Invoke(builder, new[] { structureModelParams }) as IInputValueModel;
             }
             catch (SecurityException ex)
             {
-                EventLogProvider.LogException(TaskBuilderHelper.TASKBUILDER, nameof(TryGetEmptyFields).ToUpper(), ex);
-                emptyFieldsModel = null;
+                EventLogProvider.LogException(TaskBuilderHelper.TASKBUILDER, nameof(TryGetStructureModel).ToUpper(), ex);
+                structureModel = null;
             }
 
-            if (emptyFieldsModel == null) return false;
+            if (structureModel == null) return false;
 
             return true;
         }
 
-        public bool TryGetDefaultFields(Type builderType, out InputFieldsModel defaultFieldsModel, object[] defaultValueParams)
+        public bool TryGetFilledModel(Type builderType, IInputValueModel structureModel, out IInputValueModel filledModel, dynamic[] filledModelParams)
         {
             try
             {
                 var builder = FormatterServices.GetUninitializedObject(builderType);
 
-                var valueModelFrom = builderType
-                    .GetMethod(nameof(IValueModelBuilder<object>.FieldsModelFrom));
+                var filledModelMethod = builderType
+                    .GetMethod(nameof(IFilledValueBuilder<object>.GetFilledModel));
 
-                defaultFieldsModel = valueModelFrom.Invoke(builder, new[] { defaultValueParams }) as InputFieldsModel;
+                filledModel = filledModelMethod.Invoke(builder, new object[] { structureModel, filledModelParams }) as IInputValueModel;
             }
             catch (SecurityException ex)
             {
-                EventLogProvider.LogException(TaskBuilderHelper.TASKBUILDER, nameof(TryGetDefaultFields).ToUpper(), ex);
-                defaultFieldsModel = null;
+                EventLogProvider.LogException(TaskBuilderHelper.TASKBUILDER, nameof(TryGetFilledModel).ToUpper(), ex);
+                filledModel = null;
             }
 
-            if (defaultFieldsModel == null) return false;
-
-            return true;
-        }
-
-        public bool TryGetOptions(Type builderType, out InputFieldsModel optionsModel, object[] valueOptionsParams)
-        {
-            try
-            {
-                var builder = FormatterServices.GetUninitializedObject(builderType);
-
-                var valueOptionsModelFrom = builderType
-                    .GetMethod(nameof(IValueOptionsModelBuilder<object>.OptionsModelFrom));
-
-                optionsModel = valueOptionsModelFrom.Invoke(builder, new[] { valueOptionsParams }) as InputFieldsModel;
-            }
-            catch (SecurityException ex)
-            {
-                EventLogProvider.LogException(TaskBuilderHelper.TASKBUILDER, nameof(TryGetOptions).ToUpper(), ex);
-                optionsModel = null;
-            }
-
-            if (optionsModel == null) return false;
+            if (filledModel == null) return false;
 
             return true;
         }

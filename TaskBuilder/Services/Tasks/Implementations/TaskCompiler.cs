@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 using TaskBuilder.Functions;
 using TaskBuilder.Models.Diagram;
-using TaskBuilder.Models.Function;
+using TaskBuilder.Models.Function.InputValue;
 using TaskBuilder.Services.Functions;
 using TaskBuilder.Services.Inputs;
 using TaskBuilder.Tasks;
@@ -33,8 +33,8 @@ namespace TaskBuilder.Services.Tasks
 
             var linkedPorts = new Dictionary<Guid, string>();
             var openInputPorts = new Dictionary<Guid, string>();
-            var fieldsModels = new Dictionary<Guid, InputFieldsModel>();
-            var portFunctionIdentifiers = new Dictionary<Guid, Guid>();
+            var fieldsModels = new Dictionary<Guid, IInputValueModel>();
+            var portFunctionIdentifiers = new Dictionary<Guid, string>();
             var portFunctionGuids = new Dictionary<Guid, Guid>();
 
             IInvokable startInvokable = null;
@@ -67,7 +67,7 @@ namespace TaskBuilder.Services.Tasks
                         var fieldsModel = node.Function
                             .Inputs
                             .FirstOrDefault(i => i.Name == port.Name)
-                            .DefaultFieldsModel;
+                            .FilledModel;
 
                         fieldsModels.Add(port.Id, fieldsModel);
                         portFunctionIdentifiers.Add(port.Id, node.Function.TypeIdentifier);
@@ -116,7 +116,7 @@ namespace TaskBuilder.Services.Tasks
             {
                 foreach (var openPort in openInputPorts)
                 {
-                    InputFieldsModel fields;
+                    IInputValueModel fields;
                     object value;
 
                     Type parentType = types[portFunctionGuids[openPort.Key]];
@@ -124,7 +124,7 @@ namespace TaskBuilder.Services.Tasks
 
                     if (fieldsModels.TryGetValue(openPort.Key, out fields))
                     {
-                        value = _inputValueService.ConstructValue(portFunctionIdentifiers[openPort.Key], openPort.Value, fields);
+                        value = _inputValueService.BuildValue(portFunctionIdentifiers[openPort.Key], openPort.Value, fields);
                     }
                     else
                     {

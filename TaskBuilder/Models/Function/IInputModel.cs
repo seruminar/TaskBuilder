@@ -1,11 +1,13 @@
-﻿namespace TaskBuilder.Models.Function
+﻿using TaskBuilder.Models.Function.InputValue;
+
+namespace TaskBuilder.Models.Function
 {
-    public interface IInputModel<TFieldsModel> : IParameterModel where TFieldsModel : IInputFieldsModel<FieldModel>
+    public interface IInputModel : IParameterModel
     {
         InputType InputType { get; }
 
-        TFieldsModel FieldsModel { get; }
+        IInputValueModel StructureModel { get; }
 
-        TFieldsModel DefaultFieldsModel { get; }
+        IInputValueModel FilledModel { get; }
     }
 }

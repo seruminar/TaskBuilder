@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace TaskBuilder.Models.Function
 {
-    public interface IFunctionModel<TInvoke, TDispatch, TInput, TOutput> where TInvoke : IInvokeModel
-                                                                        where TDispatch : IDispatchModel
-                                                                        where TInput : IInputModel<InputFieldsModel>
-                                                                        where TOutput : IOutputModel
+    public interface IFunctionModel
     {
-        Guid TypeIdentifier { get; }
+        string TypeIdentifier { get; }
 
         string DisplayName { get; }
 
         string DisplayColor { get; }
 
-        TInvoke Invoke { get; }
+        IInvokeModel Invoke { get; }
 
-        ICollection<TDispatch> Dispatchs { get; }
+        ICollection<IDispatchModel> Dispatchs { get; }
 
-        ICollection<TInput> Inputs { get; }
+        ICollection<IInputModel> Inputs { get; }
 
-        ICollection<TOutput> Outputs { get; }
+        ICollection<IOutputModel> Outputs { get; }
     }
 }

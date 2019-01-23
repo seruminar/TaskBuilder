@@ -17,6 +17,7 @@
     render() {
         if (this.state.hasError) {
             console.log(this.state);
+            console.log(this.props);
             return (
                 <div style={{ padding: '10px 15px' }}>
                     <h2>Something went wrong.</h2>
@@ -25,9 +26,6 @@
                         <br />
                         {this.state.errorInfo.componentStack}
                     </div>
-                    <br />
-                    <h4>Props:</h4>
-                    <pre>{JSON.stringify(this.props, null, 4)}</pre>
                 </div>
             );
         }

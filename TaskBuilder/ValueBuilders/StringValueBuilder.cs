@@ -1,31 +1,40 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using TaskBuilder.Models.Function;
+using TaskBuilder.Models.Function.InputValue;
 using TaskBuilder.Services.Inputs;
 
 namespace TaskBuilder.ValueBuilders
 {
-    public class StringValueBuilder : IValueModelBuilder<string>
+    public class StringValueBuilder : IFilledValueBuilder<string>
     {
-        public string ConstructValue(InputFieldsModel inputFieldsModel)
+        public string BuildValue(IInputValueModel inputValueModel)
         {
-            return inputFieldsModel.Fields.FirstOrDefault(v => !string.IsNullOrEmpty(v.Value)).Value;
+            return inputValueModel.Fields.FirstOrDefault(v => !string.IsNullOrEmpty(v.Value[0])).Value[0];
         }
 
-        public InputFieldsModel NewFieldsModel()
+        public IInputValueModel GetStructureModel(params dynamic[] structureModelParams)
         {
-            IEnumerable<FieldModel> fields = new List<FieldModel>
+            var fields = structureModelParams.ToDictionary(
+                p => (string)p,
+                _ => new FieldModel(FieldType.Text)
+            );
+
+            return new InputValueModel(fields);
+        }
+
+        public IInputValueModel GetFilledModel(IInputValueModel structureModel, params dynamic[] filledModelParams)
+        {
+            var filledFields = new Dictionary<string, FieldModel>(structureModel.Fields.Count);
+
+            int i = 0;
+            foreach (var field in structureModel.Fields)
             {
-                new FieldModel("value", string.Empty)
-            };
+                filledFields.Add(field.Key, new FieldModel(FieldType.Text) { Value = new FieldParameter[] { filledModelParams[i] } });
+                i++;
+            }
 
-            return new InputFieldsModel(fields);
-        }
-
-        public InputFieldsModel FieldsModelFrom(params dynamic[] fieldsParams)
-        {
-            return new InputFieldsModel(fieldsParams.Select(p => new FieldModel((string)p, (FieldParameter)p)));
+            return new InputValueModel(filledFields);
         }
     }
 }

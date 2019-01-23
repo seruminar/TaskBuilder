@@ -10,7 +10,7 @@ using TaskBuilder.Models.Diagram;
 using TaskBuilder.Services.Tasks;
 using TaskBuilder.Tasks;
 
-namespace TaskBuilder
+namespace TaskBuilder.Infrastructure
 {
     public class TasksController : ApiController
     {

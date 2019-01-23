@@ -3,8 +3,8 @@ using System.Reflection;
 
 using TaskBuilder.Attributes;
 using TaskBuilder.Functions;
-using TaskBuilder.Models;
 using TaskBuilder.Models.Function;
+using TaskBuilder.Models.Function.InputValue;
 using TaskBuilder.Services.Functions.Exceptions;
 using TaskBuilder.Services.Inputs;
 
@@ -21,7 +21,7 @@ namespace TaskBuilder.Services.Functions
             _inputValueService = inputValueService;
         }
 
-        public FunctionModel BuildFunctionModel(Guid functionTypeIdentifier, Type functionType)
+        public IFunctionModel BuildFunctionModel(string functionTypeIdentifier, Type functionType)
         {
             var attribute = functionType.GetCustomAttribute<FunctionAttribute>();
 
@@ -31,7 +31,7 @@ namespace TaskBuilder.Services.Functions
                 displayColor: _displayConverter.DisplayColorFrom(null, attribute.DisplayColor)
                 );
 
-            CallerModel invokeModel;
+            IInvokeModel invokeModel;
 
             foreach (var method in functionType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
             {
@@ -47,7 +47,7 @@ namespace TaskBuilder.Services.Functions
 
             foreach (var property in functionType.GetProperties())
             {
-                CallerModel dispatchModel;
+                IDispatchModel dispatchModel;
 
                 if (TryBuildDispatchModel(property, out dispatchModel))
                 {
@@ -55,7 +55,7 @@ namespace TaskBuilder.Services.Functions
                     continue;
                 }
 
-                InputModel inputModel;
+                IInputModel inputModel;
 
                 if (TryBuildInputModel(property, functionType.FullName, functionTypeIdentifier, out inputModel))
                 {
@@ -63,7 +63,7 @@ namespace TaskBuilder.Services.Functions
                     continue;
                 }
 
-                OutputModel outputModel;
+                IOutputModel outputModel;
 
                 if (TryBuildOutputModel(property, functionType.FullName, out outputModel))
                 {
@@ -75,7 +75,7 @@ namespace TaskBuilder.Services.Functions
             return functionModel;
         }
 
-        public bool TryBuildInvokeModel(MethodInfo invokeMethod, out CallerModel invokeModel)
+        public bool TryBuildInvokeModel(MethodInfo invokeMethod, out IInvokeModel invokeModel)
         {
             if (!invokeMethod.Name.Equals(nameof(IInvokable.Invoke), StringComparison.OrdinalIgnoreCase))
             {
@@ -89,7 +89,7 @@ namespace TaskBuilder.Services.Functions
             return true;
         }
 
-        public bool TryBuildDispatchModel(PropertyInfo dispatchProperty, out CallerModel dispatchModel)
+        public bool TryBuildDispatchModel(PropertyInfo dispatchProperty, out IDispatchModel dispatchModel)
         {
             if (!(dispatchProperty.Name.Equals(nameof(IDispatcher.Dispatch), StringComparison.OrdinalIgnoreCase)
                 || dispatchProperty.Name.Equals(nameof(IDispatcher2.Dispatch2), StringComparison.OrdinalIgnoreCase)))
@@ -104,7 +104,7 @@ namespace TaskBuilder.Services.Functions
             return true;
         }
 
-        public bool TryBuildInputModel(PropertyInfo inputProperty, string functionFullName, Guid functionTypeIdentifier, out InputModel inputModel)
+        public bool TryBuildInputModel(PropertyInfo inputProperty, string functionFullName, string functionTypeIdentifier, out IInputModel inputModel)
         {
             var attribute = inputProperty.GetCustomAttribute<InputAttribute>();
 
@@ -117,31 +117,19 @@ namespace TaskBuilder.Services.Functions
             EnsureMemberType(inputProperty.PropertyType.Name != "Func`1" || inputProperty.PropertyType.GenericTypeArguments.Length != 1, inputProperty.Name, "Func with one parameter", "Inputs");
 
             InputType inputType = InputType.Plain;
-            InputFieldsModel fieldsModel = null;
-            InputFieldsModel defaultFieldsModel = null;
+            IInputValueModel structureModel = null;
+            IInputValueModel filledModel = null;
 
             if (attribute.ValueBuilder != null)
             {
-                bool hasEmptyValue = false;
-                bool hasValueOptions = false;
-                bool hasDefaultValue = false;
+                _inputValueService.TryGetStructureModel(attribute.ValueBuilder, out structureModel, attribute.StructureModelParams);
+                inputType = InputType.StructureOnly;
 
-                if (attribute.ValueOptionsParams == null && attribute.ValueParams == null)
+                if (attribute.FilledModelParams != null)
                 {
-                    hasEmptyValue = _inputValueService.TryGetEmptyFields(attribute.ValueBuilder, out fieldsModel);
+                    _inputValueService.TryGetFilledModel(attribute.ValueBuilder, structureModel, out filledModel, attribute.FilledModelParams);
+                    inputType = InputType.Filled;
                 }
-                else if (attribute.ValueOptionsParams != null)
-                {
-                    hasValueOptions = _inputValueService.TryGetOptions(attribute.ValueBuilder, out fieldsModel, attribute.ValueOptionsParams);
-                    hasDefaultValue = _inputValueService.TryGetDefaultFields(attribute.ValueBuilder, out defaultFieldsModel, attribute.ValueParams);
-                }
-                else if (attribute.ValueParams != null)
-                {
-                    hasDefaultValue = _inputValueService.TryGetDefaultFields(attribute.ValueBuilder, out defaultFieldsModel, attribute.ValueParams);
-                    fieldsModel = defaultFieldsModel;
-                }
-
-                inputType = hasValueOptions ? InputType.Dropdown : InputType.Fields;
 
                 _inputValueService.StoreValueBuilder(functionTypeIdentifier, inputProperty.Name, attribute.ValueBuilder);
             }
@@ -155,14 +143,14 @@ namespace TaskBuilder.Services.Functions
                 )
             {
                 InputType = inputType,
-                FieldsModel = fieldsModel,
-                DefaultFieldsModel = defaultFieldsModel
+                StructureModel = structureModel,
+                FilledModel = filledModel
             };
 
             return true;
         }
 
-        public bool TryBuildOutputModel(PropertyInfo outputProperty, string functionFullName, out OutputModel outputModel)
+        public bool TryBuildOutputModel(PropertyInfo outputProperty, string functionFullName, out IOutputModel outputModel)
         {
             var attribute = outputProperty.GetCustomAttribute<OutputAttribute>();
 

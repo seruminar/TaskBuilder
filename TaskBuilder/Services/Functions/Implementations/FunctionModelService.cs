@@ -23,7 +23,7 @@ namespace TaskBuilder.Services.Functions
             _functionModelBuilder = functionModelBuilder;
         }
 
-        public async Task<IEnumerable<FunctionModel>> AllFunctionModels()
+        public async Task<IEnumerable<IFunctionModel>> AllFunctionModels()
         {
             return await CacheHelper.Cache(
                 RegisterFunctionModels,
@@ -34,7 +34,7 @@ namespace TaskBuilder.Services.Functions
                 );
         }
 
-        public IEnumerable<Guid> AuthorizedFunctionIdentifiers(IUserInfo user, SiteInfoIdentifier siteIdentifier)
+        public IEnumerable<string> AuthorizedFunctionIdentifiers(IUserInfo user, SiteInfoIdentifier siteIdentifier)
         {
             var functionClassNames = FunctionInfoProvider
                                         .GetFunctionsForUserAndSite(user, siteIdentifier)
@@ -52,7 +52,7 @@ namespace TaskBuilder.Services.Functions
                 && functionInfo.FunctionAssembly == functionType.Assembly.GetName().Name;
         }
 
-        private async Task<IEnumerable<FunctionModel>> RegisterFunctionModels()
+        private async Task<IEnumerable<IFunctionModel>> RegisterFunctionModels()
         {
             var functionTypes = await _functionTypeService.DiscoverFunctionTypes();
 

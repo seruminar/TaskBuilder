@@ -7,60 +7,56 @@ class BaseInputValueWidget extends SRD.BaseWidget {
 
     setValue = (key, value) => {
         if (value !== "") {
-            switch (this.props.model.inputType) {
-                case "fields":
-                    this.props.model.defaultFieldsModel.fields.find(f => f.key === key).value = value;
-                    break;
-                case "dropdown":
-                    this.props.model.defaultFieldsModel.fields[0] = { key, value };
-                    break;
-            }
+            this.props.model.filledModel.fields[key].value = value;
         }
     }
 
     render() {
+        const fields = this.props.model.structureModel.fields;
+
         switch (this.props.model.inputType) {
             case "plain":
                 return <div />;
-            case "fields":
+            case "structureOnly":
+            case "filled":
                 return (
                     <div {...this.getProps()}>
-                        {this.props.model.fieldsModel.fields.map(field => {
-                            // Create a switch based on field data type (string, number, float?, checkbox)
-                            //let inputType;
+                        {Object.keys(fields).map(key => {
+                            const field = fields[key];
 
-                            return (
-                                <input
-                                    type="text"
-                                    key={field.key}
-                                    defaultValue={this.props.model.defaultFieldsModel.fields.find(f => f.key == field.key).value || field.value}
-                                    onFocus={() => this.props.port.getParent().setLocked(true)}
-                                    onBlur={() => this.props.port.getParent().setLocked(false)}
-                                    onChange={e => this.setValue(field.key, e.target.value)}
-                                />
-                            )
-                        }
-                        )}
-                    </div>
-                );
-            case "dropdown":
-                return (
-                    <div {...this.getProps()}>
-                        <select
-                            defaultValue={this.props.model.defaultFieldsModel.fields[0].value}
-                            onChange={e => this.setValue(e.target.value, e.target.selectedOptions[0].textContent)}
-                        >
-                            {this.props.model.fieldsModel.fields.map(field =>
-                                (
-                                    <option
-                                        key={field.key}
-                                        value={field.key}
-                                    >
-                                        {field.value}
-                                    </option>
-                                )
-                            )}
-                        </select>
+                            switch (field.type) {
+                                case "text":
+                                    return (
+                                        <input
+                                            type="text"
+                                            key={key}
+                                            defaultValue={this.props.model.filledModel.fields[key].value}
+                                            onFocus={() => this.props.port.getParent().setLocked(true)}
+                                            onBlur={() => this.props.port.getParent().setLocked(false)}
+                                            onChange={e => this.setValue(key, e.target.value)}
+                                        />
+                                    );
+                                case "dropdown":
+                                    return (
+                                        <select
+                                            key={key}
+                                            defaultValue={this.props.model.filledModel.fields[key].value}
+                                            onChange={e => this.setValue(key, e.target.selectedOptions[0].textContent)}
+                                        >
+                                            {field.value.map((v, i) =>
+                                                (
+                                                    <option
+                                                        key={i}
+                                                        value={v}
+                                                    >
+                                                        {v}
+                                                    </option>
+                                                )
+                                            )}
+                                        </select>
+                                    );
+                            }
+                        })}
                     </div>
                 );
         }

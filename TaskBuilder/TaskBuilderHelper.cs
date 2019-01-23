@@ -6,10 +6,14 @@ using System.Text.RegularExpressions;
 using System.Web.Hosting;
 
 using CMS.Helpers;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+
 using React;
+
+using TaskBuilder.Models.Function.InputValue;
 
 namespace TaskBuilder
 {
@@ -37,7 +41,7 @@ namespace TaskBuilder
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                 };
 
-                settings.Converters.Add(new ParameterConverter());
+                settings.Converters.Add(new FieldParameterConverter());
                 settings.Converters.Add(new StringEnumConverter(true));
 
                 return settings;

@@ -5,26 +5,26 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using CMS.Core;
-
+using CMS.Helpers;
 using TaskBuilder.Attributes;
 
 namespace TaskBuilder.Services.Functions
 {
     public class FunctionTypeService : IFunctionTypeService
     {
-        private IDictionary<Guid, Type> _functionTypes;
+        private IDictionary<string, Type> _functionTypes;
 
-        public Type GetFunctionType(Guid functionTypeIdentifier)
+        public Type GetFunctionType(string functionTypeIdentifier)
         {
             return _functionTypes[functionTypeIdentifier];
         }
 
-        public IEnumerable<Guid> GetFilteredFunctionIdentifiers(Func<Type, bool> whereOperation)
+        public IEnumerable<string> GetFilteredFunctionIdentifiers(Func<Type, bool> whereOperation)
         {
             return _functionTypes.Where(p => whereOperation(p.Value)).Select(p => p.Key);
         }
 
-        public async Task<IDictionary<Guid, Type>> DiscoverFunctionTypes()
+        public async Task<IDictionary<string, Type>> DiscoverFunctionTypes()
         {
             // Get loaded assemblies
             var discoveredAssemblies = AssemblyDiscoveryHelper.GetAssemblies(false);
@@ -58,9 +58,14 @@ namespace TaskBuilder.Services.Functions
                 );
             }
 
-            _functionTypes = functionTypes.ToDictionary(_ => Guid.NewGuid());
+            _functionTypes = functionTypes.ToDictionary(type => HashFunctionTypeIdentifier(type.AssemblyQualifiedName));
 
             return _functionTypes;
+        }
+
+        public string HashFunctionTypeIdentifier(string identifier)
+        {
+            return SecurityHelper.GetPBKDF2Hash(identifier);
         }
     }
 }

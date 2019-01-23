@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+
 using TaskBuilder.Models.Function;
 
 namespace TaskBuilder.Models.Diagram
