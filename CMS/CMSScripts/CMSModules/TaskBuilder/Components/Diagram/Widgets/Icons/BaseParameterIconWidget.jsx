@@ -34,7 +34,7 @@ class BaseParameterIconWidget extends SRD.BaseWidget {
                     style={{ color: this.props.model.displayColor }}
                 >
                     <i
-                        className={this.props.port.linked || this.state.selected ? "icon-caret-right" : "icon-chevron-right"}
+                        className={this.props.port.isLinked() || this.state.selected ? "icon-caret-right" : "icon-chevron-right"}
                         style={{ opacity: this.props.locked ? 0 : 1 }}
                     />
                 </div>

@@ -9,7 +9,7 @@ class BaseInputModel extends SRD.PortModel {
         return this.getParent().getFunction().inputs.find(o => o.name === this.getName());
     }
 
-    linked = _.size(this.links) !== 0;
+    isLinked = () => _.size(this.links) !== 0;
 
     canLinkToPort(other) {
         //return other instanceof BaseOutputModel

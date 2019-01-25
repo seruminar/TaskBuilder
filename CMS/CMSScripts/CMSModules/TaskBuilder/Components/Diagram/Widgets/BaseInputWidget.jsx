@@ -8,7 +8,7 @@ class BaseInputWidget extends SRD.BaseWidget {
     render() {
         let valueWidget;
 
-        if (!(this.props.port.linked)) {
+        if (!this.props.port.isLinked()) {
             valueWidget = <BaseInputValueWidget {...this.props} />;
         }
 

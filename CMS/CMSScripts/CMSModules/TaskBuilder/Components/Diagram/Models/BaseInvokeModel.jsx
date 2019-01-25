@@ -5,7 +5,7 @@ class BaseInvokeModel extends SRD.PortModel {
         super(name, "Invoke");
     }
 
-    linked = _.size(this.links) !== 0;
+    isLinked = () => _.size(this.links) !== 0;
 
     canLinkToPort(other) {
         //return other instanceof BaseDispatchModel;
