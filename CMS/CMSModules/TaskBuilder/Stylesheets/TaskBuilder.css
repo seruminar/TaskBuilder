@@ -83,6 +83,7 @@
     #task-builder .task-builder-toast {
         margin-left: 1em;
         margin-top: 1em;
+        position: fixed !important;
     }
 
     #task-builder .srd-default-link-path-selected {

@@ -10,7 +10,7 @@ namespace TaskBuilder.Attributes
 
         internal Color DisplayColor { get; }
 
-        public FunctionAttribute(string displayName)
+        public FunctionAttribute(string displayName = null)
         {
             DisplayName = displayName;
         }

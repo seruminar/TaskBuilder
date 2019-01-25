@@ -7,56 +7,63 @@ class BaseInputValueWidget extends SRD.BaseWidget {
 
     setValue = (key, value) => {
         if (value !== "") {
-            this.props.model.filledModel.fields[key].value = value;
+            this.props.model.filledModel.fields[key].value = [value];
+        }
+    }
+
+    setLocked = (locked) => {
+        this.props.port.getParent().setLocked(locked);
+    }
+
+    renderField = (key, field) => {
+        defaultFilledValue = this.props.model.filledModel.fields[key].value[0];
+
+        switch (field.type) {
+            case "text":
+                return (
+                    <input
+                        type="text"
+                        key={key}
+                        defaultValue={defaultFilledValue}
+                        onFocus={() => this.setLocked(true)}
+                        onInput={() => this.setLocked(true)}
+                        onBlur={() => this.setLocked(false)}
+                        onChange={e => this.setValue(key, e.target.value)}
+                    />
+                );
+            case "dropdown":
+                return (
+                    <select
+                        key={key}
+                        defaultValue={defaultFilledValue}
+                        onChange={e => this.setValue(key, e.target.selectedOptions[0].textContent)}
+                    >
+                        {field.value.map((value, index) =>
+                            (
+                                <option
+                                    key={index}
+                                    value={value}
+                                >
+                                    {value}
+                                </option>
+                            )
+                        )}
+                    </select>
+                );
         }
     }
 
     render() {
-        const fields = this.props.model.structureModel.fields;
-
         switch (this.props.model.inputType) {
             case "plain":
-                return <div />;
+                return <div {...this.getProps()} />;
             case "structureOnly":
             case "filled":
+                const fields = this.props.model.structureModel.fields;
+
                 return (
                     <div {...this.getProps()}>
-                        {Object.keys(fields).map(key => {
-                            const field = fields[key];
-
-                            switch (field.type) {
-                                case "text":
-                                    return (
-                                        <input
-                                            type="text"
-                                            key={key}
-                                            defaultValue={this.props.model.filledModel.fields[key].value}
-                                            onFocus={() => this.props.port.getParent().setLocked(true)}
-                                            onBlur={() => this.props.port.getParent().setLocked(false)}
-                                            onChange={e => this.setValue(key, e.target.value)}
-                                        />
-                                    );
-                                case "dropdown":
-                                    return (
-                                        <select
-                                            key={key}
-                                            defaultValue={this.props.model.filledModel.fields[key].value}
-                                            onChange={e => this.setValue(key, e.target.selectedOptions[0].textContent)}
-                                        >
-                                            {field.value.map((v, i) =>
-                                                (
-                                                    <option
-                                                        key={i}
-                                                        value={v}
-                                                    >
-                                                        {v}
-                                                    </option>
-                                                )
-                                            )}
-                                        </select>
-                                    );
-                            }
-                        })}
+                        {Object.keys(fields).map(key => this.renderField(key, fields[key]))}
                     </div>
                 );
         }

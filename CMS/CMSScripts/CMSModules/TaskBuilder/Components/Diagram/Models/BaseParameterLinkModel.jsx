@@ -1,38 +1,24 @@
 ﻿const SRD = window["storm-react-diagrams"];
 
 class BaseParameterLinkModel extends SRD.LinkModel {
-    width = 3;
+    width = 2;
     curvyness = 50;
     color = null;
 
-    constructor(linkColor) {
-        super("parameter");
+    constructor(type, linkColor) {
+        super(type);
         this.color = linkColor;
+    }
+
+    deSerialize(other, engine) {
+        super.deSerialize(other, engine);
+        this.color = other.color;
     }
 
     serialize() {
         return _.merge(super.serialize(), {
-            width: this.width,
-            curvyness: this.curvyness,
             color: this.color
         });
-    }
-
-    deSerialize(ob, engine) {
-        super.deSerialize(ob, engine);
-        this.width = ob.width;
-        this.curvyness = ob.curvyness;
-        this.color = ob.color;
-    }
-
-    setTargetPort(port) {
-        if (port && this.sourcePort) {
-            if (this.sourcePort.type === "output" && port.type === "input") {
-                this.type = "parameter";
-            }
-        }
-
-        super.setTargetPort(port);
     }
 
     addLabel(label) {

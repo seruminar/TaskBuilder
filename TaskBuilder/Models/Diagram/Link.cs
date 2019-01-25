@@ -25,10 +25,6 @@ namespace TaskBuilder.Models.Diagram
 
         public ICollection<object> Labels { get; set; }
 
-        public int Width { get; set; }
-
         public string Color { get; set; }
-
-        public int Curvyness { get; set; }
     }
 }

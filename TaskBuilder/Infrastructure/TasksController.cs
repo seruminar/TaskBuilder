@@ -29,40 +29,51 @@ namespace TaskBuilder.Infrastructure
         {
             TaskInfoProvider.SetTaskInfo(diagram);
 
-            return Json(new
-            {
-                result = TasksControllerResult.Success,
-                message = ResHelper.GetString("taskbuilder.messages.savesuccessful")
-            });
+            return JsonResult(TasksControllerResult.Success, "taskbuilder.messages.savesuccessful");
         }
 
         [HttpPost]
         [TaskBuilderSecuredActionFilter]
         public IHttpActionResult RunTask([FromBody] Diagram diagram)
         {
-            var sw1 = new Stopwatch();
-            long afterCompile;
-            sw1.Start();
+            try
+            {
+                var sw1 = new Stopwatch();
+                long afterCompile;
+                sw1.Start();
 
-            var task = _taskCompiler.PrepareTask(diagram);
-            afterCompile = sw1.ElapsedTicks;
+                var task = _taskCompiler.PrepareTask(diagram);
+                afterCompile = sw1.ElapsedTicks;
 
-            sw1.Restart();
-            _taskRunner.RunTask(task, true);
+                sw1.Restart();
+                _taskRunner.RunTask(task, true);
 
-            sw1.Stop();
+                sw1.Stop();
 
-            EventLogProvider.LogInformation(nameof(TasksController), "TESTBENCHMARK",
-                $@"{TaskInfoProvider.GetTaskInfo(diagram.Id)?.TaskDisplayName}:{Environment.NewLine}
+                EventLogProvider.LogInformation(nameof(TasksController), "TESTBENCHMARK",
+                    $@"{TaskInfoProvider.GetTaskInfo(diagram.Id)?.TaskDisplayName}:{Environment.NewLine}
 Prepare: {(double)afterCompile / Stopwatch.Frequency * 1000L}ms{Environment.NewLine}
 Run: {(double)sw1.ElapsedTicks / Stopwatch.Frequency * 1000L}ms"
-                );
+                    );
+            }
+            catch (Exception ex)
+            {
+                EventLogProvider.LogException(nameof(TasksController), nameof(RunTask).ToUpper(), ex);
 
+                return JsonResult(TasksControllerResult.Error, "taskbuilder.messages.error");
+            }
+
+            return JsonResult(TasksControllerResult.Success, "taskbuilder.messages.runcompleted");
+        }
+
+        private IHttpActionResult JsonResult(TasksControllerResult result, string messageResourceString)
+        {
             return Json(new
             {
-                result = TasksControllerResult.Success,
-                message = ResHelper.GetString("taskbuilder.messages.runcompleted")
-            });
+                result,
+                message = ResHelper.GetString(messageResourceString)
+            },
+            TaskBuilderHelper.JsonSerializerSettings);
         }
 
         private void TestBenchmark()

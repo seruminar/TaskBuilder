@@ -13,7 +13,6 @@ namespace TaskBuilder.Functions.Implementations
             // Receive parameters
 
             // Set up parameters
-            SourceOutParameter = "source string";
 
             // Send / Execute
             Dispatch();
@@ -21,8 +20,5 @@ namespace TaskBuilder.Functions.Implementations
 
         // This must be linked as a imperative delegate
         public Action Dispatch { get; set; }
-
-        [Output]
-        public string SourceOutParameter { get; set; }
     }
 }

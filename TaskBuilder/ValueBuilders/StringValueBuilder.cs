@@ -30,7 +30,7 @@ namespace TaskBuilder.ValueBuilders
             int i = 0;
             foreach (var field in structureModel.Fields)
             {
-                filledFields.Add(field.Key, new FieldModel(FieldType.Text) { Value = new FieldParameter[] { filledModelParams[i] } });
+                filledFields.Add(field.Key, new FieldModel(FieldType.Text, filledModelParams[i]));
                 i++;
             }
 

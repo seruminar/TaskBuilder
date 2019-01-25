@@ -28,7 +28,7 @@ namespace TaskBuilder.Models.Function
         }
 
         [JsonConstructor()]
-        public FunctionModel(string typeIdentifier, string displayName, string displayColor, CallerModel invoke, IEnumerable<CallerModel> dispatchs, IEnumerable<InputModel> inputs, IEnumerable<OutputModel> outputs) : this(typeIdentifier, displayName, displayColor)
+        public FunctionModel(string typeIdentifier, string displayName, string displayColor, InvokeModel invoke, IEnumerable<DispatchModel> dispatchs, IEnumerable<InputModel> inputs, IEnumerable<OutputModel> outputs) : this(typeIdentifier, displayName, displayColor)
         {
             Invoke = invoke;
             Dispatchs = dispatchs.Select(d => d as IDispatchModel).ToList();

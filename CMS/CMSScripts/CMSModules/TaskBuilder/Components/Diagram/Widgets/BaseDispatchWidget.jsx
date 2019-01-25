@@ -8,6 +8,7 @@ class BaseDispatchWidget extends SRD.BaseWidget {
     render() {
         return (
             <div {...this.getProps()}>
+                <div className="port-name">{this.props.port.getModel().displayName}</div>
                 <BaseCallerIconWidget {...this.props} />
             </div>
         );

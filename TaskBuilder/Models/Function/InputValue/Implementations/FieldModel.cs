@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
 
 namespace TaskBuilder.Models.Function.InputValue
 {
@@ -14,9 +14,9 @@ namespace TaskBuilder.Models.Function.InputValue
         {
             Type = type;
 
-            if (value is Array)
+            if (value is JArray)
             {
-                Value = value;
+                Value = value.ToObject<FieldParameter[]>();
             }
             else
             {

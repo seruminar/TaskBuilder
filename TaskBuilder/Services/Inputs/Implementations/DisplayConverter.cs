@@ -18,7 +18,12 @@ namespace TaskBuilder.Services.Inputs
                 && FunctionHelper.DisplayColors.ContainsKey(typeName))
                 return ColorTranslator.ToHtml(FunctionHelper.DisplayColors[typeName]);
 
-            return ColorTranslator.ToHtml(customColor ?? DEFAULT_DISPLAY_COLOR);
+            if (customColor.HasValue && !customColor.Value.IsEmpty)
+            {
+                return ColorTranslator.ToHtml(customColor.Value);
+            }
+
+            return ColorTranslator.ToHtml(DEFAULT_DISPLAY_COLOR);
         }
 
         public string DescriptionFrom(string description)

@@ -21,7 +21,7 @@ class BaseInputWidget extends SRD.BaseWidget {
 
         return (
             <div {...this.getProps()} >
-                <BaseParameterIconWidget {...this.props} />
+                <BaseParameterIconWidget {...this.props} locked={this.props.model.inlineOnly} />
                 <div className="port-name">
                     {this.props.model.displayName}
                     {valueWidget}

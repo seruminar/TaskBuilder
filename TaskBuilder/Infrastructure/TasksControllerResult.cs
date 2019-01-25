@@ -3,6 +3,6 @@
     internal enum TasksControllerResult
     {
         Success,
-        Exception
+        Error
     }
 }

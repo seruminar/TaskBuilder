@@ -14,7 +14,7 @@ class BaseFunctionWidget extends SRD.BaseWidget {
                     >
                         <div
                             className={this.bem("-name")}
-                            style={{ boxShadow: "inset 0 0.9em 3em " + this.props.node.function.displayColor }}
+                            style={{ boxShadow: "inset 0 0.9em 3em " + this.props.node.getFunction().displayColor }}
                         >
                             {this.props.node.function.displayName}
                         </div>
@@ -23,15 +23,15 @@ class BaseFunctionWidget extends SRD.BaseWidget {
                         <div className={this.bem("-in")}>
                             <BaseInvokeWidget port={this.props.node.getInvoke()} />
                             {this.props.node.getInputs().map(p =>
-                                <BaseInputWidget port={p} model={p.getModel()} key={p.id} />
+                                <BaseInputWidget port={p} model={p.getModel()} key={p.getID()} />
                             )}
                         </div>
                         <div className={this.bem("-out")}>
                             {this.props.node.getDispatchs().map(p =>
-                                <BaseDispatchWidget port={p} key={p.id} />
+                                <BaseDispatchWidget port={p} key={p.getID()} />
                             )}
                             {this.props.node.getOutputs().map(p =>
-                                <BaseOutputWidget port={p} model={p.getModel()} key={p.id} />
+                                <BaseOutputWidget port={p} model={p.getModel()} key={p.getID()} />
                             )}
                         </div>
                     </div>

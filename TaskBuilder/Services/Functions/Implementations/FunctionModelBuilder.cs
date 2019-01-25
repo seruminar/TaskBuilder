@@ -85,7 +85,8 @@ namespace TaskBuilder.Services.Functions
 
             EnsureMemberType(invokeMethod.ReturnType != typeof(void), invokeMethod.Name, "void", nameof(IInvokable.Invoke));
 
-            invokeModel = new CallerModel(invokeMethod.Name);
+            invokeModel = new InvokeModel(invokeMethod.Name);
+
             return true;
         }
 
@@ -98,9 +99,16 @@ namespace TaskBuilder.Services.Functions
                 return false;
             }
 
+            var attribute = dispatchProperty.GetCustomAttribute<DispatchAttribute>();
+
             EnsureMemberType(dispatchProperty.PropertyType != typeof(Action), dispatchProperty.Name, nameof(Action), "Dispatchs");
 
-            dispatchModel = new CallerModel(dispatchProperty.Name);
+            dispatchModel = new DispatchModel(
+                dispatchProperty.Name,
+                attribute?.DisplayName,
+                attribute?.Description
+                );
+
             return true;
         }
 
@@ -130,6 +138,10 @@ namespace TaskBuilder.Services.Functions
                     _inputValueService.TryGetFilledModel(attribute.ValueBuilder, structureModel, out filledModel, attribute.FilledModelParams);
                     inputType = InputType.Filled;
                 }
+                else
+                {
+                    filledModel = structureModel;
+                }
 
                 _inputValueService.StoreValueBuilder(functionTypeIdentifier, inputProperty.Name, attribute.ValueBuilder);
             }
@@ -139,7 +151,8 @@ namespace TaskBuilder.Services.Functions
                 typeName: inputProperty.PropertyType.GenericTypeArguments[0].Name,
                 displayName: _displayConverter.DisplayNameFrom(attribute.DisplayName, functionFullName + inputProperty.Name, inputProperty.Name),
                 description: _displayConverter.DescriptionFrom(attribute.Description),
-                displayColor: _displayConverter.DisplayColorFrom(inputProperty.PropertyType.GenericTypeArguments[0].Name)
+                displayColor: _displayConverter.DisplayColorFrom(inputProperty.PropertyType.GenericTypeArguments[0].Name),
+                inlineOnly: attribute.InlineOnly
                 )
             {
                 InputType = inputType,

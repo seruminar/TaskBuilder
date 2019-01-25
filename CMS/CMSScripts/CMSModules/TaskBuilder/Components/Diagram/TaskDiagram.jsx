@@ -15,8 +15,6 @@ class TaskDiagram extends React.Component {
         diagramEngine.setDiagramModel(graphModel);
 
         this.diagramEngine = diagramEngine;
-
-        window.diagram = this;
     }
 
     requestWithSerializedGraphBody = () => {
@@ -59,10 +57,10 @@ class TaskDiagram extends React.Component {
         });
     }
 
-    dropFunction = (signature, mousePoint) => {
+    dropFunction = (typeIdentifier, mousePoint) => {
         const node = this.diagramEngine
             .getNodeFactory("function")
-            .getNewInstance(null, signature, true, mousePoint);
+            .getNewInstance(null, typeIdentifier, true, mousePoint);
 
         this.diagramEngine
             .getDiagramModel()

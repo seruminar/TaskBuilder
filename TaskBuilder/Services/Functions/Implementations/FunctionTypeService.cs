@@ -65,7 +65,7 @@ namespace TaskBuilder.Services.Functions
 
         public string HashFunctionTypeIdentifier(string identifier)
         {
-            return SecurityHelper.GetPBKDF2Hash(identifier);
+            return SecurityHelper.GetSHA2Hash(identifier);
         }
     }
 }

@@ -1,26 +1,11 @@
 ﻿const SRD = window["storm-react-diagrams"];
 
 class BaseInvokeModel extends SRD.PortModel {
-    linked = false;
-
-    constructor(name, linkColor) {
-        if (name) {
-            super(name, "invoke");
-        } else {
-            super("", "invoke");
-        }
+    constructor(name) {
+        super(name, "Invoke");
     }
 
-    deSerialize(other, engine) {
-        super.deSerialize(other, engine);
-        this.linked = other.linked;
-    }
-
-    serialize() {
-        return _.merge(super.serialize(), {
-            linked: this.linked
-        });
-    }
+    linked = _.size(this.links) !== 0;
 
     canLinkToPort(other) {
         //return other instanceof BaseDispatchModel;
@@ -28,18 +13,6 @@ class BaseInvokeModel extends SRD.PortModel {
     }
 
     createLinkModel() {
-        return new BaseCallerLinkModel(this.getParent().function.displayColor);
-    }
-
-    addLink(link) {
-        super.addLink(link);
-        this.linked = true;
-    }
-
-    removeLink(link) {
-        super.removeLink(link);
-        if (_.size(this.links) === 0) {
-            this.linked = false;
-        }
+        return new BaseCallerLinkModel(this.getName(), this.getParent().getFunction().displayColor);
     }
 }

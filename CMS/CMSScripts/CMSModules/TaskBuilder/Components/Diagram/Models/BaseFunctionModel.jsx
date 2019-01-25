@@ -9,18 +9,9 @@ class BaseFunctionModel extends SRD.NodeModel {
 
         if (forcePorts) {
             this.addInvoke(this.function.invoke);
-
-            if (this.function.dispatchs.length) {
-                this.function.dispatchs.map(d => this.addDispatch(d));
-            }
-
-            if (this.function.inputs.length) {
-                this.function.inputs.map(i => this.addInput(i));
-            }
-
-            if (this.function.outputs.length) {
-                this.function.outputs.map(o => this.addOutput(o));
-            }
+            this.function.dispatchs.map(d => this.addDispatch(d));
+            this.function.inputs.map(i => this.addInput(i));
+            this.function.outputs.map(o => this.addOutput(o));
         }
     }
 
@@ -51,19 +42,32 @@ class BaseFunctionModel extends SRD.NodeModel {
         });
     }
 
+    getFunction() {
+        return this.function;
+    }
+
     getInvoke() {
-        return _.find(this.ports, ["type", "invoke"]);
+        return _.find(this.ports, p => p.type === "Invoke");
     }
 
     getDispatchs() {
-        return _.filter(this.ports, ["type", "dispatch"]);
+        return _.filter(this.ports, p => p.type === "Dispatch");
     }
 
     getInputs() {
-        return _.filter(this.ports, ["type", "input"]);
+        return _.filter(this.ports, p => p.type === "Input");
     }
 
     getOutputs() {
-        return _.filter(this.ports, ["type", "output"]);
+        return _.filter(this.ports, p => p.type === "Output");
+    }
+
+    setLocked(locked) {
+        super.setLocked(locked);
+        _.forEach(this.ports, port => {
+            _.forEach(port.getLinks(), link => {
+                link.setLocked(locked);
+            });
+        });
     }
 }

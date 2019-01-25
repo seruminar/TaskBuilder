@@ -1,12 +1,12 @@
 ﻿class FunctionTrayItem extends React.Component {
     render() {
-        const signature = this.props.functionModel.typeIdentifier;
+        const typeIdentifier = this.props.functionModel.typeIdentifier;
 
         return (
             <div
                 draggable className="task-builder-tray-item"
                 onDragStart={e => {
-                    e.dataTransfer.setData("functionSignature", signature);
+                    e.dataTransfer.setData("functionSignature", typeIdentifier);
                 }}
             >
                 <i className="icon-w-products-data-source" />

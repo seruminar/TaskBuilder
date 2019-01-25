@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 using CMS.Base;
 using CMS.DataEngine;
-using CMS.Helpers;
 
 using TaskBuilder.Functions;
 using TaskBuilder.Models.Function;
@@ -16,6 +15,7 @@ namespace TaskBuilder.Services.Functions
     {
         private readonly IFunctionTypeService _functionTypeService;
         private readonly IFunctionModelBuilder _functionModelBuilder;
+        private IEnumerable<IFunctionModel> _functionModels;
 
         public FunctionModelService(IFunctionTypeService functionTypeService, IFunctionModelBuilder functionModelBuilder)
         {
@@ -25,17 +25,21 @@ namespace TaskBuilder.Services.Functions
 
         public async Task<IEnumerable<IFunctionModel>> AllFunctionModels()
         {
-            return await CacheHelper.Cache(
-                RegisterFunctionModels,
-                new CacheSettings(
-                    TaskBuilderHelper.CACHE_MINUTES,
-                    TaskBuilderHelper.CACHE_REGISTER_KEY
-                    )
-                );
+            if (_functionModels == null)
+            {
+                _functionModels = await RegisterFunctionModels();
+            }
+
+            return _functionModels;
         }
 
         public IEnumerable<string> AuthorizedFunctionIdentifiers(IUserInfo user, SiteInfoIdentifier siteIdentifier)
         {
+            if (user.CheckPrivilegeLevel(UserPrivilegeLevelEnum.Admin, siteIdentifier))
+            {
+                return _functionTypeService.GetFilteredFunctionIdentifiers(t => true);
+            }
+
             var functionClassNames = FunctionInfoProvider
                                         .GetFunctionsForUserAndSite(user, siteIdentifier)
                                         .Columns(nameof(FunctionInfo.FunctionClass), nameof(FunctionInfo.FunctionAssembly));
@@ -61,7 +65,14 @@ namespace TaskBuilder.Services.Functions
                 throw new Exception($"{nameof(FunctionModelService)} could not find any function types.");
             }
 
-            return functionTypes.Select(pair => _functionModelBuilder.BuildFunctionModel(pair.Key, pair.Value));
+            List<IFunctionModel> functionModels = new List<IFunctionModel>();
+
+            foreach (var pair in functionTypes)
+            {
+                functionModels.Add(_functionModelBuilder.BuildFunctionModel(pair.Key, pair.Value));
+            }
+
+            return functionModels;
         }
     }
 }

@@ -16,7 +16,5 @@ namespace TaskBuilder.Models.Diagram
         public Guid ParentNode { get; set; }
 
         public ICollection<Guid> Links { get; set; }
-
-        public bool Linked { get; set; }
     }
 }

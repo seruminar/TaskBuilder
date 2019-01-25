@@ -15,9 +15,10 @@
     }
 
     render() {
+        console.log(this.props);
+
         if (this.state.hasError) {
             console.log(this.state);
-            console.log(this.props);
             return (
                 <div style={{ padding: '10px 15px' }}>
                     <h2>Something went wrong.</h2>

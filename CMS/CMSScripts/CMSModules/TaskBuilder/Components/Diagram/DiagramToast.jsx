@@ -1,23 +1,29 @@
 ﻿class DiagramToast extends React.Component {
     state = {
         show: false,
+        result: null,
         message: null
     }
 
     componentDidUpdate() {
         if (this.state.show) {
-            setTimeout(() => {
+            clearTimeout(this.timeout);
+
+            this.timeout = setTimeout(() => {
                 this.setState({
                     show: false,
+                    result: null,
                     message: null
                 });
             }, 3000);
         }
     }
 
+    timeout;
+
     render() {
         return (
-            <div className="task-builder-toast alert alert-success"
+            <div className={`task-builder-toast alert alert-${this.state.result}`}
                 style={{ display: this.state.show ? "block" : "none" }}
             >
                 <span className="alert-icon">

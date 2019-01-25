@@ -30,6 +30,7 @@ namespace TaskBuilder.Services.Tasks
 
             var invokables = new Dictionary<Guid, IInvokable>(diagram.Nodes.Count);
             var dispatchers = new Dictionary<Guid, IDispatcher>();
+            var dispatcher2s = new Dictionary<Guid, IDispatcher2>();
 
             var linkedPorts = new Dictionary<Guid, string>();
             var openInputPorts = new Dictionary<Guid, string>();
@@ -52,9 +53,14 @@ namespace TaskBuilder.Services.Tasks
                     dispatchers.Add(node.Id, function as IDispatcher);
                 }
 
+                if (function is IDispatcher2)
+                {
+                    dispatcher2s.Add(node.Id, function as IDispatcher2);
+                }
+
                 foreach (var port in node.Ports)
                 {
-                    if (port.Linked)
+                    if (port.Links.Any())
                     {
                         linkedPorts.Add(port.Id, port.Name);
                         continue;
@@ -86,21 +92,25 @@ namespace TaskBuilder.Services.Tasks
 
             foreach (var link in diagram.Links)
             {
-                IDispatcher source = dispatchers[link.Source];
                 IInvokable target = invokables[link.Target];
                 string sourcePort = linkedPorts[link.SourcePort];
                 string targetPort = linkedPorts[link.TargetPort];
 
                 switch (link.Type)
                 {
-                    case "caller":
-                        source.Dispatch = target.Invoke;
+                    case FunctionHelper.LINK_DISPATCH:
+                        dispatchers[link.Source].Dispatch = target.Invoke;
                         break;
 
-                    case "parameter":
+                    case FunctionHelper.LINK_DISPATCH2:
+                        dispatcher2s[link.Source].Dispatch2 = target.Invoke;
+                        break;
+
+                    case FunctionHelper.LINK_PARAMETER:
 
                         Type sourceType = types[link.Source];
                         Type targetType = types[link.Target];
+                        var source = invokables[link.Source];
 
                         targetType.GetProperty(targetPort).SetValue(
                             target,

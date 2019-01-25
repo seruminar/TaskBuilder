@@ -13,7 +13,7 @@ namespace TaskBuilder.Attributes
 
         internal object[] FilledModelParams { get; }
 
-        public InputAttribute(string displayName = null, string description = null) : this(displayName, description, null, null, null, false)
+        public InputAttribute(string displayName = null, string description = null) : base(displayName, description)
         {
         }
 

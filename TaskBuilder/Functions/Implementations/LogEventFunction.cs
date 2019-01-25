@@ -6,8 +6,8 @@ using TaskBuilder.ValueBuilders;
 
 namespace TaskBuilder.Functions.Implementations
 {
-    [Function(0, 0, 255)]
-    public struct EventLogFunction : IInvokable
+    [Function("Log event", 0, 0, 255)]
+    public struct LogEventFunction : IInvokable
     {
         public void Invoke()
         {
@@ -17,7 +17,7 @@ namespace TaskBuilder.Functions.Implementations
             // Set up parameters
 
             // Send / Execute
-            EventLogProvider.LogEvent(EventRecordType(), nameof(EventLogFunction), "TESTLOG", fromSource);
+            EventLogProvider.LogEvent(EventRecordType(), nameof(LogEventFunction), "TESTLOG", fromSource);
         }
 
         // This must be linked as a reactive parameter

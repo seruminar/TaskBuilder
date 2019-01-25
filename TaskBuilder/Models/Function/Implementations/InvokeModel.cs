@@ -1,10 +1,10 @@
 ﻿namespace TaskBuilder.Models.Function
 {
-    public class CallerModel : IInvokeModel, IDispatchModel
+    public class InvokeModel : IInvokeModel
     {
         public string Name { get; }
 
-        public CallerModel(string name)
+        public InvokeModel(string name)
         {
             Name = name;
         }

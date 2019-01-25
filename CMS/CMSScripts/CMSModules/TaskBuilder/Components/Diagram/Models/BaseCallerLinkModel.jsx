@@ -1,38 +1,24 @@
 ﻿const SRD = window["storm-react-diagrams"];
 
 class BaseCallerLinkModel extends SRD.LinkModel {
-    width = 4;
-    curvyness = 50;
+    width = 3;
+    curvyness = 75;
     color = null;
 
-    constructor(linkColor) {
-        super("caller");
+    constructor(type, linkColor) {
+        super(type);
         this.color = linkColor;
+    }
+
+    deSerialize(other, engine) {
+        super.deSerialize(other, engine);
+        this.color = other.color;
     }
 
     serialize() {
         return _.merge(super.serialize(), {
-            width: this.width,
-            curvyness: this.curvyness,
             color: this.color
         });
-    }
-
-    deSerialize(ob, engine) {
-        super.deSerialize(ob, engine);
-        this.width = ob.width;
-        this.curvyness = ob.curvyness;
-        this.color = ob.color;
-    }
-
-    setTargetPort(port) {
-        if (port && this.sourcePort) {
-            if (this.sourcePort.type === "dispatch" && port.type === "invoke") {
-                this.type = "caller";
-            }
-        }
-
-        super.setTargetPort(port);
     }
 
     addLabel(label) {
