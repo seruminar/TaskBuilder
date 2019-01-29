@@ -1,4 +1,6 @@
-﻿namespace TaskBuilder.Models.Function.InputValue
+﻿using TaskBuilder.Functions;
+
+namespace TaskBuilder.Models.Function.InputValue
 {
     public interface IFieldModel
     {

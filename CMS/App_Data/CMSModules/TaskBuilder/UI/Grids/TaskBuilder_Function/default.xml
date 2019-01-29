@@ -4,7 +4,7 @@
     <action name="#delete" caption="$general.delete$" fonticonclass="icon-bin" fonticonstyle="critical" confirmation="$taskbuilder.confirmdelete$" />
   </actions>
   <columns>
-    <column source="FunctionClass" caption="$general.classdisplayname$" wrap="false" />
+    <column source="FunctionTypeGuid" caption="$general.classdisplayname$" wrap="false" externalsourcename="gettypename" />
     <column source="FunctionLastModified" caption="$general.modified$" wrap="false" />
     <column cssclass="filling-column" />
   </columns>

@@ -6,27 +6,20 @@ namespace TaskBuilder.Functions
 {
     public static class FunctionHelper
     {
-        internal const string LINK_DISPATCH = nameof(IDispatcher.Dispatch);
-        internal const string LINK_DISPATCH2 = nameof(IDispatcher2.Dispatch2);
-        internal const string LINK_PARAMETER = "Parameter";
-        internal const string INVOKE = nameof(IInvokable.Invoke);
-        internal const string DISPATCH = nameof(IDispatcher.Dispatch);
-        internal const string INPUT = "Input";
-        internal const string OUTPUT = "Output";
-
         public static ICollection<string> LinkTypes = new List<string>()
         {
-            LINK_DISPATCH,
-            LINK_DISPATCH2,
-            LINK_PARAMETER
+            nameof(LinkType.Invoke).ToLower(),
+            nameof(LinkType.Dispatch).ToLower(),
+            nameof(LinkType.Dispatch2).ToLower(),
+            nameof(LinkType.Parameter).ToLower()
         };
 
         public static ICollection<string> PortTypes = new List<string>()
         {
-            INVOKE,
-            DISPATCH,
-            INPUT,
-            OUTPUT
+            nameof(PortType.Invoke).ToLower(),
+            nameof(PortType.Dispatch).ToLower(),
+            nameof(PortType.Input).ToLower(),
+            nameof(PortType.Output).ToLower()
         };
 
         public static IDictionary<string, Color> DisplayColors = new Dictionary<string, Color>()

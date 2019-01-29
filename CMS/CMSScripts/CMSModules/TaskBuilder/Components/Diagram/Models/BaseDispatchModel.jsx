@@ -2,7 +2,7 @@
 
 class BaseDispatchModel extends SRD.PortModel {
     constructor(name) {
-        super(name, "Dispatch");
+        super(name, "dispatch");
     }
 
     getModel() {
@@ -16,6 +16,6 @@ class BaseDispatchModel extends SRD.PortModel {
     }
 
     createLinkModel() {
-        return new BaseCallerLinkModel(this.getModel().name, this.getParent().getFunction().displayColor);
+        return new BaseCallerLinkModel(this.getModel().name.toLowerCase(), this.getParent().getFunction().displayColor);
     }
 }

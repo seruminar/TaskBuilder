@@ -26,9 +26,10 @@
   </ElementParentID>
   <ElementProperties>
     <Data>
-      <category_name_Header>False</category_name_Header>
       <DisplayBreadcrumbs>True</DisplayBreadcrumbs>
       <EditInDialog>False</EditInDialog>
+      <ExtenderClassName>TaskBuilder.UI.FunctionGridExtender</ExtenderClassName>
+      <GridExtender>TaskBuilder</GridExtender>
       <ObjectType>taskbuilder.function</ObjectType>
       <OpenInDialog>False</OpenInDialog>
       <SmartTipText>{$taskbuilder.ui.functions.purpose$}</SmartTipText>

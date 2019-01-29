@@ -32,17 +32,18 @@ namespace TaskBuilder.Services.Tasks
             var dispatchers = new Dictionary<Guid, IDispatcher>();
             var dispatcher2s = new Dictionary<Guid, IDispatcher2>();
 
-            var linkedPorts = new Dictionary<Guid, string>();
-            var openInputPorts = new Dictionary<Guid, string>();
-            var fieldsModels = new Dictionary<Guid, IInputValueModel>();
-            var portFunctionIdentifiers = new Dictionary<Guid, string>();
-            var portFunctionGuids = new Dictionary<Guid, Guid>();
+            var linkedPortIdPortName = new Dictionary<Guid, string>();
+            var openPortIdPortName = new Dictionary<Guid, string>();
+
+            var portIdFieldsModel = new Dictionary<Guid, IInputValueModel>();
+            var portIdNodeId = new Dictionary<Guid, Guid>();
+            var portIdFunctionTypeGuid = new Dictionary<Guid, Guid>();
 
             IInvokable startInvokable = null;
 
-            var types = diagram.Nodes.ToDictionary(n => n.Id, node =>
+            var nodeIdFunctionType = diagram.Nodes.ToDictionary(n => n.Id, node =>
             {
-                var type = _functionDiscoveryService.GetFunctionType(node.Function.TypeIdentifier);
+                var type = _functionDiscoveryService.GetFunctionType(node.Function.TypeGuid);
 
                 var function = FormatterServices.GetUninitializedObject(type);
 
@@ -62,22 +63,22 @@ namespace TaskBuilder.Services.Tasks
                 {
                     if (port.Links.Any())
                     {
-                        linkedPorts.Add(port.Id, port.Name);
+                        linkedPortIdPortName.Add(port.Id, port.Name);
                         continue;
                     }
 
-                    if (port.Type.Equals(FunctionHelper.INPUT, StringComparison.OrdinalIgnoreCase))
+                    if (port.Type == PortType.Input)
                     {
-                        openInputPorts.Add(port.Id, port.Name);
+                        openPortIdPortName.Add(port.Id, port.Name);
 
                         var fieldsModel = node.Function
                             .Inputs
                             .FirstOrDefault(i => i.Name == port.Name)
                             .FilledModel;
 
-                        fieldsModels.Add(port.Id, fieldsModel);
-                        portFunctionIdentifiers.Add(port.Id, node.Function.TypeIdentifier);
-                        portFunctionGuids.Add(port.Id, node.Id);
+                        portIdFieldsModel.Add(port.Id, fieldsModel);
+                        portIdNodeId.Add(port.Id, node.Id);
+                        portIdFunctionTypeGuid.Add(port.Id, node.Function.TypeGuid);
                     }
                 }
 
@@ -93,23 +94,23 @@ namespace TaskBuilder.Services.Tasks
             foreach (var link in diagram.Links)
             {
                 IInvokable target = invokables[link.Target];
-                string sourcePort = linkedPorts[link.SourcePort];
-                string targetPort = linkedPorts[link.TargetPort];
+                string sourcePort = linkedPortIdPortName[link.SourcePort];
+                string targetPort = linkedPortIdPortName[link.TargetPort];
 
                 switch (link.Type)
                 {
-                    case FunctionHelper.LINK_DISPATCH:
+                    case LinkType.Dispatch:
                         dispatchers[link.Source].Dispatch = target.Invoke;
                         break;
 
-                    case FunctionHelper.LINK_DISPATCH2:
+                    case LinkType.Dispatch2:
                         dispatcher2s[link.Source].Dispatch2 = target.Invoke;
                         break;
 
-                    case FunctionHelper.LINK_PARAMETER:
+                    case LinkType.Parameter:
 
-                        Type sourceType = types[link.Source];
-                        Type targetType = types[link.Target];
+                        Type sourceType = nodeIdFunctionType[link.Source];
+                        Type targetType = nodeIdFunctionType[link.Target];
                         var source = invokables[link.Source];
 
                         targetType.GetProperty(targetPort).SetValue(
@@ -122,19 +123,20 @@ namespace TaskBuilder.Services.Tasks
                 }
             }
 
-            if (openInputPorts.Any())
+            if (openPortIdPortName.Any())
             {
-                foreach (var openPort in openInputPorts)
+                foreach (var openPort in openPortIdPortName)
                 {
                     IInputValueModel fields;
                     object value;
 
-                    Type parentType = types[portFunctionGuids[openPort.Key]];
-                    IInvokable parent = invokables[portFunctionGuids[openPort.Key]];
+                    Guid nodeId = portIdNodeId[openPort.Key];
+                    Type parentType = nodeIdFunctionType[nodeId];
+                    IInvokable parent = invokables[nodeId];
 
-                    if (fieldsModels.TryGetValue(openPort.Key, out fields))
+                    if (portIdFieldsModel.TryGetValue(openPort.Key, out fields))
                     {
-                        value = _inputValueService.BuildValue(portFunctionIdentifiers[openPort.Key], openPort.Value, fields);
+                        value = _inputValueService.BuildValue(portIdFunctionTypeGuid[openPort.Key], openPort.Value, fields);
                     }
                     else
                     {

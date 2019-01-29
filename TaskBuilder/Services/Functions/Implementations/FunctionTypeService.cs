@@ -5,26 +5,26 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using CMS.Core;
-using CMS.Helpers;
+using CMS.DataEngine;
 using TaskBuilder.Attributes;
 
 namespace TaskBuilder.Services.Functions
 {
     public class FunctionTypeService : IFunctionTypeService
     {
-        private IDictionary<string, Type> _functionTypes;
+        private IDictionary<Guid, Type> _guidTypes;
 
-        public Type GetFunctionType(string functionTypeIdentifier)
+        public Type GetFunctionType(Guid functionTypeGuid)
         {
-            return _functionTypes[functionTypeIdentifier];
+            return _guidTypes[functionTypeGuid];
         }
 
-        public IEnumerable<string> GetFilteredFunctionIdentifiers(Func<Type, bool> whereOperation)
+        public IEnumerable<Guid> GetFunctionGuids(Func<Guid, bool> whereCondition)
         {
-            return _functionTypes.Where(p => whereOperation(p.Value)).Select(p => p.Key);
+            return _guidTypes.Keys.Where(g => whereCondition(g));
         }
 
-        public async Task<IDictionary<string, Type>> DiscoverFunctionTypes()
+        public async Task<IDictionary<Guid, Type>> DiscoverFunctionTypes()
         {
             // Get loaded assemblies
             var discoveredAssemblies = AssemblyDiscoveryHelper.GetAssemblies(false);
@@ -58,14 +58,50 @@ namespace TaskBuilder.Services.Functions
                 );
             }
 
-            _functionTypes = functionTypes.ToDictionary(type => HashFunctionTypeIdentifier(type.AssemblyQualifiedName));
+            using (var tr = new CMSTransactionScope())
+            {
+                IDictionary<Guid, Type> guidTypes = new Dictionary<Guid, Type>();
 
-            return _functionTypes;
+                var existingTypes = FunctionTypeInfoProvider
+                                        .GetFunctionTypes();
+
+                foreach (var type in functionTypes)
+                {
+                    // Type already exists in database
+                    if (existingTypes.Any(t => FunctionTypeAndTypeAreEqual(t, type)))
+                    {
+                        guidTypes.Add(existingTypes.First(t => FunctionTypeAndTypeAreEqual(t, type)).FunctionTypeGuid, type);
+                        continue;
+                    }
+
+                    // Add type to database
+                    var typeInfo = new FunctionTypeInfo(type.FullName, type.Assembly.GetName().Name);
+
+                    FunctionTypeInfoProvider.SetFunctionTypeInfo(typeInfo);
+
+                    guidTypes.Add(typeInfo.FunctionTypeGuid, type);
+                }
+
+                foreach (var type in existingTypes)
+                {
+                    if (!functionTypes.Any(t => FunctionTypeAndTypeAreEqual(type, t)))
+                    {
+                        FunctionTypeInfoProvider.DeleteFunctionTypeInfo(type);
+                    }
+                }
+
+                _guidTypes = guidTypes;
+
+                tr.Commit();
+            }
+
+            return _guidTypes;
         }
 
-        public string HashFunctionTypeIdentifier(string identifier)
+        public bool FunctionTypeAndTypeAreEqual(FunctionTypeInfo functionTypeInfo, Type functionType)
         {
-            return SecurityHelper.GetSHA2Hash(identifier);
+            return functionTypeInfo.FunctionTypeClass == functionType.FullName
+                && functionTypeInfo.FunctionTypeAssembly == functionType.Assembly.GetName().Name;
         }
     }
 }

@@ -13,7 +13,8 @@ using Newtonsoft.Json.Serialization;
 
 using React;
 
-using TaskBuilder.Models.Function.InputValue;
+using TaskBuilder.Functions;
+using TaskBuilder.Infrastructure;
 
 namespace TaskBuilder
 {
@@ -21,10 +22,6 @@ namespace TaskBuilder
     {
         public const string TASKBUILDER = nameof(TaskBuilder);
 
-        public const string CACHE_REGISTER_KEY = "tbmodel";
-        public const int CACHE_MINUTES = 60;
-
-        internal const string TASKBUILDER_SECURE_TOKEN = "TaskBuilderToken";
         private static readonly RandomNumberGenerator RNG = RandomNumberGenerator.Create();
 
         /// <summary>
@@ -67,7 +64,7 @@ namespace TaskBuilder
 
         public static string GetSecureToken()
         {
-            var token = SessionHelper.GetValue(TASKBUILDER_SECURE_TOKEN) as string;
+            var token = SessionHelper.GetValue(TaskBuilderSecuredActionFilterAttribute.TASKBUILDER_SECURE_TOKEN) as string;
             if (token == null)
             {
                 var key = new byte[256];
@@ -75,7 +72,7 @@ namespace TaskBuilder
 
                 var stringKey = Convert.ToBase64String(key);
 
-                SessionHelper.SetValue(TASKBUILDER_SECURE_TOKEN, stringKey);
+                SessionHelper.SetValue(TaskBuilderSecuredActionFilterAttribute.TASKBUILDER_SECURE_TOKEN, stringKey);
 
                 return stringKey;
             }

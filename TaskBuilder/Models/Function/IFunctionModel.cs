@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TaskBuilder.Models.Function
 {
     public interface IFunctionModel
     {
-        string TypeIdentifier { get; }
+        Guid TypeGuid { get; }
 
         string DisplayName { get; }
 

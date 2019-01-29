@@ -1,4 +1,5 @@
-﻿using TaskBuilder.Models.Function.InputValue;
+﻿using TaskBuilder.Functions;
+using TaskBuilder.Models.Function.InputValue;
 
 namespace TaskBuilder.Models.Function
 {

@@ -22,6 +22,18 @@ class BaseParameterIconWidget extends SRD.BaseWidget {
         }
     }
 
+    getIcon() {
+        if (this.state.selected) {
+            return "icon-chevron-right-circle";
+        }
+
+        if (this.props.port.isLinked()) {
+            return "icon-caret-right";
+        }
+
+        return "icon-chevron-right";
+    }
+
     render() {
         return (
             <div className="port-icon">
@@ -34,7 +46,7 @@ class BaseParameterIconWidget extends SRD.BaseWidget {
                     style={{ color: this.props.model.displayColor }}
                 >
                     <i
-                        className={this.props.port.isLinked() || this.state.selected ? "icon-caret-right" : "icon-chevron-right"}
+                        className={this.getIcon()}
                         style={{ opacity: this.props.locked ? 0 : 1 }}
                     />
                 </div>

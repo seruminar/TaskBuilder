@@ -2,7 +2,7 @@
 
 class BaseInputModel extends SRD.PortModel {
     constructor(name) {
-        super(name, "Input");
+        super(name, "input");
     }
 
     getModel() {
@@ -18,6 +18,6 @@ class BaseInputModel extends SRD.PortModel {
     }
 
     createLinkModel() {
-        return new BaseParameterLinkModel(this.getModel().displayColor);
+        return new BaseParameterLinkModel("parameter", this.getModel().displayColor);
     }
 }

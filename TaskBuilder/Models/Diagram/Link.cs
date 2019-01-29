@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using TaskBuilder.Functions;
+
 namespace TaskBuilder.Models.Diagram
 {
     public class Link
     {
         public Guid Id { get; set; }
 
-        public string Type { get; set; }
+        public LinkType Type { get; set; }
 
         public bool Selected { get; set; }
 

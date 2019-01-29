@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" Inherits="TaskBuilder_TaskBuilder" Async="true"
+<%@ Page Language="C#" AutoEventWireup="true" Inherits="TaskBuilder_TaskBuilder"
     Theme="Default" EnableEventValidation="false" CodeFile="TaskBuilder_TaskBuilder.aspx.cs" MasterPageFile="~/CMSMasterPages/UI/SimplePage.master" %>
 
 <asp:Content ID="cntContent" ContentPlaceHolderID="plcContent" runat="Server">

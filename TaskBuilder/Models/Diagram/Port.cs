@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using TaskBuilder.Functions;
+
 namespace TaskBuilder.Models.Diagram
 {
     public class Port
     {
         public Guid Id { get; set; }
 
-        public string Type { get; set; }
+        public PortType Type { get; set; }
 
         public bool Selected { get; set; }
 

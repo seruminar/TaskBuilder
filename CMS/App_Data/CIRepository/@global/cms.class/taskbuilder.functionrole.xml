@@ -5,7 +5,8 @@
       <NameSpace>TaskBuilder</NameSpace>
     </Data>
   </ClassCodeGenerationSettings>
-  <ClassDisplayName>FunctionRole</ClassDisplayName>
+  <ClassConnectionString>CMSConnectionString</ClassConnectionString>
+  <ClassDisplayName>Function role binding</ClassDisplayName>
   <ClassFormDefinition>
     <form version="2">
       <field column="FunctionRoleID" columntype="integer" guid="2cd2ca63-fbc1-46f3-aa87-16f19decf71e" isPK="true" publicfield="false">

@@ -2,7 +2,7 @@
 
 class BaseInvokeModel extends SRD.PortModel {
     constructor(name) {
-        super(name, "Invoke");
+        super(name, "invoke");
     }
 
     isLinked = () => _.size(this.links) !== 0;
@@ -13,6 +13,6 @@ class BaseInvokeModel extends SRD.PortModel {
     }
 
     createLinkModel() {
-        return new BaseCallerLinkModel(this.getName(), this.getParent().getFunction().displayColor);
+        return new BaseCallerLinkModel(this.getName().toLowerCase(), this.getParent().getFunction().displayColor);
     }
 }

@@ -1,8 +1,10 @@
-﻿namespace TaskBuilder.Models.Function
+﻿using System.Collections.Generic;
+
+namespace TaskBuilder.Models.Function
 {
     public interface IParameterModel : INamedPortModel
     {
-        string TypeName { get; }
+        ICollection<string> TypeNames { get; }
 
         string DisplayColor { get; }
     }

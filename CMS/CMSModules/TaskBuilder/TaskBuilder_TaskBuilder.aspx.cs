@@ -41,7 +41,7 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
         CssRegistration.RegisterCssLink(this, "~/CMSModules/TaskBuilder/Stylesheets/TaskBuilder.css");
     }
 
-    protected async void Page_Load(object sender, EventArgs e)
+    protected void Page_Load(object sender, EventArgs e)
     {
         var diagramAreaProps = new
         {
@@ -49,8 +49,8 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
             {
                 functions = new
                 {
-                    all = await _functionModelService.AllFunctionModels(),
-                    authorized = _functionModelService.AuthorizedFunctionIdentifiers(MembershipContext.AuthenticatedUser, SiteContext.CurrentSiteName)
+                    all = _functionModelService.AllFunctionModels,
+                    authorized = _functionModelService.AuthorizedFunctionGuids(MembershipContext.AuthenticatedUser, SiteContext.CurrentSiteName)
                 },
                 ports = FunctionHelper.PortTypes,
                 links = FunctionHelper.LinkTypes

@@ -2,12 +2,12 @@
 
 class BaseLinkFactory extends SRD.AbstractLinkFactory {
     generateReactWidget(diagramEngine, link) {
-        return <SRD.DefaultLinkWidget link={link} diagramEngine={diagramEngine} />;
+        return <BaseLinkWidget link={link} diagramEngine={diagramEngine} />;
     }
 
     getNewInstance(initialConfig) {
         switch (this.type) {
-            case "Parameter":
+            case "parameter":
                 return new BaseParameterLinkModel(this.type);
             default:
                 return new BaseCallerLinkModel(this.type);

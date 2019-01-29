@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
@@ -6,7 +7,7 @@ namespace TaskBuilder.Models.Function
 {
     public class FunctionModel : IFunctionModel
     {
-        public string TypeIdentifier { get; }
+        public Guid TypeGuid { get; }
 
         public string DisplayName { get; }
 
@@ -20,15 +21,15 @@ namespace TaskBuilder.Models.Function
 
         public ICollection<IOutputModel> Outputs { get; } = new List<IOutputModel>();
 
-        public FunctionModel(string typeIdentifier, string displayName = null, string displayColor = null)
+        public FunctionModel(Guid typeGuid, string displayName = null, string displayColor = null)
         {
-            TypeIdentifier = typeIdentifier;
+            TypeGuid = typeGuid;
             DisplayName = displayName;
             DisplayColor = displayColor;
         }
 
         [JsonConstructor()]
-        public FunctionModel(string typeIdentifier, string displayName, string displayColor, InvokeModel invoke, IEnumerable<DispatchModel> dispatchs, IEnumerable<InputModel> inputs, IEnumerable<OutputModel> outputs) : this(typeIdentifier, displayName, displayColor)
+        public FunctionModel(Guid typeGuid, string displayName, string displayColor, InvokeModel invoke, IEnumerable<DispatchModel> dispatchs, IEnumerable<InputModel> inputs, IEnumerable<OutputModel> outputs) : this(typeGuid, displayName, displayColor)
         {
             Invoke = invoke;
             Dispatchs = dispatchs.Select(d => d as IDispatchModel).ToList();

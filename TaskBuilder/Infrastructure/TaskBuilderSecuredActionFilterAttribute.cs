@@ -11,13 +11,15 @@ namespace TaskBuilder.Infrastructure
 {
     internal class TaskBuilderSecuredActionFilterAttribute : ActionFilterAttribute
     {
+        internal const string TASKBUILDER_SECURE_TOKEN = "TaskBuilderToken";
+
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
             IEnumerable<string> values;
 
             if (actionContext.Request.Headers.TryGetValues("X-TB-Token", out values))
             {
-                var secureToken = SessionHelper.GetValue(TaskBuilderHelper.TASKBUILDER_SECURE_TOKEN) as string;
+                var secureToken = SessionHelper.GetValue(TASKBUILDER_SECURE_TOKEN) as string;
 
                 if (secureToken == values.FirstOrDefault())
                 {

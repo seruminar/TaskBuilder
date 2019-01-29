@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
+
+using TaskBuilder.Functions;
 using TaskBuilder.Models.Function.InputValue;
 
 namespace TaskBuilder.Models.Function
@@ -7,7 +10,7 @@ namespace TaskBuilder.Models.Function
     {
         public string Name { get; }
 
-        public string TypeName { get; }
+        public ICollection<string> TypeNames { get; set; }
 
         public string DisplayName { get; }
 
@@ -23,10 +26,9 @@ namespace TaskBuilder.Models.Function
 
         public IInputValueModel FilledModel { get; set; }
 
-        public InputModel(string name, string typeName, string displayName, string description, string displayColor, bool inlineOnly)
+        public InputModel(string name, string displayName, string description, string displayColor, bool inlineOnly)
         {
             Name = name;
-            TypeName = typeName;
             DisplayName = displayName;
             Description = description;
             DisplayColor = displayColor;
@@ -34,7 +36,7 @@ namespace TaskBuilder.Models.Function
         }
 
         [JsonConstructor()]
-        public InputModel(string name, string typeName, string displayName, string description, string displayColor, bool inlineOnly, InputType inputType, InputValueModel structureModel, InputValueModel filledModel) : this(name, typeName, displayName, description, displayColor, inlineOnly)
+        public InputModel(string name, string displayName, string description, string displayColor, bool inlineOnly, InputType inputType, InputValueModel structureModel, InputValueModel filledModel) : this(name, displayName, description, displayColor, inlineOnly)
         {
             InputType = inputType;
             StructureModel = structureModel;

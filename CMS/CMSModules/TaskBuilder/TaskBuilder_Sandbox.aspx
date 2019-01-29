@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" Inherits="TaskBuilder_TaskSandbox" Async="true"
+<%@ Page Language="C#" AutoEventWireup="true" Inherits="TaskBuilder_TaskSandbox"
     Theme="Default" EnableEventValidation="false" CodeFile="TaskBuilder_Sandbox.aspx.cs" MasterPageFile="~/CMSMasterPages/UI/SimplePage.master" %>
 
 <asp:Content ID="cntContent" ContentPlaceHolderID="plcContent" runat="Server">

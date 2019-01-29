@@ -11,9 +11,9 @@ namespace TaskBuilder.Services.Inputs
 {
     public interface IInputValueService
     {
-        void StoreValueBuilder(string functionTypeIdentifier, string inputName, Type valueFactory);
+        void StoreValueBuilder(Guid functionTypeGuid, string inputName, Type valueFactory);
 
-        dynamic BuildValue(string functionTypeIdentifier, string inputName, IInputValueModel filledModel);
+        dynamic BuildValue(Guid functionTypeGuid, string inputName, IInputValueModel filledModel);
 
         bool TryGetStructureModel(Type builderType, out IInputValueModel structureModel, dynamic[] structureModelParams);
 

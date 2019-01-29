@@ -23,13 +23,16 @@ namespace TaskBuilder.Functions
         /// </summary>
         public const string OBJECT_TYPE = "taskbuilder.function";
 
+        private const string FUNCTION_NAME_PROXY = "FunctionName";
+
         /// <summary>
         /// Type information.
         /// </summary>
-        public static readonly ObjectTypeInfo TYPEINFO = new ObjectTypeInfo(typeof(FunctionInfoProvider), OBJECT_TYPE, "TaskBuilder.Function", "FunctionID", "FunctionLastModified", "FunctionGuid", null, "FunctionClass", null, null, null, null)
+        public static readonly ObjectTypeInfo TYPEINFO = new ObjectTypeInfo(typeof(FunctionInfoProvider), OBJECT_TYPE, "TaskBuilder.Function", "FunctionID", "FunctionLastModified", "FunctionGuid", null, FUNCTION_NAME_PROXY, null, null, null, null)
         {
-            ModuleName = "TaskBuilder",
+            ModuleName = TaskBuilderHelper.TASKBUILDER,
             TouchCacheDependencies = true,
+            OrderColumn = nameof(FunctionID)
         };
 
         /// <summary>
@@ -49,34 +52,18 @@ namespace TaskBuilder.Functions
         }
 
         /// <summary>
-        /// Function assembly.
+        /// Function type guid.
         /// </summary>
         [DatabaseField]
-        public virtual string FunctionAssembly
+        public virtual Guid FunctionTypeGuid
         {
             get
             {
-                return ValidationHelper.GetString(GetValue("FunctionAssembly"), "TaskBuilder");
+                return ValidationHelper.GetGuid(GetValue("FunctionTypeGuid"), Guid.Empty);
             }
             set
             {
-                SetValue("FunctionAssembly", value);
-            }
-        }
-
-        /// <summary>
-        /// Function class.
-        /// </summary>
-        [DatabaseField]
-        public virtual string FunctionClass
-        {
-            get
-            {
-                return ValidationHelper.GetString(GetValue("FunctionClass"), String.Empty);
-            }
-            set
-            {
-                SetValue("FunctionClass", value, String.Empty);
+                SetValue("FunctionTypeGuid", value);
             }
         }
 
@@ -126,6 +113,18 @@ namespace TaskBuilder.Functions
         protected override void SetObject()
         {
             FunctionInfoProvider.SetFunctionInfo(this);
+        }
+
+        public override object GetValue(string columnName)
+        {
+            if (columnName == FUNCTION_NAME_PROXY)
+            {
+                var typeGuid = Guid.Parse(base.GetValue(nameof(FunctionTypeGuid)).ToString());
+
+                return FunctionTypeInfoProvider.GetFunctionTypeInfo(typeGuid)?.FunctionTypeClass;
+            }
+
+            return base.GetValue(columnName);
         }
 
         /// <summary>

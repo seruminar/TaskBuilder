@@ -29,7 +29,7 @@ namespace TaskBuilder.Functions
         /// </summary>
         public static readonly ObjectTypeInfo TYPEINFO = new ObjectTypeInfo(typeof(FunctionRoleInfoProvider), OBJECT_TYPE, "TaskBuilder.FunctionRole", "FunctionRoleID", null, null, null, null, null, null, "FunctionID", "taskbuilder.function")
         {
-            ModuleName = "TaskBuilder",
+            ModuleName = TaskBuilderHelper.TASKBUILDER,
             TouchCacheDependencies = true,
             DependsOn = new List<ObjectDependency>()
             {

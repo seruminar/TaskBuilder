@@ -14,19 +14,19 @@ namespace TaskBuilder.Services.Inputs
         private readonly IDictionary<string, Type> _valueBuilders = new Dictionary<string, Type>();
         private readonly IDictionary<string, object[]> _defaultValueParams = new Dictionary<string, object[]>();
 
-        public void StoreValueBuilder(string functionTypeIdentifier, string inputName, Type valueFactory)
+        public void StoreValueBuilder(Guid functionTypeGuid, string inputName, Type valueFactory)
         {
-            if (!_valueBuilders.ContainsKey($"{functionTypeIdentifier}.{inputName}"))
+            if (!_valueBuilders.ContainsKey($"{functionTypeGuid.ToString()}.{inputName}"))
             {
-                _valueBuilders.Add($"{functionTypeIdentifier}.{inputName}", valueFactory);
+                _valueBuilders.Add($"{functionTypeGuid.ToString()}.{inputName}", valueFactory);
             }
         }
 
-        public dynamic BuildValue(string functionTypeIdentifier, string inputName, IInputValueModel filledModel)
+        public dynamic BuildValue(Guid functionTypeGuid, string inputName, IInputValueModel filledModel)
         {
             try
             {
-                var builderType = _valueBuilders[$"{functionTypeIdentifier}.{inputName}"];
+                var builderType = _valueBuilders[$"{functionTypeGuid.ToString()}.{inputName}"];
 
                 var builder = FormatterServices.GetUninitializedObject(builderType);
 

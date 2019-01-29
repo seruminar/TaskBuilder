@@ -10,7 +10,8 @@
       <UseNameHashtable>False</UseNameHashtable>
     </Data>
   </ClassCodeGenerationSettings>
-  <ClassDisplayName>FunctionSite</ClassDisplayName>
+  <ClassConnectionString>CMSConnectionString</ClassConnectionString>
+  <ClassDisplayName>Function site binding</ClassDisplayName>
   <ClassFormDefinition>
     <form version="2">
       <field column="FunctionSiteID" columntype="integer" guid="dce2f88e-bf91-4490-aae6-e053ec22bfc1" isPK="true" isunique="true" publicfield="false" system="true">

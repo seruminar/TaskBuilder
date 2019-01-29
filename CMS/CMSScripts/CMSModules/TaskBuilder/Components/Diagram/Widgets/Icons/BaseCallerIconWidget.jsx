@@ -12,6 +12,18 @@ class BaseCallerIconWidget extends SRD.BaseWidget {
         return "port " + super.getClassName() + (this.state.selected ? this.bem("-selected") : "");
     }
 
+    getIcon() {
+        if (this.state.selected) {
+            return "icon-chevron-right-circle";
+        }
+
+        if (this.props.port.isLinked()) {
+            return "icon-caret-right";
+        }
+
+        return "icon-chevron-right";
+    }
+
     render() {
         return (
             <div
@@ -25,7 +37,7 @@ class BaseCallerIconWidget extends SRD.BaseWidget {
                 data-name={this.props.port.name}
                 data-nodeid={this.props.port.getParent().getID()}
             >
-                <i className={this.props.port.isLinked() || this.state.selected ? "icon-caret-right" : "icon-chevron-right"} />
+                <i className={this.getIcon()} />
             </div>
         );
     }

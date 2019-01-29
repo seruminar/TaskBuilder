@@ -42,6 +42,9 @@
     <Reference Include="CMS.Base">
       <HintPath>..\CMS\bin\CMS.Base.dll</HintPath>
     </Reference>
+    <Reference Include="CMS.Base.Web.UI">
+      <HintPath>..\CMS\Bin\CMS.Base.Web.UI.dll</HintPath>
+    </Reference>
     <Reference Include="CMS.Core">
       <HintPath>..\CMS\Bin\CMS.Core.dll</HintPath>
     </Reference>
@@ -63,6 +66,9 @@
     </Reference>
     <Reference Include="CMS.SiteProvider">
       <HintPath>..\CMS\Bin\CMS.SiteProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS.UIControls">
+      <HintPath>..\CMS\Bin\CMS.UIControls.dll</HintPath>
     </Reference>
     <Reference Include="JavaScriptEngineSwitcher.ChakraCore, Version=2.4.8.0, Culture=neutral, PublicKeyToken=c608b2a8cc9e4472, processorArchitecture=MSIL">
       <HintPath>..\packages\JavaScriptEngineSwitcher.ChakraCore.2.4.8\lib\net45\JavaScriptEngineSwitcher.ChakraCore.dll</HintPath>
@@ -125,24 +131,24 @@
     <Compile Include="Attributes\DispatchAttribute.cs" />
     <Compile Include="Attributes\PortAttribute.cs" />
     <Compile Include="Attributes\FunctionAttribute.cs" />
+    <Compile Include="Functions\FunctionTypeInfo.cs" />
+    <Compile Include="Functions\FunctionTypeInfoProvider.cs" />
     <Compile Include="Functions\FunctionRoleInfo.cs" />
     <Compile Include="Functions\FunctionRoleInfoProvider.cs" />
     <Compile Include="Functions\FunctionSiteInfo.cs" />
     <Compile Include="Functions\FunctionSiteInfoProvider.cs" />
     <Compile Include="Functions\IDispatcher2.cs" />
-    <Compile Include="Functions\Implementations\GetValueFunction.cs" />
-    <Compile Include="Functions\Implementations\GetUserFunction.cs" />
-    <Compile Include="Functions\Implementations\LogEventFunction.cs" />
     <Compile Include="Functions\IDispatcher.cs" />
     <Compile Include="Functions\IInvokable.cs" />
-    <Compile Include="Functions\Implementations\StartFunction.cs" />
     <Compile Include="Functions\FunctionHelper.cs" />
+    <Compile Include="Functions\PortType.cs" />
+    <Compile Include="Functions\LinkType.cs" />
     <Compile Include="Models\Function\Implementations\DispatchModel.cs" />
     <Compile Include="Models\Function\InputValue\FieldParameter.cs" />
-    <Compile Include="Models\Function\InputValue\FieldType.cs" />
+    <Compile Include="Functions\FieldType.cs" />
     <Compile Include="Models\Function\InputValue\IFieldModel.cs" />
     <Compile Include="Models\Function\InputValue\Implementations\FieldModel.cs" />
-    <Compile Include="Models\Function\InputValue\FieldParameterConverter.cs" />
+    <Compile Include="Functions\FieldParameterConverter.cs" />
     <Compile Include="Models\Function\INamedPortModel.cs" />
     <Compile Include="Services\Tasks\Implementations\TaskCompiler.cs" />
     <Compile Include="Services\Tasks\Implementations\TaskRunner.cs" />
@@ -158,6 +164,7 @@
     <Compile Include="Services\Inputs\IDisplayConverter.cs" />
     <Compile Include="Services\Inputs\IFilledValueBuilder.cs" />
     <Compile Include="Services\Inputs\IValueBuilder.cs" />
+    <Compile Include="UI\FunctionGridExtender.cs" />
     <Compile Include="ValueBuilders\StringValueBuilder.cs" />
     <Compile Include="ValueBuilders\StringValueOptionsBuilder.cs" />
     <Compile Include="Models\Function\InputValue\IInputValueModel.cs" />
@@ -170,7 +177,7 @@
     <Compile Include="Models\Function\IOutputModel.cs" />
     <Compile Include="Models\Function\IParameterModel.cs" />
     <Compile Include="Models\Function\Implementations\OutputModel.cs" />
-    <Compile Include="Models\Function\InputValue\InputType.cs" />
+    <Compile Include="Functions\InputType.cs" />
     <Compile Include="Models\Function\IFunctionModel.cs" />
     <Compile Include="Services\Functions\Exceptions\InvalidReturnTypeException.cs" />
     <Compile Include="Models\Diagram\Point.cs" />

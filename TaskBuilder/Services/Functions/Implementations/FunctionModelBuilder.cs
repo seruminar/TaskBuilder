@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 using TaskBuilder.Attributes;
@@ -21,12 +22,12 @@ namespace TaskBuilder.Services.Functions
             _inputValueService = inputValueService;
         }
 
-        public IFunctionModel BuildFunctionModel(string functionTypeIdentifier, Type functionType)
+        public IFunctionModel BuildFunctionModel(Type functionType, Guid functionTypeGuid)
         {
             var attribute = functionType.GetCustomAttribute<FunctionAttribute>();
 
             var functionModel = new FunctionModel(
-                typeIdentifier: functionTypeIdentifier,
+                typeGuid: functionTypeGuid,
                 displayName: _displayConverter.DisplayNameFrom(attribute.DisplayName, functionType.FullName, functionType.Name),
                 displayColor: _displayConverter.DisplayColorFrom(null, attribute.DisplayColor)
                 );
@@ -57,7 +58,7 @@ namespace TaskBuilder.Services.Functions
 
                 IInputModel inputModel;
 
-                if (TryBuildInputModel(property, functionType.FullName, functionTypeIdentifier, out inputModel))
+                if (TryBuildInputModel(property, functionType.FullName, functionTypeGuid, out inputModel))
                 {
                     functionModel.Inputs.Add(inputModel);
                     continue;
@@ -104,15 +105,15 @@ namespace TaskBuilder.Services.Functions
             EnsureMemberType(dispatchProperty.PropertyType != typeof(Action), dispatchProperty.Name, nameof(Action), "Dispatchs");
 
             dispatchModel = new DispatchModel(
-                dispatchProperty.Name,
-                attribute?.DisplayName,
-                attribute?.Description
+                name: dispatchProperty.Name,
+                displayName: attribute?.DisplayName,
+                description: attribute?.Description
                 );
 
             return true;
         }
 
-        public bool TryBuildInputModel(PropertyInfo inputProperty, string functionFullName, string functionTypeIdentifier, out IInputModel inputModel)
+        public bool TryBuildInputModel(PropertyInfo inputProperty, string functionFullName, Guid functionTypeGuid, out IInputModel inputModel)
         {
             var attribute = inputProperty.GetCustomAttribute<InputAttribute>();
 
@@ -143,18 +144,18 @@ namespace TaskBuilder.Services.Functions
                     filledModel = structureModel;
                 }
 
-                _inputValueService.StoreValueBuilder(functionTypeIdentifier, inputProperty.Name, attribute.ValueBuilder);
+                _inputValueService.StoreValueBuilder(functionTypeGuid, inputProperty.Name, attribute.ValueBuilder);
             }
 
             inputModel = new InputModel(
                 name: inputProperty.Name,
-                typeName: inputProperty.PropertyType.GenericTypeArguments[0].Name,
                 displayName: _displayConverter.DisplayNameFrom(attribute.DisplayName, functionFullName + inputProperty.Name, inputProperty.Name),
                 description: _displayConverter.DescriptionFrom(attribute.Description),
                 displayColor: _displayConverter.DisplayColorFrom(inputProperty.PropertyType.GenericTypeArguments[0].Name),
                 inlineOnly: attribute.InlineOnly
                 )
             {
+                TypeNames = new List<string> { inputProperty.PropertyType.GenericTypeArguments[0].Name },
                 InputType = inputType,
                 StructureModel = structureModel,
                 FilledModel = filledModel
@@ -175,9 +176,18 @@ namespace TaskBuilder.Services.Functions
 
             EnsureMemberType(outputProperty.PropertyType.GetTypeInfo().IsGenericType, outputProperty.Name, outputProperty.PropertyType.Name, "Outputs");
 
+            var type = outputProperty.PropertyType;
+            ICollection<string> typeNames = new List<string> { type.Name };
+
+            while (type.BaseType != null)
+            {
+                typeNames.Add(type.BaseType.Name);
+                type = type.BaseType;
+            }
+
             outputModel = new OutputModel(
                 name: outputProperty.Name,
-                typeName: outputProperty.PropertyType.Name,
+                typeNames: typeNames,
                 displayName: _displayConverter.DisplayNameFrom(attribute.DisplayName, functionFullName + outputProperty.Name, outputProperty.Name),
                 description: _displayConverter.DescriptionFrom(attribute.Description),
                 displayColor: _displayConverter.DisplayColorFrom(outputProperty.PropertyType.Name)

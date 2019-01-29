@@ -13,9 +13,9 @@ namespace TaskBuilder.Services
             _functionModelService = functionModelService;
         }
 
-        public override async void Run()
+        public override void Run()
         {
-            var discard = await _functionModelService.AllFunctionModels();
+            _functionModelService.RegisterFunctionModels();
         }
     }
 }

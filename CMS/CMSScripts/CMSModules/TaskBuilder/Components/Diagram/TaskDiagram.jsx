@@ -57,10 +57,10 @@ class TaskDiagram extends React.Component {
         });
     }
 
-    dropFunction = (typeIdentifier, mousePoint) => {
+    dropFunction = (typeGuid, mousePoint) => {
         const node = this.diagramEngine
             .getNodeFactory("function")
-            .getNewInstance(null, typeIdentifier, true, mousePoint);
+            .getNewInstance(null, typeGuid, true, mousePoint);
 
         this.diagramEngine
             .getDiagramModel()
@@ -98,12 +98,12 @@ class TaskDiagram extends React.Component {
                             _.intersectionWith(
                                 this.props.models.functions.all,
                                 this.props.models.functions.authorized,
-                                (a, b) => a.typeIdentifier === b
+                                (a, b) => a.typeGuid === b
                             )
                         }
                     />
                     <div className="task-builder-diagram-wrapper"
-                        onDrop={e => this.dropFunction(e.dataTransfer.getData("functionSignature"), this.diagramEngine.getRelativeMousePoint(e))}
+                        onDrop={e => this.dropFunction(e.dataTransfer.getData("typeGuid"), this.diagramEngine.getRelativeMousePoint(e))}
                         onDragOver={e => { e.preventDefault(); }}
                     >
                         <DiagramToast ref="toast" />

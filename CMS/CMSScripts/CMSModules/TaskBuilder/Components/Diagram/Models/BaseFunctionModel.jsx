@@ -47,19 +47,19 @@ class BaseFunctionModel extends SRD.NodeModel {
     }
 
     getInvoke() {
-        return _.find(this.ports, p => p.type === "Invoke");
+        return _.find(this.ports, p => p.type === "invoke");
     }
 
     getDispatchs() {
-        return _.filter(this.ports, p => p.type === "Dispatch");
+        return _.filter(this.ports, p => p.type === "dispatch");
     }
 
     getInputs() {
-        return _.filter(this.ports, p => p.type === "Input");
+        return _.filter(this.ports, p => p.type === "input");
     }
 
     getOutputs() {
-        return _.filter(this.ports, p => p.type === "Output");
+        return _.filter(this.ports, p => p.type === "output");
     }
 
     setLocked(locked) {

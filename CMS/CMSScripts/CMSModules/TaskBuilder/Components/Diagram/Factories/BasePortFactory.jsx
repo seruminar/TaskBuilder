@@ -3,13 +3,13 @@
 class BasePortFactory extends SRD.AbstractPortFactory {
     getNewInstance(initialConfig) {
         switch (this.type) {
-            case "Invoke":
+            case "invoke":
                 return new BaseInvokeModel(null, null);
-            case "Dispatch":
+            case "dispatch":
                 return new BaseDispatchModel(null, null);
-            case "Input":
+            case "input":
                 return new BaseInputModel(null);
-            case "Output":
+            case "output":
                 return new BaseOutputModel(null);
         }
     }

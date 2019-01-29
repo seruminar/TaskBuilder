@@ -94,24 +94,24 @@ namespace TaskBuilder.Functions
             }
 
             return query
-                    .WhereIn("FunctionID",
+                    .WhereIn(nameof(FunctionInfo.FunctionID),
                         FunctionRoleInfoProvider.GetFunctionRoles()
-                        .WhereIn("RoleID",
+                        .WhereIn(nameof(RoleInfo.RoleID),
                             UserRoleInfoProvider
                             .GetUserRoles()
-                            .Column("RoleID")
-                            .WhereEquals("UserID", user.UserID)
+                            .Column(nameof(RoleInfo.RoleID))
+                            .WhereEquals(nameof(UserInfo.UserID), user.UserID)
                         )
-                        .Column("FunctionID")
+                        .Column(nameof(FunctionInfo.FunctionID))
                     )
                     .And()
-                    .WhereIn("FunctionID",
+                    .WhereIn(nameof(FunctionInfo.FunctionID),
                         FunctionSiteInfoProvider.GetFunctionSites()
-                        .WhereEquals("SiteID",
+                        .WhereEquals(nameof(SiteInfo.SiteID),
                             SiteInfoProvider
                              .GetSiteID(site)
                         )
-                        .Column("FunctionID")
+                        .Column(nameof(FunctionInfo.FunctionID))
                     );
         }
     }

@@ -42,7 +42,7 @@ class BaseCallerLinkModel extends SRD.LinkModel {
         });
     }
 
-    setColor(colors) {
+    setColor(color) {
         this.color = color;
 
         this.iterateListeners((listener, event) => {

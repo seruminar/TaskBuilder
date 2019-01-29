@@ -13,8 +13,8 @@ class BaseFunctionFactory extends SRD.AbstractNodeFactory {
         return <BaseFunctionWidget node={node} diagramEngine={engine} />;
     }
 
-    getNewInstance(initialConfig, typeIdentifier, forcePorts, locationPoint) {
-        const func = _.find(this.functions, f => f.typeIdentifier === typeIdentifier);
+    getNewInstance(initialConfig, typeGuid, forcePorts, locationPoint) {
+        const func = _.find(this.functions, f => f.typeGuid === typeGuid);
 
         let funcClone;
 

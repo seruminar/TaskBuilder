@@ -1,7 +1,10 @@
 ﻿using System;
+
 using Newtonsoft.Json;
 
-namespace TaskBuilder.Models.Function.InputValue
+using TaskBuilder.Models.Function.InputValue;
+
+namespace TaskBuilder.Functions
 {
     internal class FieldParameterConverter : JsonConverter
     {

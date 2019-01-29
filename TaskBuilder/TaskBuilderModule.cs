@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Web;
+﻿using System.Web;
 using System.Web.Http;
 using System.Web.Http.WebHost;
 using System.Web.Routing;
@@ -8,11 +7,9 @@ using System.Web.SessionState;
 using CMS;
 using CMS.Core;
 using CMS.DataEngine;
-using CMS.Helpers;
 
 using Newtonsoft.Json;
 
-using TaskBuilder.Functions;
 using TaskBuilder.Models.Diagram;
 using TaskBuilder.Services;
 using TaskBuilder.Services.Functions;
@@ -37,7 +34,6 @@ namespace TaskBuilder
             InitializeFunctions();
 
             TaskInfo.TYPEINFO.Events.Insert.Before += HandleImportTask;
-            FunctionInfo.TYPEINFO.Events.Insert.Before += EnsureUniqueClass;
 
             var reactConfig = TaskBuilderHelper.Environment.Configuration;
 
@@ -47,24 +43,6 @@ namespace TaskBuilder
             RouteTable.Routes
                 .MapHttpRoute("taskbuilder", "taskbuilder/{controller}/{action}")
                 .RouteHandler = new SessionRouteHandler();
-        }
-
-        private void EnsureUniqueClass(object sender, ObjectEventArgs e)
-        {
-            var function = e.Object as FunctionInfo;
-            if (function != null)
-            {
-                var existingFunction = FunctionInfoProvider
-                                        .GetFunctions()
-                                        .WhereEquals("FunctionClass", function.FunctionClass)
-                                        .TopN(1)
-                                        .FirstOrDefault();
-
-                if (existingFunction != null)
-                {
-                    throw new InfoObjectException(function, ResHelper.GetString("taskbuilder.validation.functionalreadyexists"));
-                }
-            }
         }
 
         private void HandleImportTask(object sender, ObjectEventArgs e)

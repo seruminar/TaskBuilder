@@ -2,7 +2,13 @@
 <cms.class>
   <ClassCodeGenerationSettings>
     <Data>
-      <NameSpace>TaskBuilder</NameSpace>
+      <GUIDColumn>FunctionTypeGuid</GUIDColumn>
+      <LastModifiedColumn>FunctionLastModified</LastModifiedColumn>
+      <NameSpace>TaskBuilder.Functions</NameSpace>
+      <ObjectType>taskbuilder.function</ObjectType>
+      <UseGuidHashtable>False</UseGuidHashtable>
+      <UseIdHashtable>False</UseIdHashtable>
+      <UseNameHashtable>False</UseNameHashtable>
     </Data>
   </ClassCodeGenerationSettings>
   <ClassConnectionString>CMSConnectionString</ClassConnectionString>
@@ -17,32 +23,36 @@
           <controlname>labelcontrol</controlname>
         </settings>
       </field>
-      <field column="FunctionAssembly" columnsize="200" columntype="text" guid="98a58f74-e434-4c16-add5-009b8879b541" publicfield="false" system="true" visible="true">
+      <field column="FunctionTypeGuid" columntype="guid" guid="98a58f74-e434-4c16-add5-009b8879b541" isunique="true" publicfield="false" system="true" visible="true">
         <properties>
-          <defaultvalue>TaskBuilder</defaultvalue>
-          <fieldcaption>{$taskbuilder.function.assembly$}</fieldcaption>
+          <fieldcaption>{$taskbuilder.functiontype$}</fieldcaption>
         </properties>
         <settings>
-          <BaseClassAttribute>
-            <![CDATA[TaskBuilder.Attributes.FunctionAttribute, TaskBuilder]]>
-          </BaseClassAttribute>
-          <CheckAutoCreation>False</CheckAutoCreation>
-          <ClassNameColumnName>FunctionClass</ClassNameColumnName>
-          <controlname>AssemblyClassByAttributeSelector</controlname>
-          <ShowClasses>True</ShowClasses>
-          <ShowEnumerations>False</ShowEnumerations>
-          <ShowInterfaces>False</ShowInterfaces>
-          <ValidateAssembly>True</ValidateAssembly>
-        </settings>
-      </field>
-      <field allowempty="true" column="FunctionClass" columnsize="200" columntype="text" guid="f6606c53-28a0-4d0a-aec2-a3e34e4c1ee9" publicfield="false" system="true">
-        <settings>
-          <AutoCompleteEnableCaching>False</AutoCompleteEnableCaching>
-          <AutoCompleteFirstRowSelected>False</AutoCompleteFirstRowSelected>
-          <AutoCompleteShowOnlyCurrentWordInCompletionListItem>False</AutoCompleteShowOnlyCurrentWordInCompletionListItem>
-          <controlname>TextBoxControl</controlname>
-          <FilterMode>False</FilterMode>
-          <Trim>False</Trim>
+          <AddGlobalObjectNamePrefix>False</AddGlobalObjectNamePrefix>
+          <AddGlobalObjectSuffix>False</AddGlobalObjectSuffix>
+          <AllowAll>False</AllowAll>
+          <AllowDefault>False</AllowDefault>
+          <AllowEditTextBox>False</AllowEditTextBox>
+          <AllowEmpty>False</AllowEmpty>
+          <controlname>Uni_selector</controlname>
+          <DialogWindowName>SelectionDialog</DialogWindowName>
+          <DisplayNameFormat>{%FunctionTypeClass%}</DisplayNameFormat>
+          <EditDialogWindowHeight>700</EditDialogWindowHeight>
+          <EditDialogWindowWidth>1000</EditDialogWindowWidth>
+          <EditWindowName>EditWindow</EditWindowName>
+          <EncodeOutput>True</EncodeOutput>
+          <GlobalObjectSuffix ismacro="true">{$general.global$}</GlobalObjectSuffix>
+          <ItemsPerPage>25</ItemsPerPage>
+          <LocalizeItems>True</LocalizeItems>
+          <MaxDisplayedItems>25</MaxDisplayedItems>
+          <MaxDisplayedTotalItems>50</MaxDisplayedTotalItems>
+          <ObjectType>taskbuilder.functiontype</ObjectType>
+          <RemoveMultipleCommas>False</RemoveMultipleCommas>
+          <ReturnColumnName>FunctionTypeGuid</ReturnColumnName>
+          <ReturnColumnType>id</ReturnColumnType>
+          <SelectionMode>1</SelectionMode>
+          <UseDefaultNameFilter>True</UseDefaultNameFilter>
+          <ValuesSeparator>;</ValuesSeparator>
         </settings>
       </field>
       <field column="FunctionGuid" columntype="guid" guid="3113c74f-c6e7-43a8-8419-54162ddb741f" publicfield="false" system="true">
