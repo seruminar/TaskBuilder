@@ -48,34 +48,34 @@ namespace TaskBuilder
         }
 
         /// <summary>
-        /// Function type class.
+        /// Function display name.
         /// </summary>
-        [DatabaseField]
-        public virtual string FunctionTypeClass
+		[DatabaseField]
+        public virtual string FunctionDisplayName
         {
             get
             {
-                return ValidationHelper.GetString(GetValue("FunctionTypeClass"), String.Empty);
+                return ValidationHelper.GetString(GetValue("FunctionDisplayName"), String.Empty);
             }
             set
             {
-                SetValue("FunctionTypeClass", value);
+                SetValue("FunctionDisplayName", value);
             }
         }
 
         /// <summary>
-        /// Function type assembly.
+        /// Function type assembly qualified name.
         /// </summary>
         [DatabaseField]
-        public virtual string FunctionTypeAssembly
+        public virtual string FunctionTypeAssemblyQualifiedName
         {
             get
             {
-                return ValidationHelper.GetString(GetValue("FunctionTypeAssembly"), String.Empty);
+                return ValidationHelper.GetString(GetValue("FunctionTypeAssemblyQualifiedName"), String.Empty);
             }
             set
             {
-                SetValue("FunctionTypeAssembly", value);
+                SetValue("FunctionTypeAssemblyQualifiedName", value);
             }
         }
 
@@ -138,11 +138,11 @@ namespace TaskBuilder
         {
         }
 
-        internal FunctionTypeInfo(string classFullName, string assemblyName)
+        internal FunctionTypeInfo(string displayName, string assemblyQualifiedName)
             : base(TYPEINFO)
         {
-            FunctionTypeClass = classFullName;
-            FunctionTypeAssembly = assemblyName;
+            FunctionDisplayName = displayName;
+            FunctionTypeAssemblyQualifiedName = assemblyQualifiedName;
         }
     }
 }

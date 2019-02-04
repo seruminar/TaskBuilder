@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Security;
@@ -11,8 +12,7 @@ namespace TaskBuilder.Services.Inputs
 {
     public class InputValueService : IInputValueService
     {
-        private readonly IDictionary<string, Type> _valueBuilders = new Dictionary<string, Type>();
-        private readonly IDictionary<string, object[]> _defaultValueParams = new Dictionary<string, object[]>();
+        private readonly IDictionary<string, Type> _valueBuilders = new ConcurrentDictionary<string, Type>();
 
         public void StoreValueBuilder(Guid functionTypeGuid, string inputName, Type valueFactory)
         {

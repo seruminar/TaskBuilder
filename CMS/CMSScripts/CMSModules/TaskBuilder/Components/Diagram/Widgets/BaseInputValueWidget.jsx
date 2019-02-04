@@ -8,6 +8,7 @@ class BaseInputValueWidget extends SRD.BaseWidget {
     setValue = (key, value) => {
         if (value !== "") {
             this.props.model.filledModel.fields[key].value = [value];
+            this.forceUpdate();
         }
     }
 
@@ -16,7 +17,7 @@ class BaseInputValueWidget extends SRD.BaseWidget {
     }
 
     renderField = (key, field) => {
-        defaultFilledValue = this.props.model.filledModel.fields[key].value[0];
+        defaultFilledValue = this.props.model.filledModel.fields[key].value[0] || '';
 
         switch (field.type) {
             case "text":
@@ -24,7 +25,7 @@ class BaseInputValueWidget extends SRD.BaseWidget {
                     <input
                         type="text"
                         key={key}
-                        defaultValue={defaultFilledValue}
+                        value={defaultFilledValue}
                         onFocus={() => this.setLocked(true)}
                         onInput={() => this.setLocked(true)}
                         onBlur={() => this.setLocked(false)}
@@ -35,7 +36,7 @@ class BaseInputValueWidget extends SRD.BaseWidget {
                 return (
                     <select
                         key={key}
-                        defaultValue={defaultFilledValue}
+                        value={defaultFilledValue}
                         onChange={e => this.setValue(key, e.target.selectedOptions[0].textContent)}
                     >
                         {field.value.map((value, index) =>
@@ -56,7 +57,7 @@ class BaseInputValueWidget extends SRD.BaseWidget {
     render() {
         switch (this.props.model.inputType) {
             case "plain":
-                return <div {...this.getProps()} />;
+                return null;
             case "structureOnly":
             case "filled":
                 const fields = this.props.model.structureModel.fields;

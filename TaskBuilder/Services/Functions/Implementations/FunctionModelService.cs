@@ -29,12 +29,12 @@ namespace TaskBuilder.Services.Functions
 
             List<IFunctionModel> functionModels = new List<IFunctionModel>();
 
-            foreach (var guidType in functionTypes)
+            Parallel.ForEach(functionTypes, guidType =>
             {
                 functionModels.Add(
-                    _functionModelBuilder.BuildFunctionModel(guidType.Value, guidType.Key)
-                );
-            }
+                       _functionModelBuilder.BuildFunctionModel(guidType.Value, guidType.Key)
+                   );
+            });
 
             _allFunctionModels = functionModels;
 

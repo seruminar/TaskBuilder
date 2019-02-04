@@ -24,7 +24,7 @@ namespace TaskBuilder.UI
             {
                 case "gettypename":
                     var typeInfo = FunctionTypeInfoProvider.GetFunctionTypeInfo(Guid.Parse(parameter.ToString()));
-                    return HttpUtility.HtmlEncode($"{typeInfo?.FunctionTypeClass}");
+                    return HttpUtility.HtmlEncode(typeInfo?.FunctionDisplayName);
             }
 
             return parameter;

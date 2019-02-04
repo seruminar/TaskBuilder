@@ -8,7 +8,7 @@ class TaskDiagram extends React.Component {
 
         this.props.models.ports.map(p => diagramEngine.registerPortFactory(new BasePortFactory(p)));
         this.props.models.links.map(l => diagramEngine.registerLinkFactory(new BaseLinkFactory(l)));
-        diagramEngine.registerNodeFactory(new BaseFunctionFactory(this.props.models.functions.all));
+        diagramEngine.registerNodeFactory(new BaseFunctionFactory(this.props.models.functions));
 
         const graphModel = new BaseGraphModel(this.props.graph.json, this.props.graph.mode, diagramEngine);
 
@@ -96,8 +96,8 @@ class TaskDiagram extends React.Component {
                     <FunctionTray
                         functions={
                             _.intersectionWith(
-                                this.props.models.functions.all,
-                                this.props.models.functions.authorized,
+                                this.props.models.functions,
+                                this.props.models.authorizedFunctionGuids,
                                 (a, b) => a.typeGuid === b
                             )
                         }

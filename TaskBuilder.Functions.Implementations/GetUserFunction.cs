@@ -23,8 +23,10 @@ namespace TaskBuilder.Functions.Implementations
             {
                 UserInfo = UserInfoProvider.GetUserInfo(userId);
             }
-
-            UserInfo = UserInfoProvider.GetUserInfo(userIdentifier);
+            else
+            {
+                UserInfo = UserInfoProvider.GetUserInfo(userIdentifier);
+            }
 
             if (UserInfo != null)
             {

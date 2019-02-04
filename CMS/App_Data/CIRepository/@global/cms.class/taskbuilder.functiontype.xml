@@ -5,7 +5,8 @@
       <NameSpace>TaskBuilder</NameSpace>
     </Data>
   </ClassCodeGenerationSettings>
-  <ClassDisplayName>Function type</ClassDisplayName>
+  <ClassConnectionString>CMSConnectionString</ClassConnectionString>
+  <ClassDisplayName>{$ObjectType.taskbuilder_functiontype$}</ClassDisplayName>
   <ClassFormDefinition>
     <form version="2">
       <field column="FunctionTypeID" columntype="integer" guid="b7dda161-a8dd-40ca-8e8b-f4db545ef351" isPK="true" publicfield="false">
@@ -16,8 +17,8 @@
           <controlname>labelcontrol</controlname>
         </settings>
       </field>
-      <field column="FunctionTypeClass" columnsize="200" columntype="text" guid="4ae58234-d50c-45c0-b8b1-20a5b2efb86d" publicfield="false" system="true" />
-      <field column="FunctionTypeAssembly" columnsize="200" columntype="text" guid="63950eef-6e5e-4177-a2b3-2c66fef7f9a9" publicfield="false" system="true">
+      <field column="FunctionDisplayName" columnsize="200" columntype="text" guid="4ae58234-d50c-45c0-b8b1-20a5b2efb86d" publicfield="false" system="true" />
+      <field column="FunctionTypeAssemblyQualifiedName" columnsize="200" columntype="text" guid="63950eef-6e5e-4177-a2b3-2c66fef7f9a9" publicfield="false" system="true">
         <settings>
           <AutoCompleteEnableCaching>False</AutoCompleteEnableCaching>
           <AutoCompleteFirstRowSelected>False</AutoCompleteFirstRowSelected>

@@ -12,7 +12,7 @@
     </Data>
   </ClassCodeGenerationSettings>
   <ClassConnectionString>CMSConnectionString</ClassConnectionString>
-  <ClassDisplayName>Function</ClassDisplayName>
+  <ClassDisplayName>{$ObjectType.taskbuilder_function$}</ClassDisplayName>
   <ClassFormDefinition>
     <form version="2">
       <field column="FunctionID" columntype="integer" guid="f908e86a-ff5b-4105-89c6-3a48c28751e6" isPK="true" publicfield="false">
@@ -25,7 +25,9 @@
       </field>
       <field column="FunctionTypeGuid" columntype="guid" guid="98a58f74-e434-4c16-add5-009b8879b541" isunique="true" publicfield="false" system="true" visible="true">
         <properties>
-          <fieldcaption>{$taskbuilder.functiontype$}</fieldcaption>
+          <contentbefore>
+            <![CDATA[<h4 style="word-spacing: initial;">{$ObjectType.taskbuilder_functiontype$}</h4>]]>
+          </contentbefore>
         </properties>
         <settings>
           <AddGlobalObjectNamePrefix>False</AddGlobalObjectNamePrefix>
@@ -36,7 +38,7 @@
           <AllowEmpty>False</AllowEmpty>
           <controlname>Uni_selector</controlname>
           <DialogWindowName>SelectionDialog</DialogWindowName>
-          <DisplayNameFormat>{%FunctionTypeClass%}</DisplayNameFormat>
+          <DisplayNameFormat>{%FunctionDisplayName%}</DisplayNameFormat>
           <EditDialogWindowHeight>700</EditDialogWindowHeight>
           <EditDialogWindowWidth>1000</EditDialogWindowWidth>
           <EditWindowName>EditWindow</EditWindowName>

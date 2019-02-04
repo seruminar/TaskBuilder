@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -6,13 +7,22 @@ using System.Threading.Tasks;
 
 using CMS.Core;
 using CMS.DataEngine;
+
 using TaskBuilder.Attributes;
+using TaskBuilder.Services.Inputs;
 
 namespace TaskBuilder.Services.Functions
 {
     public class FunctionTypeService : IFunctionTypeService
     {
+        private readonly IDisplayConverter _displayConverter;
+
         private IDictionary<Guid, Type> _guidTypes;
+
+        public FunctionTypeService(IDisplayConverter displayConverter)
+        {
+            _displayConverter = displayConverter;
+        }
 
         public Type GetFunctionType(Guid functionTypeGuid)
         {
@@ -60,27 +70,30 @@ namespace TaskBuilder.Services.Functions
 
             using (var tr = new CMSTransactionScope())
             {
-                IDictionary<Guid, Type> guidTypes = new Dictionary<Guid, Type>();
+                IDictionary<Guid, Type> guidTypes = new ConcurrentDictionary<Guid, Type>();
 
-                var existingTypes = FunctionTypeInfoProvider
-                                        .GetFunctionTypes();
+                var existingTypes = FunctionTypeInfoProvider.GetFunctionTypes();
 
-                foreach (var type in functionTypes)
+                Parallel.ForEach(functionTypes, type =>
                 {
                     // Type already exists in database
                     if (existingTypes.Any(t => FunctionTypeAndTypeAreEqual(t, type)))
                     {
                         guidTypes.Add(existingTypes.First(t => FunctionTypeAndTypeAreEqual(t, type)).FunctionTypeGuid, type);
-                        continue;
+                        return;
                     }
 
                     // Add type to database
-                    var typeInfo = new FunctionTypeInfo(type.FullName, type.Assembly.GetName().Name);
+                    var attribute = type.GetCustomAttribute<FunctionAttribute>();
+
+                    var displayName = _displayConverter.DisplayNameFrom(attribute.DisplayName, type.FullName, type.Name);
+
+                    var typeInfo = new FunctionTypeInfo(displayName, type.AssemblyQualifiedName);
 
                     FunctionTypeInfoProvider.SetFunctionTypeInfo(typeInfo);
 
                     guidTypes.Add(typeInfo.FunctionTypeGuid, type);
-                }
+                });
 
                 foreach (var type in existingTypes)
                 {
@@ -100,8 +113,7 @@ namespace TaskBuilder.Services.Functions
 
         public bool FunctionTypeAndTypeAreEqual(FunctionTypeInfo functionTypeInfo, Type functionType)
         {
-            return functionTypeInfo.FunctionTypeClass == functionType.FullName
-                && functionTypeInfo.FunctionTypeAssembly == functionType.Assembly.GetName().Name;
+            return functionTypeInfo.FunctionTypeAssemblyQualifiedName == functionType.AssemblyQualifiedName;
         }
     }
 }

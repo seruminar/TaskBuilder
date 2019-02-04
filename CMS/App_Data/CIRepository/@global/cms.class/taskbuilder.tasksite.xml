@@ -10,7 +10,8 @@
       <UseNameHashtable>False</UseNameHashtable>
     </Data>
   </ClassCodeGenerationSettings>
-  <ClassDisplayName>TaskSite</ClassDisplayName>
+  <ClassConnectionString>CMSConnectionString</ClassConnectionString>
+  <ClassDisplayName>{$ObjectType.taskbuilder_tasksite$}</ClassDisplayName>
   <ClassFormDefinition>
     <form version="2">
       <field column="TaskSiteID" columntype="integer" guid="b5e88586-87ec-409a-a948-e61fcbd4c773" isPK="true" publicfield="false">

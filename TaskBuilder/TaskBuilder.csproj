@@ -64,6 +64,10 @@
     <Reference Include="CMS.Membership">
       <HintPath>..\CMS\Bin\CMS.Membership.dll</HintPath>
     </Reference>
+    <Reference Include="CMS.Routing.Web, Version=11.0.0.0, Culture=neutral, PublicKeyToken=834b12a258f213f9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CMS\Bin\CMS.Routing.Web.dll</HintPath>
+    </Reference>
     <Reference Include="CMS.SiteProvider">
       <HintPath>..\CMS\Bin\CMS.SiteProvider.dll</HintPath>
     </Reference>
@@ -143,6 +147,7 @@
     <Compile Include="Functions\FunctionHelper.cs" />
     <Compile Include="Functions\PortType.cs" />
     <Compile Include="Functions\LinkType.cs" />
+    <Compile Include="Infrastructure\GetTaskBuilderComponentsHandler.cs" />
     <Compile Include="Models\Function\Implementations\DispatchModel.cs" />
     <Compile Include="Models\Function\InputValue\FieldParameter.cs" />
     <Compile Include="Functions\FieldType.cs" />
@@ -150,6 +155,9 @@
     <Compile Include="Models\Function\InputValue\Implementations\FieldModel.cs" />
     <Compile Include="Functions\FieldParameterConverter.cs" />
     <Compile Include="Models\Function\INamedPortModel.cs" />
+    <Compile Include="Models\TaskBuilder\TaskModelsModel.cs" />
+    <Compile Include="Models\TaskBuilder\TaskGraphModel.cs" />
+    <Compile Include="Models\TaskBuilder\TaskBuilderModel.cs" />
     <Compile Include="Services\Tasks\Implementations\TaskCompiler.cs" />
     <Compile Include="Services\Tasks\Implementations\TaskRunner.cs" />
     <Compile Include="Services\Tasks\ITaskCompiler.cs" />

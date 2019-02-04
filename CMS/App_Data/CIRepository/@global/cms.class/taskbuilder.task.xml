@@ -13,7 +13,8 @@
       <UseNameHashtable>False</UseNameHashtable>
     </Data>
   </ClassCodeGenerationSettings>
-  <ClassDisplayName>Task</ClassDisplayName>
+  <ClassConnectionString>CMSConnectionString</ClassConnectionString>
+  <ClassDisplayName>{$ObjectType.taskbuilder_task$}</ClassDisplayName>
   <ClassFormDefinition>
     <form version="2">
       <field column="TaskID" columntype="integer" guid="55b4ad0d-b6b7-4e4a-8db4-aaa28da92b4e" isPK="true" publicfield="false">

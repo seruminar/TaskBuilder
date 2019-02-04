@@ -121,7 +121,7 @@ namespace TaskBuilder.Functions
             {
                 var typeGuid = Guid.Parse(base.GetValue(nameof(FunctionTypeGuid)).ToString());
 
-                return FunctionTypeInfoProvider.GetFunctionTypeInfo(typeGuid)?.FunctionTypeClass;
+                return FunctionTypeInfoProvider.GetFunctionTypeInfo(typeGuid)?.FunctionDisplayName;
             }
 
             return base.GetValue(columnName);

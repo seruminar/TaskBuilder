@@ -110,7 +110,7 @@
   <data name="taskbuilder.ui.functions" xml:space="preserve">
     <value>Functions</value>
   </data>
-  <data name="taskbuilder.function.assembly" xml:space="preserve">
+  <data name="ObjectType.taskbuilder_function.assembly" xml:space="preserve">
     <value>Function assembly</value>
   </data>
   <data name="taskbuilder.ui.taskslist" xml:space="preserve">
@@ -164,7 +164,19 @@
   <data name="taskbuilder.messages.runcompleted" xml:space="preserve">
     <value>Run completed.</value>
   </data>
-  <data name="taskbuilder.functiontype" xml:space="preserve">
+  <data name="ObjectType.taskbuilder_function.name" xml:space="preserve">
+    <value>Function name</value>
+  </data>
+  <data name="ObjectType.taskbuilder_functiontype" xml:space="preserve">
     <value>Function type</value>
+  </data>
+  <data name="taskbuilder.ui.confirmdelete" xml:space="preserve">
+    <value>Are you sure you want to delete this function?</value>
+  </data>
+  <data name="taskbuilder.ui.editfunction" xml:space="preserve">
+    <value>Edit function</value>
+  </data>
+  <data name="taskbuilder.messages.error" xml:space="preserve">
+    <value>An error has occurred. Please check the Event log.</value>
   </data>
 </root>

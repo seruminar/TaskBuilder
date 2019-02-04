@@ -4,9 +4,11 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Web.Hosting;
-
+using CMS.Base.Web.UI;
+using CMS.Core;
 using CMS.Helpers;
-
+using CMS.Membership;
+using CMS.SiteProvider;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -15,6 +17,9 @@ using React;
 
 using TaskBuilder.Functions;
 using TaskBuilder.Infrastructure;
+using TaskBuilder.Models.TaskBuilder;
+using TaskBuilder.Services.Functions;
+using TaskBuilder.Tasks;
 
 namespace TaskBuilder
 {
@@ -27,9 +32,9 @@ namespace TaskBuilder
         /// <summary>
         /// Exposes ReactEnvironment.
         /// </summary>
-        public static IReactEnvironment Environment => ReactEnvironment.GetCurrentOrThrow;
+        internal static IReactEnvironment Environment => ReactEnvironment.GetCurrentOrThrow;
 
-        public static JsonSerializerSettings JsonSerializerSettings
+        internal static JsonSerializerSettings JsonSerializerSettings
         {
             get
             {
@@ -46,10 +51,59 @@ namespace TaskBuilder
         }
 
         /// <summary>
+        /// Creates an instance of the specified React JavaScript component and renders the HTML for the component.
+        /// </summary>
+        /// <returns>HTML of React component.</returns>
+        public static string RenderTaskBuilder(TaskBuilderModel taskBuilderModel, string containerId)
+        {
+            return Environment.CreateComponent(TASKBUILDER, taskBuilderModel, containerId, true).RenderHtml(true);
+        }
+
+        /// <summary>
+        /// Renders the JavaScript required to initialise all components client-side. This will attach event handlers to the server-rendered HTML.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetInitJavaScript()
+        {
+            return ScriptHelper.GetScript(Environment.GetInitJavaScript());
+        }
+
+        /// <summary>
+        /// Returns a <see cref="TaskBuilderModel"/> containing all object data needed for the React app.
+        /// </summary>
+        /// <param name="taskGraphJson">Method to return task graph JSON.</param>
+        /// <param name="taskGraphMode">Method to set the task graph mode.</param>
+        /// <returns></returns>
+        public static TaskBuilderModel GetTaskBuilderModel(Func<string> taskGraphJson, Func<TaskGraphMode> taskGraphMode)
+        {
+            var functionModelService = Service.Resolve<IFunctionModelService>();
+
+            return new TaskBuilderModel
+            {
+                Models = new TaskModelsModel(
+                    functionModelService.AllFunctionModels,
+                    functionModelService.AuthorizedFunctionGuids(MembershipContext.AuthenticatedUser, SiteContext.CurrentSiteName),
+                    FunctionHelper.PortTypes,
+                    FunctionHelper.LinkTypes
+                    ),
+                Graph = new TaskGraphModel(
+                   taskGraphJson(),
+                   taskGraphMode()
+                ),
+                Endpoints = new Dictionary<string, string>
+                {
+                    { "save", URLHelper.ResolveUrl("~/TaskBuilder/Tasks/SaveTask") },
+                    { "run", URLHelper.ResolveUrl("~/TaskBuilder/Tasks/RunTask") }
+                },
+                SecureToken = GetSecureToken()
+            };
+        }
+
+        /// <summary>
         /// Given a directory path, use Babel to transform all components in that path respecting the
         /// <paramref name="exclusion"/>.
         /// </summary>
-        public static IEnumerable<string> GetTransformedComponents(string componentsFolder, Regex exclusion)
+        internal static IEnumerable<string> GetTransformedComponents(string componentsFolder, Regex exclusion)
         {
             var fullFolder = HostingEnvironment.MapPath(componentsFolder);
 
@@ -62,7 +116,10 @@ namespace TaskBuilder
             }
         }
 
-        public static string GetSecureToken()
+        /// <summary>
+        /// Generated secure token in session.
+        /// </summary>
+        internal static string GetSecureToken()
         {
             var token = SessionHelper.GetValue(TaskBuilderSecuredActionFilterAttribute.TASKBUILDER_SECURE_TOKEN) as string;
             if (token == null)
