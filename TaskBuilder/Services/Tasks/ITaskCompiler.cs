@@ -1,6 +1,6 @@
 ﻿using CMS;
 
-using TaskBuilder.Models.Diagram;
+using TaskBuilder.Models.Graph;
 using TaskBuilder.Services.Tasks;
 using TaskBuilder.Tasks;
 
@@ -10,6 +10,6 @@ namespace TaskBuilder.Services.Tasks
 {
     public interface ITaskCompiler
     {
-        Task PrepareTask(Diagram diagram);
+        Task PrepareTask(Graph diagram);
     }
 }

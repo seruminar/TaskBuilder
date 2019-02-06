@@ -2,7 +2,6 @@
 using System.Web;
 
 using CMS.Helpers;
-using CMS.Membership;
 using CMS.Routing.Web;
 
 using TaskBuilder.Infrastructure;
@@ -25,19 +24,8 @@ namespace TaskBuilder.Infrastructure
                 throw new Exception($"{nameof(GetTaskBuilderComponentsHandler)}: Site is not running.");
             }
 
-            string cacheKey = $"{nameof(GetTaskBuilderComponentsHandler).ToLower()}|{CurrentSiteName}|{MembershipContext.AuthenticatedUser.UserName}";
-
-            // Try to get data from cache
-            using (var cs = new CachedSection<CMSOutputResource>(ref componentsFile, CacheMinutes, true, cacheKey))
-            {
-                if (cs.LoadData)
-                {
-                    // Process the file
-                    SetComponentsFile();
-
-                    cs.Data = componentsFile;
-                }
-            }
+            // Process the file
+            SetComponentsFile();
 
             if (componentsFile != null)
             {

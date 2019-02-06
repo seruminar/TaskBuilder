@@ -6,7 +6,7 @@ using CMS.Core;
 using CMS.EventLog;
 using CMS.Helpers;
 
-using TaskBuilder.Models.Diagram;
+using TaskBuilder.Models.Graph;
 using TaskBuilder.Services.Tasks;
 using TaskBuilder.Tasks;
 
@@ -25,16 +25,25 @@ namespace TaskBuilder.Infrastructure
 
         [HttpPost]
         [TaskBuilderSecuredActionFilter]
-        public IHttpActionResult SaveTask([FromBody] Diagram diagram)
+        public IHttpActionResult SaveTask([FromBody] Graph diagram)
         {
-            TaskInfoProvider.SetTaskInfo(diagram);
+            try
+            {
+                TaskInfoProvider.SetTaskInfo(diagram);
+            }
+            catch (Exception ex)
+            {
+                EventLogProvider.LogException(nameof(TasksController), nameof(SaveTask).ToUpper(), ex);
+
+                return JsonResult(TasksControllerResult.Error, "taskbuilder.messages.error");
+            }
 
             return JsonResult(TasksControllerResult.Success, "taskbuilder.messages.savesuccessful");
         }
 
         [HttpPost]
         [TaskBuilderSecuredActionFilter]
-        public IHttpActionResult RunTask([FromBody] Diagram diagram)
+        public IHttpActionResult RunTask([FromBody] Graph diagram)
         {
             try
             {

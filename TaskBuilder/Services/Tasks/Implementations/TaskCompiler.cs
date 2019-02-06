@@ -5,8 +5,8 @@ using System.Linq.Expressions;
 using System.Runtime.Serialization;
 
 using TaskBuilder.Functions;
-using TaskBuilder.Models.Diagram;
 using TaskBuilder.Models.Function.InputValue;
+using TaskBuilder.Models.Graph;
 using TaskBuilder.Services.Functions;
 using TaskBuilder.Services.Inputs;
 using TaskBuilder.Tasks;
@@ -24,11 +24,11 @@ namespace TaskBuilder.Services.Tasks
             _inputValueService = inputValueService;
         }
 
-        public Task PrepareTask(Diagram diagram)
+        public Task PrepareTask(Graph diagram)
         {
-            var startFunctionDisplayName = "Start";
+            var startFunctionTypeGuid = Guid.Parse("DBB090FA-E415-4A8A-AFAB-52304C5B8122");
 
-            var invokables = new Dictionary<Guid, IInvokable>(diagram.Nodes.Count);
+            var invokables = new Dictionary<Guid, IInvokable>(diagram.Nodes.Count());
             var dispatchers = new Dictionary<Guid, IDispatcher>();
             var dispatcher2s = new Dictionary<Guid, IDispatcher2>();
 
@@ -43,7 +43,7 @@ namespace TaskBuilder.Services.Tasks
 
             var nodeIdFunctionType = diagram.Nodes.ToDictionary(n => n.Id, node =>
             {
-                var type = _functionDiscoveryService.GetFunctionType(node.Function.TypeGuid);
+                var type = _functionDiscoveryService.GetFunctionType(node.FunctionTypeGuid);
 
                 var function = FormatterServices.GetUninitializedObject(type);
 
@@ -71,19 +71,16 @@ namespace TaskBuilder.Services.Tasks
                     {
                         openPortIdPortName.Add(port.Id, port.Name);
 
-                        var fieldsModel = node.Function
-                            .Inputs
-                            .FirstOrDefault(i => i.Name == port.Name)
-                            .FilledModel;
+                        var fieldsModel = diagram.InputValues[port.Id];
 
                         portIdFieldsModel.Add(port.Id, fieldsModel);
                         portIdNodeId.Add(port.Id, node.Id);
-                        portIdFunctionTypeGuid.Add(port.Id, node.Function.TypeGuid);
+                        portIdFunctionTypeGuid.Add(port.Id, node.FunctionTypeGuid);
                     }
                 }
 
                 // Find the start function and save it
-                if (node.Function.DisplayName == startFunctionDisplayName)
+                if (node.FunctionTypeGuid == startFunctionTypeGuid)
                 {
                     startInvokable = function as IInvokable;
                 }

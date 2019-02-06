@@ -26,6 +26,14 @@ namespace TaskBuilder.Models.Function
 
         public IInputValueModel FilledModel { get; set; }
 
+        [JsonConstructor]
+        public InputModel(string name, string displayName, string description, string displayColor, bool inlineOnly, InputType inputType, InputValueModel structureModel, InputValueModel filledModel) : this(name, displayName, description, displayColor, inlineOnly)
+        {
+            InputType = inputType;
+            StructureModel = structureModel;
+            FilledModel = filledModel;
+        }
+
         public InputModel(string name, string displayName, string description, string displayColor, bool inlineOnly)
         {
             Name = name;
@@ -33,14 +41,6 @@ namespace TaskBuilder.Models.Function
             Description = description;
             DisplayColor = displayColor;
             InlineOnly = inlineOnly;
-        }
-
-        [JsonConstructor()]
-        public InputModel(string name, string displayName, string description, string displayColor, bool inlineOnly, InputType inputType, InputValueModel structureModel, InputValueModel filledModel) : this(name, displayName, description, displayColor, inlineOnly)
-        {
-            InputType = inputType;
-            StructureModel = structureModel;
-            FilledModel = filledModel;
         }
     }
 }

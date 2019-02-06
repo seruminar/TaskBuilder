@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 
+using TaskBuilder.Models.Graph;
+
 namespace TaskBuilder.Functions
 {
     public static class FunctionHelper

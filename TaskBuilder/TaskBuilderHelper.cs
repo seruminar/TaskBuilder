@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Web.Hosting;
+
 using CMS.Base.Web.UI;
 using CMS.Core;
 using CMS.Helpers;
 using CMS.Membership;
 using CMS.SiteProvider;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -17,6 +20,8 @@ using React;
 
 using TaskBuilder.Functions;
 using TaskBuilder.Infrastructure;
+using TaskBuilder.Models.Function;
+using TaskBuilder.Models.Graph;
 using TaskBuilder.Models.TaskBuilder;
 using TaskBuilder.Services.Functions;
 using TaskBuilder.Tasks;
@@ -34,7 +39,7 @@ namespace TaskBuilder
         /// </summary>
         internal static IReactEnvironment Environment => ReactEnvironment.GetCurrentOrThrow;
 
-        internal static JsonSerializerSettings JsonSerializerSettings
+        public static JsonSerializerSettings JsonSerializerSettings
         {
             get
             {
@@ -54,15 +59,15 @@ namespace TaskBuilder
         /// Creates an instance of the specified React JavaScript component and renders the HTML for the component.
         /// </summary>
         /// <returns>HTML of React component.</returns>
-        public static string RenderTaskBuilder(TaskBuilderModel taskBuilderModel, string containerId)
+        public static string RenderComponent<T>(string componentName, T componentModel, string containerId) where T : class
         {
-            return Environment.CreateComponent(TASKBUILDER, taskBuilderModel, containerId, true).RenderHtml(true);
+            return Environment.CreateComponent(componentName, componentModel, containerId, true).RenderHtml(true);
         }
 
         /// <summary>
         /// Renders the JavaScript required to initialise all components client-side. This will attach event handlers to the server-rendered HTML.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Script enclosed in /<script/> tags.</returns>
         public static string GetInitJavaScript()
         {
             return ScriptHelper.GetScript(Environment.GetInitJavaScript());
@@ -71,23 +76,23 @@ namespace TaskBuilder
         /// <summary>
         /// Returns a <see cref="TaskBuilderModel"/> containing all object data needed for the React app.
         /// </summary>
-        /// <param name="taskGraphJson">Method to return task graph JSON.</param>
+        /// <param name="taskGraph">Method to return task graph JSON.</param>
         /// <param name="taskGraphMode">Method to set the task graph mode.</param>
         /// <returns></returns>
-        public static TaskBuilderModel GetTaskBuilderModel(Func<string> taskGraphJson, Func<TaskGraphMode> taskGraphMode)
+        public static TaskBuilderModel GetTaskBuilderModel(Func<Graph> taskGraph, Func<TaskGraphMode> taskGraphMode)
         {
             var functionModelService = Service.Resolve<IFunctionModelService>();
 
             return new TaskBuilderModel
             {
                 Models = new TaskModelsModel(
-                    functionModelService.AllFunctionModels,
+                    functionModelService.AllFunctionModels.Select(f => f as FunctionModel),
                     functionModelService.AuthorizedFunctionGuids(MembershipContext.AuthenticatedUser, SiteContext.CurrentSiteName),
                     FunctionHelper.PortTypes,
                     FunctionHelper.LinkTypes
                     ),
                 Graph = new TaskGraphModel(
-                   taskGraphJson(),
+                   taskGraph(),
                    taskGraphMode()
                 ),
                 Endpoints = new Dictionary<string, string>
@@ -111,7 +116,7 @@ namespace TaskBuilder
             {
                 if (!exclusion.IsMatch(fullFilePath))
                 {
-                    yield return Environment.Babel.TransformFileWithSourceMap(URLHelper.UnMapPath(fullFilePath), false).Code;
+                    yield return Environment.Babel.TransformFileWithSourceMap(URLHelper.UnMapPath(fullFilePath)).Code;
                 }
             }
         }

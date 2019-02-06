@@ -2,7 +2,7 @@ using System;
 
 using CMS.DataEngine;
 
-using TaskBuilder.Models.Diagram;
+using TaskBuilder.Models.Graph;
 
 namespace TaskBuilder.Tasks
 {
@@ -64,10 +64,10 @@ namespace TaskBuilder.Tasks
         }
 
         /// <summary>
-        /// Sets (updates or inserts) a <see cref="TaskInfo"/> based on the provided <see cref="Diagram"/>.
+        /// Sets (updates or inserts) a <see cref="TaskInfo"/> based on the provided <see cref="Graph"/>.
         /// </summary>
-        /// <param name="diagram"><see cref="Diagram"/> to be set.</param>
-        public static void SetTaskInfo(Diagram diagram)
+        /// <param name="diagram"><see cref="Graph"/> to be set.</param>
+        public static void SetTaskInfo(Graph diagram)
         {
             TaskInfo infoObj = GetTaskInfo(diagram.Id) ?? new TaskInfo();
 

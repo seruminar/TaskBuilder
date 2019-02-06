@@ -10,7 +10,7 @@ using CMS.DataEngine;
 
 using Newtonsoft.Json;
 
-using TaskBuilder.Models.Diagram;
+using TaskBuilder.Models.Graph;
 using TaskBuilder.Services;
 using TaskBuilder.Services.Functions;
 using TaskBuilder.Tasks;
@@ -51,10 +51,10 @@ namespace TaskBuilder
 
             if (task != null && !string.IsNullOrEmpty(task.TaskGraph))
             {
-                var taskDiagram = JsonConvert.DeserializeObject<Diagram>(task.TaskGraph);
+                var taskGraph = JsonConvert.DeserializeObject<Graph>(task.TaskGraph);
 
-                taskDiagram.Id = task.TaskGuid;
-                task.TaskGraph = taskDiagram.ToJson();
+                taskGraph.Id = task.TaskGuid;
+                task.TaskGraph = taskGraph.ToJson();
             }
         }
 

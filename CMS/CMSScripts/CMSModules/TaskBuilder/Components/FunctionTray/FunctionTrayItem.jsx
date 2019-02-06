@@ -1,6 +1,6 @@
 ﻿class FunctionTrayItem extends React.Component {
     render() {
-        const typeGuid = this.props.functionModel.typeGuid;
+        const { displayName, typeGuid } = this.props.functionModel;
 
         return (
             <div
@@ -10,7 +10,7 @@
                 }}
             >
                 <i className="icon-w-products-data-source" />
-                <span>{this.props.functionModel.displayName}</span>
+                <span>{displayName}</span>
             </div>
         );
     }

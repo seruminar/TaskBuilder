@@ -28,7 +28,7 @@ namespace TaskBuilder.Models.Function
             DisplayColor = displayColor;
         }
 
-        [JsonConstructor()]
+        [JsonConstructor]
         public FunctionModel(Guid typeGuid, string displayName, string displayColor, InvokeModel invoke, IEnumerable<DispatchModel> dispatchs, IEnumerable<InputModel> inputs, IEnumerable<OutputModel> outputs) : this(typeGuid, displayName, displayColor)
         {
             Invoke = invoke;

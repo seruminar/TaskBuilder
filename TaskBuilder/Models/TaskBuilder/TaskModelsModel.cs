@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Newtonsoft.Json;
+
 using TaskBuilder.Models.Function;
 
 namespace TaskBuilder.Models.TaskBuilder
@@ -11,11 +13,12 @@ namespace TaskBuilder.Models.TaskBuilder
 
         public IEnumerable<Guid> AuthorizedFunctionGuids { get; }
 
-        public ICollection<string> Ports { get; }
+        public IEnumerable<string> Ports { get; }
 
-        public ICollection<string> Links { get; }
+        public IEnumerable<string> Links { get; }
 
-        public TaskModelsModel(IEnumerable<IFunctionModel> functions, IEnumerable<Guid> authorizedFunctionGuids, ICollection<string> ports, ICollection<string> links)
+        [JsonConstructor]
+        public TaskModelsModel(IEnumerable<FunctionModel> functions, IEnumerable<Guid> authorizedFunctionGuids, IEnumerable<string> ports, IEnumerable<string> links)
         {
             Functions = functions;
             AuthorizedFunctionGuids = authorizedFunctionGuids;

@@ -1,17 +1,18 @@
-﻿using TaskBuilder.Tasks;
+﻿using TaskBuilder.Models.Graph;
+using TaskBuilder.Tasks;
 
 namespace TaskBuilder.Models.TaskBuilder
 {
     public class TaskGraphModel
     {
-        public string Json { get; }
+        public IGraph Graph { get; }
 
         public TaskGraphMode Mode { get; }
 
-        public TaskGraphModel(string taskGraphJson, TaskGraphMode taskGraphMode)
+        public TaskGraphModel(Graph.Graph graph, TaskGraphMode mode)
         {
-            Json = taskGraphJson;
-            Mode = taskGraphMode;
+            Graph = graph;
+            Mode = mode;
         }
     }
 }

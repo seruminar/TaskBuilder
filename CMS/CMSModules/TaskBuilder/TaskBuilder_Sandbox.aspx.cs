@@ -5,7 +5,7 @@ using CMS.Helpers;
 using CMS.UIControls;
 
 using TaskBuilder;
-using TaskBuilder.Models.Diagram;
+using TaskBuilder.Models.Graph;
 using TaskBuilder.Tasks;
 
 [Title("taskbuilder.ui.tasksandbox")]
@@ -29,7 +29,7 @@ public partial class TaskBuilder_TaskSandbox : CMSPage
     protected void Page_Load(object sender, EventArgs e)
     {
         // Render graph area component
-        diagram.Text = TaskBuilderHelper.RenderTaskBuilder(TaskBuilderHelper.GetTaskBuilderModel(EnsureTaskGraph, EnsureGraphMode), "task-builder");
+        diagram.Text = TaskBuilderHelper.RenderComponent(TaskBuilderHelper.TASKBUILDER, TaskBuilderHelper.GetTaskBuilderModel(EnsureTaskGraph, EnsureGraphMode), "task-builder");
 
         // Initialize React event bindings and startup
         initScript.Text = TaskBuilderHelper.GetInitJavaScript();
@@ -49,8 +49,8 @@ public partial class TaskBuilder_TaskSandbox : CMSPage
     /// Get task diagram from database or start with empty one.
     /// </summary>
     /// <returns>Task graph JSON.</returns>
-    private string EnsureTaskGraph()
+    private Graph EnsureTaskGraph()
     {
-        return new Diagram(Guid.NewGuid()).ToJson();
+        return new Graph(Guid.NewGuid());
     }
 }

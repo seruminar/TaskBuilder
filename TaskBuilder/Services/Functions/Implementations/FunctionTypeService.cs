@@ -68,6 +68,13 @@ namespace TaskBuilder.Services.Functions
                 );
             }
 
+            _guidTypes = GetUpdatedGuidTypeDictionary(functionTypes);
+
+            return _guidTypes;
+        }
+
+        private IDictionary<Guid, Type> GetUpdatedGuidTypeDictionary(List<Type> functionTypes)
+        {
             using (var tr = new CMSTransactionScope())
             {
                 IDictionary<Guid, Type> guidTypes = new ConcurrentDictionary<Guid, Type>();
@@ -102,13 +109,10 @@ namespace TaskBuilder.Services.Functions
                         FunctionTypeInfoProvider.DeleteFunctionTypeInfo(type);
                     }
                 }
-
-                _guidTypes = guidTypes;
-
                 tr.Commit();
-            }
 
-            return _guidTypes;
+                return guidTypes;
+            }
         }
 
         public bool FunctionTypeAndTypeAreEqual(FunctionTypeInfo functionTypeInfo, Type functionType)

@@ -4,9 +4,9 @@ using CMS.Base.Web.UI;
 using CMS.Helpers;
 using CMS.Membership;
 using CMS.UIControls;
-
+using Newtonsoft.Json;
 using TaskBuilder;
-using TaskBuilder.Models.Diagram;
+using TaskBuilder.Models.Graph;
 using TaskBuilder.Tasks;
 
 [Title("taskbuilder.ui.edittask")]
@@ -31,7 +31,7 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
     protected void Page_Load(object sender, EventArgs e)
     {
         // Render graph area component
-        diagram.Text = TaskBuilderHelper.RenderTaskBuilder(TaskBuilderHelper.GetTaskBuilderModel(EnsureTaskGraph, EnsureGraphMode), "task-builder");
+        diagram.Text = TaskBuilderHelper.RenderComponent(TaskBuilderHelper.TASKBUILDER, TaskBuilderHelper.GetTaskBuilderModel(EnsureTaskGraph, EnsureGraphMode), "task-builder");
 
         // Initialize React event bindings and startup
         initScript.Text = TaskBuilderHelper.GetInitJavaScript();
@@ -53,12 +53,12 @@ public partial class TaskBuilder_TaskBuilder : CMSPage
     /// <summary>
     /// Get task diagram from database or start with empty one.
     /// </summary>
-    private string EnsureTaskGraph()
+    private Graph EnsureTaskGraph()
     {
         var editedTask = EditedObject as TaskInfo;
 
         return !string.IsNullOrEmpty(editedTask.TaskGraph)
-            ? editedTask.TaskGraph
-            : new Diagram(editedTask.TaskGuid).ToJson();
+            ? JsonConvert.DeserializeObject<Graph>(editedTask.TaskGraph, TaskBuilderHelper.JsonSerializerSettings)
+            : new Graph(editedTask.TaskGuid);
     }
 }
