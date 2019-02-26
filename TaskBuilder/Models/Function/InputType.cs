@@ -1,4 +1,4 @@
-﻿namespace TaskBuilder.Functions
+﻿namespace TaskBuilder.Models.Function
 {
     public enum InputType
     {

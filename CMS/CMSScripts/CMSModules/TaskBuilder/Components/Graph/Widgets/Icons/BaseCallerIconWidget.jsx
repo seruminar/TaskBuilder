@@ -11,6 +11,10 @@
         return "port " + super.getClassName() + (this.state.selected ? this.bem("-selected") : "");
     }
 
+    select = (select) => {
+        this.setState({ selected: select });
+    }
+
     getIcon() {
         if (this.state.selected) {
             return "icon-chevron-right-circle";
@@ -27,12 +31,8 @@
         return (
             <div
                 {...this.getProps()}
-                onMouseEnter={() => {
-                    this.setState({ selected: true });
-                }}
-                onMouseLeave={() => {
-                    this.setState({ selected: false });
-                }}
+                onMouseEnter={() => this.select(true)}
+                onMouseLeave={() => this.select(false)}
                 data-name={this.props.port.name}
                 data-nodeid={this.props.port.getParent().getID()}
             >

@@ -7,13 +7,7 @@
         return this.getParent().getFunction().inputs.find(o => o.name === this.getName());
     }
 
-    isLinked = () => _.size(this.links) !== 0;
-
-    canLinkToPort(other) {
-        //return other instanceof BaseOutputModel
-        //    && other.model.typeName === this.model.typeName;
-        return false;
-    }
+    isLinked = () => _.size(this.getLinks()) !== 0;
 
     addLink(link) {
         super.addLink(link);

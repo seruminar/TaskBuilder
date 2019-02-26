@@ -10,8 +10,17 @@
     isLinked = () => _.size(this.links) !== 0;
 
     canLinkToPort(other) {
-        return other instanceof BaseInputModel
-            && this.getModel().typeNames.indexOf(other.getModel().typeNames[0]) > -1;
+        if (other instanceof BaseInputModel
+            && this.getModel().typeNames.indexOf(other.getModel().typeNames[0]) > -1
+        ) {
+            // If there is an existing link, remove it.
+            if (_.size(other.getLinks()) > 1) {
+                other.getLinks()[Object.keys(other.getLinks())[0]].remove();
+            }
+            return true;
+        }
+
+        return false;
     }
 
     createLinkModel() {

@@ -30,7 +30,7 @@ namespace TaskBuilder.Functions.Implementations
 
             if (UserInfo != null)
             {
-                Dispatch();
+                Dispatch1();
             }
             else
             {
@@ -39,7 +39,7 @@ namespace TaskBuilder.Functions.Implementations
         }
 
         [Dispatch("User found")]
-        public Action Dispatch { get; set; }
+        public Action Dispatch1 { get; set; }
 
         [Dispatch("User not found")]
         public Action Dispatch2 { get; set; }

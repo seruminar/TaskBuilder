@@ -51,6 +51,43 @@
                         )}
                     </select>
                 );
+            case "bool":
+                return (
+                    <input
+                        type="checkbox"
+                        key={key}
+                        value={filledValue}
+                        onFocus={() => this.setFunctionLocked(true)}
+                        onInput={() => this.setFunctionLocked(true)}
+                        onBlur={() => this.setFunctionLocked(false)}
+                        onChange={e => this.setValue(key, e.target.value)}
+                    />
+                );
+            case "int":
+                return (
+                    <input
+                        type="number"
+                        key={key}
+                        value={filledValue}
+                        onFocus={() => this.setFunctionLocked(true)}
+                        onInput={() => this.setFunctionLocked(true)}
+                        onBlur={() => this.setFunctionLocked(false)}
+                        onChange={e => this.setValue(key, e.target.value)}
+                    />
+                );
+            case "float":
+                return (
+                    <input
+                        type="number"
+                        step="any"
+                        key={key}
+                        value={filledValue}
+                        onFocus={() => this.setFunctionLocked(true)}
+                        onInput={() => this.setFunctionLocked(true)}
+                        onBlur={() => this.setFunctionLocked(false)}
+                        onChange={e => this.setValue(key, e.target.value)}
+                    />
+                );
         }
     }
 

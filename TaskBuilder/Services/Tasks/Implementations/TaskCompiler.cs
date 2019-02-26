@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CMS.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -26,10 +27,10 @@ namespace TaskBuilder.Services.Tasks
 
         public Task PrepareTask(Graph diagram)
         {
-            var startFunctionTypeGuid = Guid.Parse("DBB090FA-E415-4A8A-AFAB-52304C5B8122");
+            var startFunctionTypeGuid = Guid.Parse(SettingsHelper.AppSettings["TBStartGuid"]);
 
             var invokables = new Dictionary<Guid, IInvokable>(diagram.Nodes.Count());
-            var dispatchers = new Dictionary<Guid, IDispatcher>();
+            var dispatchers = new Dictionary<Guid, IDispatcher1>();
             var dispatcher2s = new Dictionary<Guid, IDispatcher2>();
 
             var linkedPortIdPortName = new Dictionary<Guid, string>();
@@ -49,9 +50,9 @@ namespace TaskBuilder.Services.Tasks
 
                 invokables.Add(node.Id, function as IInvokable);
 
-                if (function is IDispatcher)
+                if (function is IDispatcher1)
                 {
-                    dispatchers.Add(node.Id, function as IDispatcher);
+                    dispatchers.Add(node.Id, function as IDispatcher1);
                 }
 
                 if (function is IDispatcher2)
@@ -96,8 +97,8 @@ namespace TaskBuilder.Services.Tasks
 
                 switch (link.Type)
                 {
-                    case LinkType.Dispatch:
-                        dispatchers[link.Source].Dispatch = target.Invoke;
+                    case LinkType.Dispatch1:
+                        dispatchers[link.Source].Dispatch1 = target.Invoke;
                         break;
 
                     case LinkType.Dispatch2:

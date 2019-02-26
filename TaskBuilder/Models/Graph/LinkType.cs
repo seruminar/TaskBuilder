@@ -3,7 +3,7 @@
     public enum LinkType
     {
         Invoke,
-        Dispatch,
+        Dispatch1,
         Dispatch2,
         Parameter
     }

@@ -11,7 +11,7 @@ namespace TaskBuilder.Functions
         public static ICollection<string> LinkTypes = new List<string>()
         {
             nameof(LinkType.Invoke).ToLower(),
-            nameof(LinkType.Dispatch).ToLower(),
+            nameof(LinkType.Dispatch1).ToLower(),
             nameof(LinkType.Dispatch2).ToLower(),
             nameof(LinkType.Parameter).ToLower()
         };

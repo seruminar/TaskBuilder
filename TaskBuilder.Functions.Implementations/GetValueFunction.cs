@@ -8,7 +8,7 @@ using TaskBuilder.ValueBuilders;
 namespace TaskBuilder.Functions.Implementations
 {
     [Function("Get value")]
-    public struct GetValueFunction : IInvokable, IDispatcher
+    public struct GetValueFunction : IInvokable, IDispatcher1
     {
         public void Invoke()
         {
@@ -19,10 +19,10 @@ namespace TaskBuilder.Functions.Implementations
             // Set up parameters
             Value = info.GetValue(columnName)?.ToString();
 
-            Dispatch();
+            Dispatch1();
         }
 
-        public Action Dispatch { get; set; }
+        public Action Dispatch1 { get; set; }
 
         [Input]
         public Func<BaseInfo> Info { get; set; }

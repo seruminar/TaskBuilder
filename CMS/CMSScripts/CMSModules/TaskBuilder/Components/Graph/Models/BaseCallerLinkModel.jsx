@@ -19,6 +19,22 @@
         });
     }
 
+    setTargetPort(port) {
+        // The order and inheritance of these calls is important.
+        // This allows for links to be created in the reverse direction.
+        if (port instanceof BaseDispatchModel) {
+            if (this.getTargetPort() === null) {
+                super.setTargetPort(this.getSourcePort());
+                this.setSourcePort(null);
+                this.getTargetPort().addLink(this);
+            }
+            this.setSourcePort(port);
+            this.setColor(this.getSourcePort().getParent().getFunction().displayColor);
+        } else {
+            super.setTargetPort(port);
+        }
+    }
+
     addLabel(label) {
         if (label instanceof SRD.LabelModel) {
             return super.addLabel(label);

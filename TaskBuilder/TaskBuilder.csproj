@@ -142,7 +142,7 @@
     <Compile Include="Functions\FunctionSiteInfo.cs" />
     <Compile Include="Functions\FunctionSiteInfoProvider.cs" />
     <Compile Include="Functions\IDispatcher2.cs" />
-    <Compile Include="Functions\IDispatcher.cs" />
+    <Compile Include="Functions\IDispatcher1.cs" />
     <Compile Include="Functions\IInvokable.cs" />
     <Compile Include="Functions\FunctionHelper.cs" />
     <Compile Include="Models\Graph\ISelectableModel.cs" />
@@ -152,7 +152,7 @@
     <Compile Include="Infrastructure\GetTaskBuilderComponentsHandler.cs" />
     <Compile Include="Models\Function\Implementations\DispatchModel.cs" />
     <Compile Include="Models\Function\InputValue\FieldParameter.cs" />
-    <Compile Include="Functions\FieldType.cs" />
+    <Compile Include="Models\Function\InputValue\FieldType.cs" />
     <Compile Include="Models\Function\InputValue\IFieldModel.cs" />
     <Compile Include="Models\Function\InputValue\Implementations\FieldModel.cs" />
     <Compile Include="Functions\FieldParameterConverter.cs" />
@@ -191,7 +191,7 @@
     <Compile Include="Models\Function\IOutputModel.cs" />
     <Compile Include="Models\Function\IParameterModel.cs" />
     <Compile Include="Models\Function\Implementations\OutputModel.cs" />
-    <Compile Include="Functions\InputType.cs" />
+    <Compile Include="Models\Function\InputType.cs" />
     <Compile Include="Models\Function\IFunctionModel.cs" />
     <Compile Include="Services\Functions\Exceptions\InvalidReturnTypeException.cs" />
     <Compile Include="Models\Graph\Implementations\Point.cs" />

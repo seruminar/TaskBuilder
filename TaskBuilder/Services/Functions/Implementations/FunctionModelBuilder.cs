@@ -93,7 +93,7 @@ namespace TaskBuilder.Services.Functions
 
         public bool TryBuildDispatchModel(PropertyInfo dispatchProperty, out IDispatchModel dispatchModel)
         {
-            if (!(dispatchProperty.Name.Equals(nameof(IDispatcher.Dispatch), StringComparison.OrdinalIgnoreCase)
+            if (!(dispatchProperty.Name.Equals(nameof(IDispatcher1.Dispatch1), StringComparison.OrdinalIgnoreCase)
                 || dispatchProperty.Name.Equals(nameof(IDispatcher2.Dispatch2), StringComparison.OrdinalIgnoreCase)))
             {
                 dispatchModel = null;

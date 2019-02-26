@@ -123,15 +123,15 @@
                 this.setState({ selected: true });
             },
             ref: null,
-            "data-linkid": this.props.link.getID(),
+            "data-linkid": props.link.getID(),
             strokeOpacity: this.state.selected ? 0.1 : 0,
-            strokeWidth: 20,
-            onContextMenu: () => {
-                if (!this.props.diagramEngine.isModelLocked(this.props.link)) {
-                    event.preventDefault();
-                    this.props.link.remove();
-                }
-            }
+            strokeWidth: props.link.width * 5
+            //onContextMenu: () => {
+            //    if (!this.props.diagramEngine.isModelLocked(this.props.link)) {
+            //        event.preventDefault();
+            //        this.props.link.remove();
+            //    }
+            //}
         });
 
         return (
@@ -212,8 +212,8 @@
         let paths = [];
 
         if (points.length === 2) {
-            const pointLeft = points[0];
-            const pointRight = points[1];
+            const pointLeft = points[1].x > points[0].x ? points[0] : points[1];
+            const pointRight = points[1].x > points[0].x ? points[1] : points[0];
 
             paths.push(
                 this.generateLink(
