@@ -84,7 +84,7 @@ namespace TaskBuilder.Services.Functions
                 return false;
             }
 
-            EnsureMemberType(invokeMethod.ReturnType != typeof(void), invokeMethod.Name, "void", nameof(IInvokable.Invoke));
+            ThrowIfInvalidType(invokeMethod.ReturnType != typeof(void), invokeMethod.Name, "void", nameof(IInvokable.Invoke));
 
             invokeModel = new InvokeModel(invokeMethod.Name);
 
@@ -102,7 +102,7 @@ namespace TaskBuilder.Services.Functions
 
             var attribute = dispatchProperty.GetCustomAttribute<DispatchAttribute>();
 
-            EnsureMemberType(dispatchProperty.PropertyType != typeof(Action), dispatchProperty.Name, nameof(Action), "Dispatchs");
+            ThrowIfInvalidType(dispatchProperty.PropertyType != typeof(Action), dispatchProperty.Name, nameof(Action), "Dispatchs");
 
             dispatchModel = new DispatchModel(
                 name: dispatchProperty.Name,
@@ -123,7 +123,7 @@ namespace TaskBuilder.Services.Functions
                 return false;
             }
 
-            EnsureMemberType(inputProperty.PropertyType.Name != "Func`1" || inputProperty.PropertyType.GenericTypeArguments.Length != 1, inputProperty.Name, "Func with one parameter", "Inputs");
+            ThrowIfInvalidType(inputProperty.PropertyType.Name != "Func`1" || inputProperty.PropertyType.GenericTypeArguments.Length != 1, inputProperty.Name, "Func with one parameter", "Inputs");
 
             InputType inputType = InputType.Plain;
             IInputValueModel structureModel = null;
@@ -174,7 +174,7 @@ namespace TaskBuilder.Services.Functions
                 return false;
             }
 
-            EnsureMemberType(outputProperty.PropertyType.GetTypeInfo().IsGenericType, outputProperty.Name, outputProperty.PropertyType.Name, "Outputs");
+            ThrowIfInvalidType(outputProperty.PropertyType.GetTypeInfo().IsGenericType, outputProperty.Name, outputProperty.PropertyType.Name, "Outputs");
 
             var type = outputProperty.PropertyType;
             ICollection<string> typeNames = new List<string> { type.Name };
@@ -195,10 +195,10 @@ namespace TaskBuilder.Services.Functions
             return true;
         }
 
-        private void EnsureMemberType(bool invalidCondition, string functionMemberName, string typeName, string modelMemberName)
+        private void ThrowIfInvalidType(bool invalidCondition, string functionMemberName, string typeName, string modelMemberName)
         {
             if (invalidCondition)
-                throw new InvalidReturnTypeException($"The return type of {functionMemberName} must be {typeName} in order to be used for {modelMemberName}");
+                throw new InvalidReturnTypeException($"The return type of {functionMemberName} must be {typeName} in order to be used for {modelMemberName}.");
         }
     }
 }

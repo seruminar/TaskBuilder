@@ -333,6 +333,7 @@ ASALocalRun/
 /*
 !.gitignore
 !TaskBuilder/
+!TaskBuilder.React/
 !TaskBuilder.Functions.Implementations/
 !CMS/
 

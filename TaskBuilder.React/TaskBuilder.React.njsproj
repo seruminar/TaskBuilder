@@ -1,0 +1,169 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>TaskBuilder.React</Name>
+    <RootNamespace>TaskBuilder.React</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>a58e087d-e75a-4c29-afb1-d2d3fd71636b</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>
+    </StartupFile>
+    <StartWebBrowser>False</StartWebBrowser>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
+    <TypeScriptToolsVersion>3.4.1</TypeScriptToolsVersion>
+    <EnableTypeScript>true</EnableTypeScript>
+    <StartWebBrowser>false</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="models\function\inputValue\FieldType.ts" />
+    <Content Include="models\function\inputValue\IFieldModel.ts" />
+    <Content Include="models\function\inputValue\IInputValueModel.ts" />
+    <Content Include="models\function\INamedPortModel.ts" />
+    <Content Include="models\function\IPortModel.ts" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+    <Content Include="styles\style.scss" />
+    <Content Include="tsconfig.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="graph\models\link\" />
+    <Folder Include="graph\models\port\" />
+    <Folder Include="graph\widgets\link\" />
+    <Folder Include="graph\widgets\port\" />
+    <Folder Include="taskBuilder\" />
+    <Folder Include="functionTray\" />
+    <Folder Include="graph\" />
+    <Folder Include="graph\factories\" />
+    <Folder Include="graph\models\" />
+    <Folder Include="graph\widgets\" />
+    <Folder Include="graph\widgets\icon\" />
+    <Folder Include="models\" />
+    <Folder Include="models\function\" />
+    <Folder Include="models\function\inputValue\" />
+    <Folder Include="models\graph\" />
+    <Folder Include="styles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="graph\GraphEngine.ts" />
+    <TypeScriptCompile Include="graph\models\link\BaseLinkModel.ts" />
+    <TypeScriptCompile Include="graph\models\port\BasePortModel.ts" />
+    <TypeScriptCompile Include="graph\widgets\port\BasePortWidget.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="graph\widgets\icon\BaseIconWidget.ts" />
+    <TypeScriptCompile Include="models\function\PortType.ts" />
+    <TypeScriptCompile Include="models\function\NodeType.ts" />
+    <TypeScriptCompile Include="taskBuilder\DiagramButton.tsx" />
+    <TypeScriptCompile Include="taskBuilder\DiagramToast.tsx" />
+    <TypeScriptCompile Include="functionTray\FunctionTray.tsx" />
+    <TypeScriptCompile Include="functionTray\FunctionTrayItem.tsx" />
+    <TypeScriptCompile Include="graph\factories\FunctionFactory.tsx" />
+    <TypeScriptCompile Include="graph\factories\LinkFactory.tsx" />
+    <TypeScriptCompile Include="graph\factories\PortFactory.ts" />
+    <TypeScriptCompile Include="graph\models\link\CallerLinkModel.ts" />
+    <TypeScriptCompile Include="graph\models\port\DispatchModel.ts" />
+    <TypeScriptCompile Include="graph\models\FunctionModel.ts" />
+    <TypeScriptCompile Include="graph\models\GraphModel.ts" />
+    <TypeScriptCompile Include="graph\models\port\InputModel.ts" />
+    <TypeScriptCompile Include="graph\models\port\InvokeModel.ts" />
+    <TypeScriptCompile Include="graph\models\port\OutputModel.ts" />
+    <TypeScriptCompile Include="graph\models\link\ParameterLinkModel.ts" />
+    <TypeScriptCompile Include="graph\widgets\port\DispatchWidget.tsx" />
+    <TypeScriptCompile Include="graph\widgets\FunctionWidget.tsx" />
+    <TypeScriptCompile Include="graph\widgets\InputValueWidget.tsx" />
+    <TypeScriptCompile Include="graph\widgets\port\InputWidget.tsx" />
+    <TypeScriptCompile Include="graph\widgets\port\InvokeWidget.tsx" />
+    <TypeScriptCompile Include="graph\widgets\link\BaseLinkWidget.tsx" />
+    <TypeScriptCompile Include="graph\widgets\port\OutputWidget.tsx" />
+    <TypeScriptCompile Include="graph\widgets\icon\CallerIconWidget.tsx" />
+    <TypeScriptCompile Include="graph\widgets\icon\ParameterIconWidget.tsx" />
+    <TypeScriptCompile Include="taskBuilder\TaskBuilder.tsx" />
+    <TypeScriptCompile Include="taskBuilder\TaskBuilderDataSource.tsx" />
+    <TypeScriptCompile Include="taskBuilder\TaskDiagram.tsx" />
+    <TypeScriptCompile Include="index.tsx">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="models\function\IDispatchModel.ts" />
+    <TypeScriptCompile Include="models\function\IFunctionModel.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="models\function\IInputModel.ts" />
+    <TypeScriptCompile Include="models\function\IInvokeModel.ts" />
+    <TypeScriptCompile Include="models\function\InputType.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="models\function\IOutputModel.ts" />
+    <TypeScriptCompile Include="models\function\IParameterModel.ts" />
+    <TypeScriptCompile Include="models\graph\Graph.ts" />
+    <TypeScriptCompile Include="models\graph\TaskGraphMode.ts" />
+    <TypeScriptCompile Include="models\ITaskGraphModel.ts" />
+    <TypeScriptCompile Include="models\ITaskModelsModel.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="taskBuilder\TasksControllerResult.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="webpack.config.js" />
+  </ItemGroup>
+  <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
